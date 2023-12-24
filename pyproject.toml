@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "pypetb"
+version = "0.1.0"
+description = "A Set of process engineering tools"
+authors = ["Jose Garcia <jgherruzo@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pypetb", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.1.4"
+numpy = "^1.26.2"
+seaborn = "^0.13.0"
+matplotlib = "^3.8.2"
+scipy = "^1.11.4"
+
+[tool.isort]
+profile = "black"
+known_third_party = []
+
+[tool.black]
+line-length = 79
+exclude = '''
+/(
+\.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build
+| dist
+| docs
+)/
+'''
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+isort = "^5.13.2"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.3"
+hypothesis = "^6.92.1"
+flake8 = "^6.1.0"
+pydocstringformatter = "^0.7.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
