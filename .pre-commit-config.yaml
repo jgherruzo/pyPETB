@@ -1,0 +1,50 @@
+# isort
+repos:
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v2.2.0
+    hooks:
+      - id: seed-isort-config
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1
+    hooks:
+      - id: isort
+
+  # black
+  - repo: https://github.com/ambv/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        args: # arguments to configure black
+          - --line-length=79
+          - --include='\.pyi?$'
+
+          # these folders wont be formatted by black
+          - --exclude="""\.git |
+            \.__pycache__|
+            \.hg|
+            \.mypy_cache|
+            \.tox|
+            \.venv|
+            _build|
+            buck-out|
+            build|
+            dist|
+            docs"""
+
+        language_version: python3.11
+
+  # flake8
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        args: # arguments to configure flake8
+          # making isort line length compatible with black
+          - "--max-line-length=79"
+          - "--max-complexity=10"
+          - "--select=B,C,E,F,W,T4,B9"
+
+          # these are errors that will be ignored by flake8
+          # check out their meaning here
+          # https://flake8.pycqa.org/en/latest/user/error-codes.html
+          - "--ignore=E203,E266,W503,F403"

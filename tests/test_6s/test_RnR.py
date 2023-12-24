@@ -14,15 +14,13 @@
 import matplotlib as mpl
 import numpy as np
 import pandas as pd
-import pytest
-
 from pypetb import RnR
 
 
 # happy flow
 def test_log():
     """Check log return a string."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -32,7 +30,7 @@ def test_log():
 
 def test_RnRSolve_1():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -64,7 +62,7 @@ def test_RnRSolve_1():
 
 def test_RnRSolve_2():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -96,7 +94,7 @@ def test_RnRSolve_2():
 
 def test_RnRSolve_3():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -128,7 +126,7 @@ def test_RnRSolve_3():
 
 def test_RnRSolve_4():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -160,7 +158,7 @@ def test_RnRSolve_4():
 
 def test_RnRSolve_5():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -192,7 +190,7 @@ def test_RnRSolve_5():
 
 def test_RnRSolve_6():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -224,7 +222,7 @@ def test_RnRSolve_6():
 
 def test_RnRSolve_7():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -256,7 +254,7 @@ def test_RnRSolve_7():
 
 def test_RnRSolve_8():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -288,7 +286,7 @@ def test_RnRSolve_8():
 
 def test_RnRSolve_9():
     """Check randomly RnRSolve Caltulation are made correctly."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -320,7 +318,7 @@ def test_RnRSolve_9():
 
 def test_RnRAnova_1():
     """Check RnRAnova return a pandas dataframe."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -330,7 +328,7 @@ def test_RnRAnova_1():
 
 def test_RnRAnova_2():
     """Check RnRAnova individual result."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -341,7 +339,7 @@ def test_RnRAnova_2():
 
 def test_RnRAnova_3():
     """Check RnRAnova return  individual result."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -352,7 +350,7 @@ def test_RnRAnova_3():
 
 def test_RnR_varTable_1():
     """Check variance table return a pandas dataframe."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -363,7 +361,7 @@ def test_RnR_varTable_1():
 
 def test_RnR_varTable_2():
     """Check variance table individual result."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -374,7 +372,7 @@ def test_RnR_varTable_2():
 
 def test_RnR_varTable_3():
     """Check variance table individual result."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -385,7 +383,7 @@ def test_RnR_varTable_3():
 
 def test_RnR_SDTable():
     """Check SD table return a pandas dataframe."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
@@ -396,7 +394,7 @@ def test_RnR_SDTable():
 
 def test_RnR_RunChart():
     """Check ir run chart returns a plt figure."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key, mydbl_tol=8)
@@ -407,7 +405,7 @@ def test_RnR_RunChart():
 
 def test_RnR_Report():
     """Check if RnR_Report returns a plt figure."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
     RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key, mydbl_tol=8)
@@ -419,7 +417,7 @@ def test_RnR_Report():
 # unhappy flow
 def test_wrong_Column():
     """Check if RnR_Report returns a plt figure."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"
+    url = "https://shorturl.at/crQY5"
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "1"}
 

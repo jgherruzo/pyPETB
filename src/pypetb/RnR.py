@@ -127,7 +127,7 @@ class RnRNumeric:
     Examples
     --------
     >>> import pandas as pd
-    >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+    >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
     >>> df=pd.read_csv(url,sep=';')
     >>> df.info()
     #   Column      Non-Null Count  Dtype
@@ -182,7 +182,7 @@ class RnRNumeric:
         --------
         >>> import RnR as RnR
         >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> df.keys()
         Index(['Technician', 'Parts', 'Valor'], dtype='object')
@@ -278,7 +278,7 @@ class RnRNumeric:
         --------
         >>> import RnR as RnR
         >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',
@@ -342,7 +342,7 @@ class RnRNumeric:
         --------
         >>> import RnR as RnR
         >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',
@@ -416,8 +416,7 @@ class RnRNumeric:
         lst_columns = ["Run " + str(i) for i in range(0, self.r)]
 
         self.__log.append(
-            "== DATASET EVALUATION ==\nOperator: {}\nTrials: {}\nPiezes: {}".
-            format(
+            "== DATASET EVALUATION ==\nOperator: {}\nTrials: {}\nPiezes: {}".format(  # noqa
                 self.t, self.r, self.p
             )
         )
@@ -573,7 +572,7 @@ class RnRNumeric:
         --------
         >>> import RnR as RnR
         >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',
@@ -724,7 +723,7 @@ class RnRNumeric:
         --------
         >>> import RnR as RnR
         >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',
@@ -823,7 +822,7 @@ class RnRNumeric:
         --------
         >>> import RnR as RnR
         >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',
@@ -924,7 +923,7 @@ class RnRNumeric:
         >>> import matplotlib.pyplot as plt
         >>> import seaborn as sns
         >>> sns.set()
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',
@@ -1076,7 +1075,7 @@ class RnRNumeric:
         >>> import matplotlib.pyplot as plt
         >>> import seaborn as sns
         >>> sns.set()
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv'
+        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
         >>> df=pd.read_csv(url,sep=';')
         >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
         >>> dict_Info={'1': 'Measurement','2':'Analysis date',

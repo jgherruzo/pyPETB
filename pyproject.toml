@@ -16,7 +16,7 @@ scipy = "^1.11.4"
 
 [tool.isort]
 profile = "black"
-known_third_party = []
+known_third_party = ["matplotlib", "numpy", "pandas", "pypetb", "scipy", "tables"]
 
 [tool.black]
 line-length = 79
@@ -38,6 +38,7 @@ exclude = '''
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"
 isort = "^5.13.2"
+pre-commit = "^3.6.0"
 
 
 [tool.poetry.group.test.dependencies]
