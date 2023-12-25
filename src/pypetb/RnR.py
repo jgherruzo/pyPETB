@@ -22,9 +22,8 @@ from scipy.stats import f
 
 
 class RnRNumeric:
-    """A colection of methods for making repeatability and reproducibility gage
-    analysis (RnR) RnRNumerics works as a model. It is defined using a
-    measurement dataframe.
+    """Repeatability and Reproducibility numeric gage analysis.
+    RnRNumerics works as a model. It is defined using ameasurement dataframe.
     Log method could be called in order to check each parameter calculation.
     There is possibilities to get an anova table, standard deviation table or
     variance table, which are returned as pandas dataframe, or Report, where a
@@ -34,16 +33,27 @@ class RnRNumeric:
     seaborn as sns and sns.set() is highly recommended to improve the sigth of
     the reports.
 
-    Acknowledgement:
-    ----------------
-    Thanks to Noël Santiago for his coaching during our six sigma green belt
-    training
-    Thanks to Alexandre Baharov for sharing the statistic tables script
-    Thanks to Ted Hessing for his detailed article calculating RnR
-    https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
-
-    Methods
+    Args:
     -------
+    mydf_Raw : Pandas DataFrame containing 3 columns
+        Operator, part and value
+
+    mydict_key : Dictionary containing column names.
+        key 1 to Operator column
+        , key 2 for Part column
+        , key 3 for Value column
+
+    mydbl_tol : Optional
+        system tolerance
+
+    mydict_Info : Optional
+        Report head info.
+        . key 1 Measurement system name, key 2 Report Date
+        , key 3 Engineer in charge of the study
+        , key 4 Comments if needed or ''
+
+    Methods:
+    ----------
     getLog: string
           printable string containing all individual calculations
 
@@ -95,111 +105,51 @@ class RnRNumeric:
     Total_avg: float
           whole measures average
 
-     dbl_Avg_UCL: float
+    dbl_Avg_UCL: float
           average upper control limit
 
-     dbl_Avg_LCL: float
+    dbl_Avg_LCL: float
           average lower control limit
 
-     Sstd2: float
+    Sstd2: float
           Sum of deviation by operator
 
-     SStechnician: float
+    SStechnician: float
           Total Operator Sum of deviation
 
-     Sstd2_: float
+    Sstd2_: float
           Sum of deviation by part
 
-     SSpart: float
+    SSpart: float
           Total Part Sum of deviation
 
-     SStotal: float
+    SStotal: float
           Total squared deviation
 
-     SSequipment: float
+    SSequipment: float
           Equipment squared deviation
 
-    Additional info
-    -------
-    All the examples related to RnR numeric are based on web.csv. This file
-    could be found on: https://github.com/jgherruzo/myFreeDatasets
+    Raises:
+    ---------
+    TypeError
 
-    Examples
-    --------
-    >>> import pandas as pd
-    >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-    >>> df=pd.read_csv(url,sep=';')
-    >>> df.info()
-    #   Column      Non-Null Count  Dtype
-    ---  ------      --------------  -----
-    0   Technician  90 non-null     object
-    1   Parts       90 non-null     int64
-    2   Valor       90 non-null     float64
-    dtypes: float64(1), int64(1), object(1)
-    memory usage: 2.2+ KB
-    None
+    Init_01
+        When input mydict_key contains a column which is not a mydf_Raw column
+        name
+
+    Init_02
+        mydf_Raw contain nan values
+
+    Init_03
+        mydict_key['3'] is a non numerical type column
+
+    Init_04
+        mydbl_tol is not a number
+
     """
 
     def __init__(self, mydf_Raw, mydict_key, mydbl_tol=None, mydict_Info=None):
-        """Initializate a new instance of a numeric RnR model.
-
-        Args:
-        -------
-        mydf_Raw : Pandas DataFrame containing 3 columns
-                    (Operator, part and value)
-
-        mydict_key : Dictionary containing column names.
-                      key 1 to Operator column
-                      key 2 for Part column
-                      key 3 for Value column
-
-        mydbl_tol : Optional --> system tolerance
-
-        mydict_Info : Optional --> Report head info
-                      key 1 Measurement system name
-                      key 2 Report Date
-                      key 3 Engineer in charge of the study
-                      key 4 Comments if needed or ''
-
-        Methods
-        -------
-        log: list
-              list of events to be printed
-
-        df_0: Pandas DataFrame
-              standarized input data
-
-        Raises
-        ------
-        TypeError
-            Init_01: When input mydict_key contains a column which is not a
-                     mydf_Raw column name
-            Init_02: mydf_Raw contain nan values
-            Init_03: mydict_key['3'] is a non numerical type column
-            Init_04: mydbl_tol is not a number
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> df.keys()
-        Index(['Technician', 'Parts', 'Valor'], dtype='object')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> import RnR as RnR
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.df_0.head()
-          Op Part  Valor
-        0  A    1   2.78
-        1  A    2   2.36
-        2  A    3   2.22
-        3  A    4   4.56
-        4  A    5   3.56
-        """
+        """Initializate a new instance of a numeric RnR model"""
         self.__dict_key = mydict_key
         self.__dbl_tol = mydbl_tol
         if mydict_Info is None:
@@ -271,46 +221,8 @@ class RnRNumeric:
 
         Returns
         -------
-        String
+        log: String
             all step logged
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> RnRModel.getLog()
-        Model is created
-        == DATASET EVALUATION ==
-        Operator: 3
-        Trials: 3
-        Piezes: 10
-        == CALCULATION ==
-        Total data: 90
-        Max. measured value: 5.8900
-        Min. measured value: 1.7200
-        Avg. measured value: 3.0660
-        Avg. Control limits
-        UCL: 3.4575
-        LCL: 2.6745
-        Avg. Range measured: 0.3827
-        Range Control limits
-        UCL: 0.9850
-        LCL: 0.0000
-        Sum of deviation by operator: 0.003331
-        Total Operator Sum of deviation: 0.099927
-        Sum of deviation by part: 12.947714
-        Total Part Sum of deviation: 116.529427
-        Total squared deviation: 120.681960
-        Equipment squared deviation: 3.605800
-        Iteration sum of squared: 0.446807
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance")
@@ -327,65 +239,19 @@ class RnRNumeric:
 
         Args:
         -------
-        bol_bias : Optional --> if bol_bias==False, RnRSolve will check if all
-        piezes has the same number of runs and raise an error if not.
-        If bol_bias==True then solve even if all piezes has no the same number
-        of runs
+        bol_bias : Optional
+            if bol_bias==False, RnRSolve will check if all
+            piezes has the same number of runs and raise an error if not.
+            If bol_bias==True then solve even if all piezes has no the same
+            Number of runs
 
-        Raises
-        ------
+        Raises:
+        ---------
         TypeError
-            Solve_01: if bol_bias==False get this error if some pieze has
-                        different number of runs
 
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> RnRModel.t
-        3
-        >>> RnRModel.p
-        10
-        >>> RnRModel.r
-        3
-        >>> RnRModel.Total_Data
-        90
-        >>> RnRModel.Total_min
-        1.72
-        >>> RnRModel.Total_max
-        5.89
-        >>> RnRModel.dbl_Range_avg
-        0.3827
-        >>> RnRModel.dbl_Range_UCL
-        3.4575
-        >>> RnRModel.dbl_Range_LCL
-        2.6745
-        >>> RnRModel.Total_avg
-        3.0660
-        >>> RnRModel.dbl_Avg_UCL
-        0.9850
-        >>> RnRModel.dbl_Avg_LCL
-        0
-        >>> RnRModel.Sstd2
-        0.003331
-        >>> RnRModel.SStechnician
-        0.099927
-        >>> RnRModel.Sstd2_
-        12.947714
-        >>> RnRModel.SSpart
-        116.529427
-        >>> RnRModel.SStotal
-        120.681960
-        >>> RnRModel.SSequipment
-        3.605800
+        Solve_01
+            if bol_bias==False get this error if some pieze has different
+            number of runs
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance")
@@ -558,37 +424,13 @@ class RnRNumeric:
 
     def RnRAnova(self):
         """After calling .RnRSolve() anova analysis could be done.
-
-        It will be
-        returned as pandas DataFrame and all of the values will be accesibles
-        from the dataframe.
+        It will be returned as pandas DataFrame and all of the values will be
+        accesibles from the dataframe.
 
         Returns
         -------
         Pandas DataFrame
             Anova result tabulated into a pandas dataframe
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> RnRModel.RnRAnova()
-                              DF          SS         MS           F           P
-        Source of variability
-        Technician              2    0.099927   0.049963    2.012817  1.625e-01
-        Part                    9  116.529427  12.947714  521.610063  1.110e-16
-        TechxPart (iteration)  18    0.446807   0.024823    0.413044  9.799e-01
-        Repeatability with     60    3.605800   0.060097         NaN        NaN
-        Repeatability without  78    4.052607   0.051956         NaN  9.799e-01
-        Total                  89  120.681960        NaN         NaN        NaN
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance")
@@ -718,28 +560,6 @@ class RnRNumeric:
         -------
         Pandas DataFrame
             Variante table result tabulated into a pandas dataframe
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> RnRModel.RnR_varTable()
-                                  Variance  % Contribution
-        Source
-        Total Gage R&R             0.051956        3.499182
-        Eq.Var. (Repeatability)    0.051956        3.499182
-        Op.Var. (Reproducibility)  0.000000        0.000000
-        Technician x Part iter.    0.000000        0.000000
-        Part to Part               1.432862       96.500818
-        Total variation            1.484818      100.000000
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance")
@@ -817,28 +637,6 @@ class RnRNumeric:
         -------
         Pandas DataFrame
             Standard deviation table result tabulated into a pandas dataframe
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> RnRModel.RnR_SDTable()
-                                  StdDev (SD)  StudyVar (6*SD)  % Study Var
-        Source
-        Total Gage R&R                0.227940         1.367638     18.70610
-        Eq.Var. (Repeatability)       0.227940         1.367638     18.70610
-        Op.Var. (Reproducibility)     0.000000         0.000000      0.00000
-        Technician x Part iter.       0.000000         0.000000      0.00000
-        Part to Part                  1.197022         7.182133     98.23483
-        Total variation               1.218531         7.311188    100.00000
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance")
@@ -915,24 +713,7 @@ class RnRNumeric:
         Returns
         -------
         matplotlib figure
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> import matplotlib.pyplot as plt
-        >>> import seaborn as sns
-        >>> sns.set()
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> call=RnRModel.RnR_RunChart()
-        >>> plt.show()
+            Set of charts
         """
         Fig1 = plt.figure(figsize=(18, 12))
         Fig1.set_facecolor("white")
@@ -1060,31 +841,13 @@ class RnRNumeric:
         operator. The fith one shows the average measure per pieze and operator
         and the last one shows the average value per pieze measured by each
         operator.
-
-        trend color are ramdon and sometimes could be low visible, just repeat
+        Trend color are ramdon and sometimes could be low visible, just repeat
         the command to change it.
 
         Returns
         -------
         matplotlib figure
-
-        Examples
-        --------
-        >>> import RnR as RnR
-        >>> import pandas as pd
-        >>> import matplotlib.pyplot as plt
-        >>> import seaborn as sns
-        >>> sns.set()
-        >>> url = 'https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/web.csv' # noqa
-        >>> df=pd.read_csv(url,sep=';')
-        >>> dict_key={'1':'Technician','2':'Parts','3':'Valor'}
-        >>> dict_Info={'1': 'Measurement','2':'Analysis date',
-                        '3':'Technical','4':"Miscelaneus"}
-        >>> RnRModel=RnR.RnRNumeric(mydf_Raw=df,mydict_key=dict_key,
-                                    mydict_Info=dict_Info)
-        >>> RnRModel.RnRSolve()
-        >>> call=RnRModel.RnR_Report()
-        >>> plt.show()
+            Set of charts
         """
         # df = self.__df
         df_0 = self.__df_0

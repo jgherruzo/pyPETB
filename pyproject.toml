@@ -47,6 +47,17 @@ hypothesis = "^6.92.1"
 flake8 = "^6.1.0"
 pydocstringformatter = "^0.7.3"
 
+
+[tool.poetry.group.doc.dependencies]
+sphinx = "^7.2.6"
+sphinx-autobuild = "^2021.3.14"
+myst-parser = "^2.0.0"
+nbsphinx = "^0.9.3"
+sphinx-autoapi = "^3.0.0"
+sphinx-rtd-theme = "^2.0.0"
+pandoc = "^2.3"
+ipykernel = "^6.27.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
