@@ -17,7 +17,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import tables as tbl
+from pypetb import tables as tbl
 from scipy.stats import f
 
 
