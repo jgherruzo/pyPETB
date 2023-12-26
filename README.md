@@ -4,12 +4,13 @@ Process Engineer Tool Box is a package where a set of tools are developed to hel
 
 ## 1- INTRODUCTION
 
-This package is based on the use of pandas. In daily chemical industry task, no long dataset are
+This package is based on the use of pandas. In daily chemical industry task, focused on data analysis
+and improvement projects developing, no long dataset are
 usually used and pandas cover all the requirements.
 
 ## 2- INSTALLATION
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install pyPETB.
 
 ```bash
 pip install pyPETB
