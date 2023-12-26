@@ -44,6 +44,6 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 - Thanks to Ted Hessing for his detailed article calculating RnR:
 https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
 
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)(https://code.visualstudio.com/)
-![Poetry](https://img.shields.io/badge/Poetry-%233B82F6.svg?style=for-the-badge&logo=poetry&logoColor=0B3D8D)(https://python-poetry.org/)
-![ReadTheDocs](https://img.shields.io/badge/ReadTheDocs-blue?logo=readthedocs)(https://about.readthedocs.com/)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Poetry](https://img.shields.io/badge/Poetry-%233B82F6.svg?style=for-the-badge&logo=poetry&logoColor=0B3D8D)
+![ReadTheDocs](https://img.shields.io/badge/ReadTheDocs-blue?logo=readthedocs)
