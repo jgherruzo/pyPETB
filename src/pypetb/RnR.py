@@ -43,10 +43,10 @@ class RnRNumeric:
         , key 2 for Part column
         , key 3 for Value column
 
-    mydbl_tol : Optional
+    mydbl_tol : Optional. Int or Float
         system tolerance
 
-    mydict_Info : Optional
+    mydict_Info : Optional. Dictionary with info used on chart definition
         Report head info.
         . key 1 Measurement system name, key 2 Report Date
         , key 3 Engineer in charge of the study
@@ -239,7 +239,7 @@ class RnRNumeric:
 
         Args:
         -------
-        bol_bias : Optional
+        bol_bias : Optional. Boolean
             if bol_bias==False, RnRSolve will check if all
             piezes has the same number of runs and raise an error if not.
             If bol_bias==True then solve even if all piezes has no the same
