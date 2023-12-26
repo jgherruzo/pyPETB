@@ -26,7 +26,7 @@ pip install pyPETB
 
 ## 3- USAGE
 
-Please refer to the Documentation
+Please refer to the [Documentation](https://pypetb.readthedocs.io/en/latest/)
 
 ## 4- LICENSE
 
