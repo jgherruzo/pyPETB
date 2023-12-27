@@ -8,7 +8,8 @@
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
-notebooks/usage
+notebooks/0_installation
+notebooks/1_usage
 ```
 
 # Indices and tables
