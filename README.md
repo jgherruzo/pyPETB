@@ -1,14 +1,14 @@
-# pyPETB
+<h1 align="center">
+<img src="https://raw.githubusercontent.com/jgherruzo/pyPETB/main/logo/current/pyPETB_logo.png" width="300">
+</h1><br>
+
+# THE PROCESS ENGINEER TOOLBOX
 
 [![python](https://img.shields.io/badge/python-3.11-blue.svg?logo=python)](https://www.python.org)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Process Engineer Tool Box is a package where a set of tools are developed to help in our daily tasks
-
-## 1- INTRODUCTION
-
-This package is based on the use of pandas. In daily chemical industry task, focused on data analysis
+Process Engineer Tool Box is a package where a set of tools are developed to help in our daily tasks. It is based in the use of pandas. In daily chemical industry task, focused on data analysis
 and improvement projects developing, no long dataset are
 usually used and pandas cover all the requirements.
 
@@ -44,6 +44,6 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 - Thanks to Ted Hessing for his detailed article calculating RnR:
 https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
 
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![Poetry](https://img.shields.io/badge/Poetry-%233B82F6.svg?style=for-the-badge&logo=poetry&logoColor=0B3D8D)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-blue?logo=visual%20studio%20code)
+![Poetry](https://img.shields.io/badge/Poetry-blue?logo=poetry)
 ![ReadTheDocs](https://img.shields.io/badge/ReadTheDocs-blue?logo=readthedocs)
