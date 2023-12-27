@@ -30,8 +30,8 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 
 ## 5- ROADMAP
 
-- V0.1 RnRnumeric class to analyze numerical measurement system
-- V0.2 Capability class to make process capability analysis
+- V0.1 RnRnumeric class to analyze numerical measurement system --> Working
+- V0.2 Capability class to make process capability analysis --> On going
 - V0.3 RnRcat class to analyze categorical measurement system (Atributes)
 - V0.4 DOE class to analyze DOE results
 - V1.1 Periodic Table class (Very useful for V1.2 release)
