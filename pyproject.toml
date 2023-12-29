@@ -16,7 +16,7 @@ scipy = "^1.11.4"
 
 [tool.isort]
 profile = "black"
-known_third_party = ["matplotlib", "numpy", "pandas", "pypetb", "scipy", "tables"]
+known_third_party = ["matplotlib", "numpy", "pandas", "pypetb", "scipy"]
 
 [tool.black]
 line-length = 79
