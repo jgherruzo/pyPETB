@@ -12,6 +12,7 @@
 #   -=====================|===o  o===|======================-+
 
 import random
+import warnings
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -19,6 +20,8 @@ import numpy as np
 import pandas as pd
 from pypetb import tables as tbl
 from scipy.stats import f
+
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 class RnRNumeric:
@@ -45,12 +48,6 @@ class RnRNumeric:
 
     mydbl_tol : Optional. Int or Float
         system tolerance
-
-    mydict_Info : Optional. Dictionary with info used on chart definition
-        Report head info.
-        . key 1 Measurement system name, key 2 Report Date
-        , key 3 Engineer in charge of the study
-        , key 4 Comments if needed or ''
 
     Methods:
     ----------
@@ -148,13 +145,10 @@ class RnRNumeric:
 
     """
 
-    def __init__(self, mydf_Raw, mydict_key, mydbl_tol=None, mydict_Info=None):
+    def __init__(self, mydf_Raw, mydict_key, mydbl_tol=None):
         """Initializate a new instance of a numeric RnR model"""
         self.__dict_key = mydict_key
         self.__dbl_tol = mydbl_tol
-        if mydict_Info is None:
-            mydict_Info = {"1": "", "2": "", "3": "", "4": ""}
-        self.__dict_Info = mydict_Info
 
         if mydict_key["1"] not in mydf_Raw.keys().tolist():
             bol_key = True
@@ -742,15 +736,6 @@ class RnRNumeric:
             lst_TT[i].set_xlim(0, 1)
 
         lst_TT[0].annotate(
-            "Measurement system name: {}\n\nDate: {}".format(
-                self.__dict_Info["1"], self.__dict_Info["2"]
-            ),
-            xy=(0.1, 0.7),
-            bbox=dict(boxstyle="round", fc="w"),
-            fontsize=12,
-        )
-
-        lst_TT[0].annotate(
             "CHART CALIBRATION\nMax. {:.3f}\nAvg. {:.3f}\nMin. {:.3f}".format(
                 self.Total_max, self.Total_avg, self.Total_min
             ),
@@ -765,14 +750,6 @@ class RnRNumeric:
             bbox=dict(boxstyle="round", fc="w"),
             fontsize=12,
             fontstyle="italic",
-        )
-        lst_TT[2].annotate(
-            "Notified by: {}\n\nTolerance: {}\n\nMis: {}".format(
-                self.__dict_Info["3"], self.__dbl_tol, self.__dict_Info["4"]
-            ),
-            xy=(0, 0.7),
-            bbox=dict(boxstyle="round", fc="w"),
-            fontsize=12,
         )
 
         # initializate values for char drawing
@@ -831,7 +808,7 @@ class RnRNumeric:
         )
         return Fig1
 
-    def RnR_Report(self):
+    def RnR_Report(self):  # noqa: C901
         """RnR_Report chart is a figure that contain six important chart in
         order to conclude the status of the measurement system First chart will
         show the impact of each parameter that affect to the variation of the
@@ -861,45 +838,8 @@ class RnRNumeric:
         int_Chart_column = (self.t + 1) * 2
         gs = mpl.gridspec.GridSpec(4, int_Chart_column, wspace=0, hspace=0.6)
         Fig2.suptitle(
-            "R&R Measurement System Report (ANOVA) for {}".format(
-                self.__dict_key["3"]
-            ),
+            "R&R Measurement System Report",
             fontsize=20,
-        )
-
-        # ============================================================================================
-        #                                HEAD
-        # ============================================================================================
-        lst_TT = list()
-        lst_TT.append(
-            Fig2.add_subplot(gs[0, : int(int_Chart_column / 2)])
-        )  # first row for text
-        lst_TT.append(
-            Fig2.add_subplot(gs[0, int((int_Chart_column / 2) + 1) :])
-        )  # first row for text
-        for i in range(0, len(lst_TT)):
-            lst_TT[i].set_xticks([])
-            lst_TT[i].set_yticks([])
-            lst_TT[i].set_facecolor("white")
-            lst_TT[i].set_ylim(0, 1)
-            lst_TT[i].set_xlim(0, 1)
-
-        lst_TT[0].annotate(
-            "Measurement system name: {}\n\nDate: {}".format(
-                self.__dict_Info["1"], self.__dict_Info["2"]
-            ),
-            xy=(0.1, 0.7),
-            bbox=dict(boxstyle="round", fc="w"),
-            fontsize=12,
-        )
-
-        lst_TT[1].annotate(
-            "Notified by: {}\n\nTolerance: {}\n\nMis: {}".format(
-                self.__dict_Info["3"], self.__dbl_tol, self.__dict_Info["4"]
-            ),
-            xy=(0, 0.7),
-            bbox=dict(boxstyle="round", fc="w"),
-            fontsize=12,
         )
 
         # ============================================================================================
@@ -945,7 +885,7 @@ class RnRNumeric:
 
         # print(y)
 
-        ax1 = Fig2.add_subplot(gs[1, : int((int_Chart_column / 2) - 1)])
+        ax1 = Fig2.add_subplot(gs[0, : int((int_Chart_column / 2) - 1)])
         X = np.arange(len(x))  # the label locations
         width = 0.25  # the width of the bars
         multiplier = 0
@@ -968,7 +908,7 @@ class RnRNumeric:
         # ============================================================================================
         #                                Value per Piece
         # ============================================================================================
-        ax2 = Fig2.add_subplot(gs[1, int((int_Chart_column / 2) + 1) :])
+        ax2 = Fig2.add_subplot(gs[0, int((int_Chart_column / 2) + 1) :])
         ax2.set_title(
             "{} by {}".format(self.__dict_key["3"], self.__dict_key["2"]),
             fontweight="bold",
@@ -985,7 +925,7 @@ class RnRNumeric:
         ax_max = max(df_1["Range"].max(), self.dbl_Range_UCL) * 1.1
         ax_min = min(df_1["Range"].min(), self.dbl_Range_UCL) - ax_max * 0.1
         for i in range(0, len(df_0["Op"].unique())):
-            lst_ax3.append(Fig2.add_subplot(gs[2, i]))
+            lst_ax3.append(Fig2.add_subplot(gs[1, i]))
             if i > 0:
                 lst_ax3[i].set_yticks([])
             else:
@@ -1028,7 +968,7 @@ class RnRNumeric:
         # ============================================================================================
         #                                Violin Plot
         # ============================================================================================
-        ax4 = Fig2.add_subplot(gs[2, int((int_Chart_column / 2) + 1) :])
+        ax4 = Fig2.add_subplot(gs[1, int((int_Chart_column / 2) + 1) :])
         ax4.set_title(
             "{} by {}".format(self.__dict_key["3"], self.__dict_key["1"]),
             fontweight="bold",
@@ -1051,7 +991,7 @@ class RnRNumeric:
         ax5_min = self.Total_min - self.Total_max * 0.1
 
         for i in range(0, len(df_0["Op"].unique())):
-            lst_ax5.append(Fig2.add_subplot(gs[3, i]))
+            lst_ax5.append(Fig2.add_subplot(gs[2, i]))
             if i > 0:
                 lst_ax5[i].set_yticks([])
             else:
@@ -1096,7 +1036,7 @@ class RnRNumeric:
         # ============================================================================================
         ax6 = Fig2.add_subplot(
             gs[
-                3,
+                2,
                 int((int_Chart_column / 2) + 1) : int((int_Chart_column - 1)),
             ]
         )
@@ -1114,5 +1054,54 @@ class RnRNumeric:
         ax6.legend(loc="upper right", bbox_to_anchor=(1.5, 1))
         ax6.set_xlabel("{}".format(self.__dict_key["2"]))
         ax6.set_ylabel("Mean")
+        # ============================================================================================
+        #                                Final Thoughts
+        # ============================================================================================
+        ax7 = Fig2.add_subplot(gs[3, :])
+        ax7.set_xticks([])
+        ax7.set_yticks([])
+        ax7.set_facecolor("white")
+        ax7.set_ylim(0, 1)
+        ax7.set_xlim(0, 1)
+        df = self.RnR_SDTable()
+        dbl_RnR = df["% Study Var"].loc["Total Gage R&R"]
+        dbl_Repe = df["% Study Var"].loc["Eq.Var. (Repeatability)"]
+        dbl_Repr = df["% Study Var"].loc["Op.Var. (Reproducibility)"]
+        if dbl_RnR < 10:
+            str_msg = "The Measurement system seems to be OK"
+            str_color = "green"
+        elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe > dbl_Repr:
+            str_color = "yellow"
+            str_msg = (
+                "The Measurement system may be acceptable depending on "
+                + "application and cost\n\n"
+                + "If want to improve, check how technician make"
+                + "the measure"
+            )
+        elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe <= dbl_Repr:
+            str_color = "yellow"
+            str_msg = (
+                "The Measurement system may be acceptable depending on "
+                + "application and cost\n\n"
+                + "If want to improve, check your gage"
+            )
+        else:
+            str_color = "red"
+            str_msg = "Unacceptable measurement system\n\n"
+            if dbl_Repe > dbl_Repr:
+                str_msg = str_msg + "Check how technician make the measure"
+            else:
+                str_msg = str_msg + "Check your gage"
+
+        txt = ax7.text(
+            0.3,
+            0.98,
+            str_msg,
+            ha="left",
+            va="top",
+            wrap=True,
+            bbox=dict(boxstyle="round", fc=str_color, ec="black"),
+        )
+        txt._get_wrap_line_width = lambda: 360.0
 
         return Fig2
