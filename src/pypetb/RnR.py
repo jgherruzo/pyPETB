@@ -204,6 +204,7 @@ class RnRNumeric:
         df_0["Op"] = df_0["Op"].astype("category")
         df_0["Part"] = df_0["Part"].astype("category")
         df_0["Valor"] = pd.to_numeric(df_0["Valor"])
+        df_0.sort_values(by=["Part", "Op"], inplace=True)
 
         self.__log = list()
         self.__df_0 = df_0
@@ -1075,23 +1076,23 @@ class RnRNumeric:
             str_msg = (
                 "The Measurement system may be acceptable depending on "
                 + "application and cost\n\n"
-                + "If want to improve, check how technician make"
-                + "the measure"
+                + "If want to improve, check your gage"
             )
         elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe <= dbl_Repr:
             str_color = "yellow"
             str_msg = (
                 "The Measurement system may be acceptable depending on "
                 + "application and cost\n\n"
-                + "If want to improve, check your gage"
+                + "If want to improve, check how technician make"
+                + "the measurement"
             )
         else:
             str_color = "red"
             str_msg = "Unacceptable measurement system\n\n"
             if dbl_Repe > dbl_Repr:
-                str_msg = str_msg + "Check how technician make the measure"
-            else:
                 str_msg = str_msg + "Check your gage"
+            else:
+                str_msg = str_msg + "Check how technician make the measurement"
 
         txt = ax7.text(
             0.3,
