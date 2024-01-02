@@ -17,7 +17,7 @@ usually used and pandas cover all the requirements.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install pyPETB.
 
 ```bash
-pip install pyPETB
+pip install pypetb
 ```
 
 ## 3- USAGE
