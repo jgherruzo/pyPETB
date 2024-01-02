@@ -18,7 +18,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from pypetb import tables as tbl
+from pypetb import tables
 from scipy.stats import f
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
@@ -214,8 +214,8 @@ class RnRNumeric:
     def getLog(self):
         """Return a string which contain all important calculations.
 
-        Returns
-        -------
+        Returns:
+        ---------
         log: String
             all step logged
         """
@@ -322,6 +322,7 @@ class RnRNumeric:
         self.Total_min = np.min(df.min())
         self.__log.append("Min. measured value: %.4f" % self.Total_min)
 
+        tbl = tables.Stat_Tables()
         # Determine averange range, Range UCL and LCL
         self.dbl_Range_avg = df_1["Range"].mean()
         self.dbl_Range_UCL = self.dbl_Range_avg * tbl.get_D4(self.t)
@@ -422,8 +423,8 @@ class RnRNumeric:
         It will be returned as pandas DataFrame and all of the values will be
         accesibles from the dataframe.
 
-        Returns
-        -------
+        Returns:
+        ---------
         Pandas DataFrame
             Anova result tabulated into a pandas dataframe
         """
@@ -551,8 +552,8 @@ class RnRNumeric:
         It will be returned as pandas DataFrame and all of the values will be
         accesibles from the dataframe.
 
-        Returns
-        -------
+        Returns:
+        ---------
         Pandas DataFrame
             Variante table result tabulated into a pandas dataframe
         """
@@ -628,8 +629,8 @@ class RnRNumeric:
         will be returned as pandas DataFrame and all of the values will be
         accesibles from the dataframe.
 
-        Returns
-        -------
+        Returns:
+        ---------
         Pandas DataFrame
             Standard deviation table result tabulated into a pandas dataframe
         """
@@ -705,8 +706,8 @@ class RnRNumeric:
         """Run chart is a figure that contain a chart per pieze where all the
         measurement made by the operator are showed.
 
-        Returns
-        -------
+        Returns:
+        ---------
         matplotlib figure
             Set of charts
         """
@@ -822,8 +823,8 @@ class RnRNumeric:
         Trend color are ramdon and sometimes could be low visible, just repeat
         the command to change it.
 
-        Returns
-        -------
+        Returns:
+        ---------
         matplotlib figure
             Set of charts
         """
@@ -1084,7 +1085,7 @@ class RnRNumeric:
                 "The Measurement system may be acceptable depending on "
                 + "application and cost\n\n"
                 + "If want to improve, check how technician make"
-                + "the measurement"
+                + " the measurement"
             )
         else:
             str_color = "red"
