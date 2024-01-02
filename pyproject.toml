@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pypetb"
-version = "0.1.4"
+version = "0.1.5"
 description = "A Set of process engineering tools"
 authors = ["Jose Garcia <jgherruzo@gmail.com>"]
 readme = "README.md"
