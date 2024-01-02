@@ -214,8 +214,8 @@ class RnRNumeric:
     def getLog(self):
         """Return a string which contain all important calculations.
 
-        Returns
-        -------
+        Returns:
+        ---------
         log: String
             all step logged
         """
@@ -423,8 +423,8 @@ class RnRNumeric:
         It will be returned as pandas DataFrame and all of the values will be
         accesibles from the dataframe.
 
-        Returns
-        -------
+        Returns:
+        ---------
         Pandas DataFrame
             Anova result tabulated into a pandas dataframe
         """
@@ -552,8 +552,8 @@ class RnRNumeric:
         It will be returned as pandas DataFrame and all of the values will be
         accesibles from the dataframe.
 
-        Returns
-        -------
+        Returns:
+        ---------
         Pandas DataFrame
             Variante table result tabulated into a pandas dataframe
         """
@@ -629,8 +629,8 @@ class RnRNumeric:
         will be returned as pandas DataFrame and all of the values will be
         accesibles from the dataframe.
 
-        Returns
-        -------
+        Returns:
+        ---------
         Pandas DataFrame
             Standard deviation table result tabulated into a pandas dataframe
         """
@@ -706,8 +706,8 @@ class RnRNumeric:
         """Run chart is a figure that contain a chart per pieze where all the
         measurement made by the operator are showed.
 
-        Returns
-        -------
+        Returns:
+        ---------
         matplotlib figure
             Set of charts
         """
@@ -823,8 +823,8 @@ class RnRNumeric:
         Trend color are ramdon and sometimes could be low visible, just repeat
         the command to change it.
 
-        Returns
-        -------
+        Returns:
+        ---------
         matplotlib figure
             Set of charts
         """

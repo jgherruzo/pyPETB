@@ -444,8 +444,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        --------
         Float : A constant for the given number of items
 
         Raises:
@@ -480,8 +480,8 @@ class Stat_Tables:
         bol_Pass: Boolean
             False to raise error for n>25, True for A2_25 when n>25
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : A2 constant for the given number of items
 
         Raises:
@@ -525,8 +525,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : c4 constant for the given number of items
 
         Raises:
@@ -558,8 +558,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : A3 constant for the given number of items
 
         Raises:
@@ -591,8 +591,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : B3 constant for the given number of items
 
         Raises:
@@ -624,8 +624,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : B4 constant for the given number of items
 
         Raises:
@@ -657,8 +657,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : B5 constant for the given number of items
 
         Raises:
@@ -690,8 +690,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : B6 constant for the given number of items
 
         Raises:
@@ -723,8 +723,8 @@ class Stat_Tables:
         n : int
             Number of items
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : d2 constant for the given number of items
 
         Raises:
@@ -764,8 +764,8 @@ class Stat_Tables:
         bol_Pass: Boolean
             False to raise error for n>25, True for d3_25 when n>25
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : d3 constant for the given number of items
 
         Raises:
@@ -812,8 +812,8 @@ class Stat_Tables:
         bol_Pass: Boolean
             False to raise error for n>25, True for D1_25 when n>25
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : D1 constant for the given number of items
 
         Raises:
@@ -860,8 +860,8 @@ class Stat_Tables:
         bol_Pass: Boolean
             False to raise error for n>25, True for D2_25 when n>25
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : D2 constant for the given number of items
 
         Raises:
@@ -908,8 +908,8 @@ class Stat_Tables:
         bol_Pass: Boolean
             False to raise error for n>25, True for D3_25 when n>25
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : D3 constant for the given number of items
 
         Raises:
@@ -956,8 +956,8 @@ class Stat_Tables:
         bol_Pass: Boolean
             False to raise error for n>25, True for D4_25 when n>25
 
-        Returns
-        -------
+        Returns:
+        ---------
         Float : D4 constant for the given number of items
 
         Raises:
