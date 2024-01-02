@@ -18,7 +18,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from pypetb import tables as tbl
+from pypetb import tables
 from scipy.stats import f
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
@@ -322,6 +322,7 @@ class RnRNumeric:
         self.Total_min = np.min(df.min())
         self.__log.append("Min. measured value: %.4f" % self.Total_min)
 
+        tbl = tables.Stat_Tables()
         # Determine averange range, Range UCL and LCL
         self.dbl_Range_avg = df_1["Range"].mean()
         self.dbl_Range_UCL = self.dbl_Range_avg * tbl.get_D4(self.t)
@@ -1084,7 +1085,7 @@ class RnRNumeric:
                 "The Measurement system may be acceptable depending on "
                 + "application and cost\n\n"
                 + "If want to improve, check how technician make"
-                + "the measurement"
+                + " the measurement"
             )
         else:
             str_color = "red"
