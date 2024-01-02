@@ -40,7 +40,6 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 ## 6- ACKNOLEDGMENTS
 
 - Thanks to Noël Santiago for his coaching during our six sigma green belt training
-- Thanks to Alexandre Baharov for sharing the statistic tables script
 - Thanks to Ted Hessing for his detailed article calculating RnR:
 https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
 
