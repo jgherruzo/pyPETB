@@ -708,7 +708,7 @@ class RnRNumeric:
 
         Returns:
         ---------
-        matplotlib figure
+        Fig1 : matplotlib figure
             Set of charts
         """
         Fig1 = plt.figure(figsize=(18, 12))
@@ -825,7 +825,7 @@ class RnRNumeric:
 
         Returns:
         ---------
-        matplotlib figure
+        Fig2 : matplotlib figure
             Set of charts
         """
         # df = self.__df
