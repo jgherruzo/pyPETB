@@ -1081,7 +1081,7 @@ class RnRNumeric:
         dbl_Repr = df["% Study Var"].loc["Op.Var. (Reproducibility)"]
         if dbl_RnR < 10:
             str_msg = "The Measurement system seems to be OK"
-            str_color = "green"
+            str_color = "mediumseagreen"
         elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe > dbl_Repr:
             str_color = "yellow"
             str_msg = (

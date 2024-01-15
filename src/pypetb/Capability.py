@@ -243,7 +243,7 @@ class Capability:
             ax4.annotate(
                 "Process seems to match with Normal distribution",
                 xy=(0.1, 0.05),
-                bbox=dict(boxstyle="round", fc="green"),
+                bbox=dict(boxstyle="round", fc="mediumseagreen"),
                 fontsize=12,
                 fontweight="bold",
             )
@@ -394,7 +394,7 @@ class Capability:
                 str_adv = str_adv + "\nand moved to the rigth"
 
             str_adv = str_adv + f"\n\n     Cpk: {Cpk}>1\n"
-            str_color = "green"
+            str_color = "mediumseagreen"
         else:
             str_adv = f"\nProcess is not capable\n\n     Cpk: {Cpk}<1\n"
             str_color = "red"
@@ -593,7 +593,7 @@ class Capability:
                 str_adv = str_adv + "\nand moved to the rigth"
 
             str_adv = str_adv + f"\n\n     Cpk: {Cpk}>1\n"
-            str_color = "green"
+            str_color = "mediumseagreen"
         else:
             str_adv = f"\nProcess is not capable\n\n     Cpk: {Cpk}<1\n"
             str_color = "red"
