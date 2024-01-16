@@ -26,7 +26,7 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 
 class RnRNumeric:
     """Repeatability and Reproducibility numeric gage analysis.
-    RnRNumerics works as a model. It is defined using ameasurement dataframe.
+    RnRNumerics works as a model. It is defined using a measurement dataframe.
     Log method could be called in order to check each parameter calculation.
     There is possibilities to get an anova table, standard deviation table or
     variance table, which are returned as pandas dataframe, or Report, where a
