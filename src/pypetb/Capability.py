@@ -21,8 +21,9 @@ from scipy import stats
 
 
 class Capability:
-    """Capability analysis
-    Capability works as a model
+    """Capability analysis works as a model. Once input parameter are
+    specified, model is solved and available to print different reports
+    depending on the user requirement
 
     Args:
     -----
@@ -138,7 +139,7 @@ class Capability:
                 " be numeric type. Please, review your dataset"
             )
 
-        # In docs, remember mark the importance to read docs if long term
+        # In docs, remember remark the importance to read docs if long term
         # analysis is not done
         # Check if batch is defined. If so, stablish as categorical data type
         if mydict["batch"] not in mydf.keys().tolist():
@@ -315,24 +316,49 @@ class Capability:
         ax1.set_facecolor("white")
         ax1.set_ylim(0, 1)
         ax1.set_xlim(0, 1)
-        str_msg = "    Data Processing\n\nLSL                  {}\nGoal"
+
         str_msg = (
-            str_msg + "{}\nHSL                 {}\nMean              {:.4f}"
+            f"{'':^35s}\n\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
         )
-        str_msg = str_msg + "\nSample Size    {}\nStd. Dev (ST)  {:.4f}"
-        ax1.annotate(
-            str_msg.format(
-                self.__mydict["LSL"],
-                self.__mydict["goal"],
-                self.__mydict["HSL"],
-                dbl_Total_avg,
-                len(df_cp.index),
-                SD,
-            ),
-            xy=(0.3, 0.5),
+
+        ax1.text(
+            0.25,
+            0.21,
+            str_msg,
             bbox=dict(boxstyle="round", fc="w", color="black"),
             fontsize=12,
         )
+        str_msg = f"{'Data Processing':^25s}"
+        ax1.text(0.23, 0.64, str_msg, fontsize=12)
+
+        str_msg = (
+            f"{' LSL':15s}\n"
+            f"{' Goal':15s}\n"
+            f"{' HSL':15s}\n"
+            f"{' Mean':15s}\n"
+            f"{' Sample Size':15s}\n"
+            f"{'':15s}\n"
+            f"{' Std. Dev (ST)':15s}\n"
+        )
+        ax1.text(0.25, 0.2, str_msg, fontsize=12)
+
+        str_msg = (
+            f"{self.__mydict['LSL']:<10} \n"
+            f"{self.__mydict['goal']:<10} \n"
+            f"{self.__mydict['HSL']:<10} \n"
+            f"{dbl_Total_avg:<10.3g} \n"
+            f"{len(df_cp.index):<10.3g} \n"
+            f"{'':<10} \n"
+            f"{SD:<10.3g} \n"
+        )
+        ax1.text(0.66, 0.2, str_msg, fontsize=12)
 
         # ============================================================================================
         #                                HISTOGRAM
@@ -377,14 +403,36 @@ class Capability:
         ax3.set_facecolor("white")
         ax3.set_ylim(0, 1)
         ax3.set_xlim(0, 1)
-        str_msg = "ST Capability\n\n  Cp     {}\n  CpL   {}\n  CpU   {}"
-        str_msg = str_msg + "\n  Cpk   {}\n"
-        ax3.annotate(
-            str_msg.format(Cp, CpL, CpU, Cpk),
-            xy=(0.3, 0.4),
+
+        # Short Term box
+        str_msg = (
+            f"{'':^23s}\n\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+        )
+
+        ax3.text(
+            0.28,
+            0.4,
+            str_msg,
             bbox=dict(boxstyle="round", fc="w", color="black"),
             fontsize=12,
         )
+        str_msg = f"{' ST Capability ':^13s}"
+        ax3.text(0.3, 0.68, str_msg, fontsize=12)
+
+        str_msg = (
+            f"{'  Cp':8s}\n"
+            f"{'  CpL':8s}\n"
+            f"{'  CpU':8s}\n"
+            f"{'  Cpk':8s}\n"
+        )
+        ax3.text(0.28, 0.4, str_msg, fontsize=12)
+
+        str_msg = f"{Cp:<5} \n" f"{CpL:<5} \n" f"{CpU:<5} \n" f"{Cpk:<5} \n"
+        ax3.text(0.5, 0.4, str_msg, fontsize=12)
 
         if Cpk > 1:
             str_adv = "\n   Process is capable"
@@ -494,26 +542,49 @@ class Capability:
         ax1.set_facecolor("white")
         ax1.set_ylim(0, 1)
         ax1.set_xlim(0, 1)
+
         str_msg = (
-            "    Data Processing\n\nLSL                  {}\nGoal"
-            + "                {}"
-            + "\nHLS                 {}\nMean              {:.4f}\nSample Size"
+            f"{'':^35s}\n\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
+            f"{'':^35s}\n"
         )
-        str_msg = str_msg + "{}\nStd. Dev (LT)   {:.4f}\nStd. Dev (ST)  {:.4f}"
-        ax1.annotate(
-            str_msg.format(
-                self.__mydict["LSL"],
-                self.__mydict["goal"],
-                self.__mydict["HSL"],
-                dbl_Total_avg,
-                len(df_cp.index),
-                SD,
-                SDp,
-            ),
-            xy=(0.3, 0.2),
+
+        ax1.text(
+            0.25,
+            0.21,
+            str_msg,
             bbox=dict(boxstyle="round", fc="w", color="black"),
             fontsize=12,
         )
+        str_msg = f"{'Data Processing':^25s}"
+        ax1.text(0.23, 0.64, str_msg, fontsize=12)
+
+        str_msg = (
+            f"{' LSL':15s}\n"
+            f"{' Goal':15s}\n"
+            f"{' HSL':15s}\n"
+            f"{' Mean':15s}\n"
+            f"{' Sample Size':15s}\n"
+            f"{' Std. Dev (LT)':15s}\n"
+            f"{' Std. Dev (ST)':15s}\n"
+        )
+        ax1.text(0.25, 0.2, str_msg, fontsize=12)
+
+        str_msg = (
+            f"{self.__mydict['LSL']:<10} \n"
+            f"{self.__mydict['goal']:<10} \n"
+            f"{self.__mydict['HSL']:<10} \n"
+            f"{dbl_Total_avg:<10.3g} \n"
+            f"{len(df_cp.index):<10.3g} \n"
+            f"{SD:<10.3g} \n"
+            f"{SDp:<10.3g} \n"
+        )
+        ax1.text(0.66, 0.2, str_msg, fontsize=12)
 
         # ============================================================================================
         #                                HISTOGRAM
@@ -564,26 +635,66 @@ class Capability:
         ax3.set_facecolor("white")
         ax3.set_ylim(0, 1)
         ax3.set_xlim(0, 1)
+
+        # Long Term box
         str_msg = (
-            " LT Cpacility \n\n  Pp     {} \n"
-            + "  PpL   {} \n  PpU   {} \n  Ppk   {} \n"
+            f"{'':^23s}\n\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
         )
-        ax3.annotate(
-            str_msg.format(Pp, PpL, PpU, Ppk),
-            xy=(0.13, 0.4),
+
+        ax3.text(
+            0.02,
+            0.4,
+            str_msg,
             bbox=dict(boxstyle="round", fc="w", color="black"),
             fontsize=12,
         )
+        str_msg = f"{' LT Capability ':^13s}"
+        ax3.text(0.04, 0.68, str_msg, fontsize=12)
+
         str_msg = (
-            " ST Cpacility \n\n  Cp     {} \n  CpL"
-            + "   {} \n  CpU   {} \n  Cpk   {} \n"
+            f"{'  Pp':8s}\n"
+            f"{'  PpL':8s}\n"
+            f"{'  PpU':8s}\n"
+            f"{'  Ppk':8s}\n"
         )
-        ax3.annotate(
-            str_msg.format(Cp, CpL, CpU, Cpk),
-            xy=(0.55, 0.4),
+        ax3.text(0.02, 0.4, str_msg, fontsize=12)
+
+        str_msg = f"{Pp:<5} \n" f"{PpL:<5} \n" f"{PpU:<5} \n" f"{Ppk:<5} \n"
+        ax3.text(0.25, 0.4, str_msg, fontsize=12)
+
+        # Short Term box
+        str_msg = (
+            f"{'':^23s}\n\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+            f"{'':^2s}\n"
+        )
+
+        ax3.text(
+            0.48,
+            0.4,
+            str_msg,
             bbox=dict(boxstyle="round", fc="w", color="black"),
             fontsize=12,
         )
+        str_msg = f"{' ST Capability ':^13s}"
+        ax3.text(0.5, 0.68, str_msg, fontsize=12)
+
+        str_msg = (
+            f"{'  Cp':8s}\n"
+            f"{'  CpL':8s}\n"
+            f"{'  CpU':8s}\n"
+            f"{'  Cpk':8s}\n"
+        )
+        ax3.text(0.48, 0.4, str_msg, fontsize=12)
+
+        str_msg = f"{Cp:<5} \n" f"{CpL:<5} \n" f"{CpU:<5} \n" f"{Cpk:<5} \n"
+        ax3.text(0.7, 0.4, str_msg, fontsize=12)
 
         if Cpk > 1:
             str_adv = "\n   Process is capable"
