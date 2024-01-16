@@ -318,7 +318,7 @@ class Capability:
         ax1.set_xlim(0, 1)
 
         str_msg = (
-            f"{'':^35s}\n\n"
+            f"{'':^40s}\n\n"
             f"{'':^35s}\n"
             f"{'':^35s}\n"
             f"{'':^35s}\n"
@@ -406,7 +406,7 @@ class Capability:
 
         # Short Term box
         str_msg = (
-            f"{'':^23s}\n\n"
+            f"{'':^25s}\n\n"
             f"{'':^2s}\n"
             f"{'':^2s}\n"
             f"{'':^2s}\n"
@@ -544,7 +544,7 @@ class Capability:
         ax1.set_xlim(0, 1)
 
         str_msg = (
-            f"{'':^35s}\n\n"
+            f"{'':^40s}\n\n"
             f"{'':^35s}\n"
             f"{'':^35s}\n"
             f"{'':^35s}\n"
@@ -638,7 +638,7 @@ class Capability:
 
         # Long Term box
         str_msg = (
-            f"{'':^23s}\n\n"
+            f"{'':^25s}\n\n"
             f"{'':^2s}\n"
             f"{'':^2s}\n"
             f"{'':^2s}\n"
@@ -668,7 +668,7 @@ class Capability:
 
         # Short Term box
         str_msg = (
-            f"{'':^23s}\n\n"
+            f"{'':^25s}\n\n"
             f"{'':^2s}\n"
             f"{'':^2s}\n"
             f"{'':^2s}\n"
