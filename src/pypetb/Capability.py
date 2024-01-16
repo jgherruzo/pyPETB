@@ -336,7 +336,7 @@ class Capability:
             fontsize=12,
         )
         str_msg = f"{'Data Processing':^25s}"
-        ax1.text(0.23, 0.64, str_msg, fontsize=12)
+        ax1.text(0.23, 0.58, str_msg, fontsize=12)
 
         str_msg = (
             f"{' LSL':15s}\n"
@@ -421,7 +421,7 @@ class Capability:
             fontsize=12,
         )
         str_msg = f"{' ST Capability ':^13s}"
-        ax3.text(0.3, 0.68, str_msg, fontsize=12)
+        ax3.text(0.3, 0.63, str_msg, fontsize=12)
 
         str_msg = (
             f"{'  Cp':8s}\n"
