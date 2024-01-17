@@ -10,6 +10,7 @@
 :maxdepth: 2
 notebooks/0_installation
 notebooks/1_usage
+notebooks/2_Capability
 ```
 
 # Indices and tables
