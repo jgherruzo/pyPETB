@@ -153,7 +153,7 @@ class RnRNumeric:
         self.__dbl_tol = mydbl_tol
 
         # Check dictionary is correctly defined
-        lst_key = ["1", "2", "3", "4"]
+        lst_key = ["1", "2", "3"]
         if not all(key in mydict_key for key in lst_key):
             raise ValueError(
                 f"Error init_01: wrong dictionary keys: {mydict_key.keys()} |"
