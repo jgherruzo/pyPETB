@@ -4,7 +4,7 @@
 
 # THE PROCESS ENGINEER TOOLBOX
 
-[![python](https://img.shields.io/badge/python-3.11-blue.svg?logo=python)](https://www.python.org)
+[![python](https://img.shields.io/badge/python-3.8_|_3.9_|_3.10_|_3.11-blue.svg?logo=python)](https://www.python.org)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -24,6 +24,8 @@ pip install pypetb
 
 Please refer to the [Documentation](https://pypetb.readthedocs.io/en/latest/)
 
+Gage R&R [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-chapter-1-introducing-pypetbs-gage-7a7a9a952052)
+
 ## 4- LICENSE
 
 Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/main/LICENSE.txt).
@@ -31,8 +33,8 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 ## 5- ROADMAP
 
 - V0.1 RnRnumeric class to analyze numerical measurement system --> Available
-- V0.2 Capability class to make process capability analysis --> On going
-- V0.3 RnRcat class to analyze categorical measurement system (Atributes)
+- V0.2 Capability class to make process capability analysis --> Available
+- V0.3 RnRcat class to analyze categorical measurement system (Atributes) --> On going
 - V0.4 DOE class to analyze DOE results
 - V1.1 Periodic Table class (Very useful for V1.2 release)
 - V1.2 MEB class for develop material and energy balances

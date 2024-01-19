@@ -26,7 +26,7 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 
 class RnRNumeric:
     """Repeatability and Reproducibility numeric gage analysis.
-    RnRNumerics works as a model. It is defined using ameasurement dataframe.
+    RnRNumerics works as a model. It is defined using a measurement dataframe.
     Log method could be called in order to check each parameter calculation.
     There is possibilities to get an anova table, standard deviation table or
     variance table, which are returned as pandas dataframe, or Report, where a
@@ -143,12 +143,22 @@ class RnRNumeric:
     Init_04
         mydbl_tol is not a number
 
+    Init_05
+        mydict_key is not correctly defined
     """
 
     def __init__(self, mydf_Raw, mydict_key, mydbl_tol=None):
         """Initializate a new instance of a numeric RnR model"""
         self.__dict_key = mydict_key
         self.__dbl_tol = mydbl_tol
+
+        # Check dictionary is correctly defined
+        lst_key = ["1", "2", "3"]
+        if not all(key in mydict_key for key in lst_key):
+            raise ValueError(
+                f"Error init_01: wrong dictionary keys: {mydict_key.keys()} |"
+                f" Be sure to use: {lst_key}"
+            )
 
         if mydict_key["1"] not in mydf_Raw.keys().tolist():
             bol_key = True
@@ -708,7 +718,7 @@ class RnRNumeric:
 
         Returns:
         ---------
-        matplotlib figure
+        Fig1 : matplotlib figure
             Set of charts
         """
         Fig1 = plt.figure(figsize=(18, 12))
@@ -825,7 +835,7 @@ class RnRNumeric:
 
         Returns:
         ---------
-        matplotlib figure
+        Fig2 : matplotlib figure
             Set of charts
         """
         # df = self.__df
@@ -1071,7 +1081,7 @@ class RnRNumeric:
         dbl_Repr = df["% Study Var"].loc["Op.Var. (Reproducibility)"]
         if dbl_RnR < 10:
             str_msg = "The Measurement system seems to be OK"
-            str_color = "green"
+            str_color = "mediumseagreen"
         elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe > dbl_Repr:
             str_color = "yellow"
             str_msg = (
