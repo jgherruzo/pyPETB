@@ -144,7 +144,7 @@ class Capability:
         # Check if batch is defined. If so, stablish as categorical data type
         if mydict["batch"] not in mydf.keys().tolist():
             self.__log.append(
-                f"{mydict['batch']} not match with column names"
+                f"{mydict['batch']} not match with column names.so"
                 f" {mydf.keys().tolist()}"
             )
             self.__log.append("Short term analysis is activated")
