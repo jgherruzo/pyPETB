@@ -6,6 +6,29 @@ authors = ["Jose Garcia <jgherruzo@gmail.com>"]
 readme = "README.md"
 packages = [{include = "pypetb", from = "src"}]
 
+[project]
+name = "pypetb"
+version = "0.2.0"
+authors = [
+  { name="Jose Garcia Herruzo", email="jgherruzo@gmail.com" },
+]
+description = "A Set of process engineering tools"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Framework :: Flake8",
+    "Framework :: Matplotlib",
+    "Framework :: Pytest",
+    "Framework :: Sphinx",
+    "Intended Audience :: Manufacturing",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+
+[project.urls]
+Homepage = "https://github.com/jgherruzo/pyPETB"
+
 [tool.poetry.dependencies]
 python = "^3.8"
 pandas = [
