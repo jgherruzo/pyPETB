@@ -21,21 +21,20 @@ from scipy import stats
 
 
 class Capability:
-    """Capability analysis works as a model. Once input parameter are
-    specified, model is solved and available to print different reports
-    depending on the user requirement
+    """Capability analysis works as a model.
+    Once input parameter are specified, model is solved and available
+     to print different reports depending on the user requirement
 
     Args:
     -----
     mydf : pandas dataframe
-      df must contain at least the measures in a column. For long term
-        analysis, batch ID could be added
+      At least the measures in a column. For LT analysis, batch column too.
 
     mydict : dictionary
-      Value: String. Measures column name | Batch: Optional String. Batch ID
-        column name | LSL: Optional float. Lower specification limit | HSL:
-          Optional float. Higher specification limit | Goal: Optional float.
-            Goal. ONE OF LSL OR HSL MUST BE SPECIFIED
+      Value --> String. Measures column name | Batch --> Optional String.
+      Batch ID column name | LSL --> Optional float. Lower specification
+       limit | HSL --> Optional float. Higher specification limit |
+       Goal --> Optional float. Goal. ONE OF LSL OR HSL MUST BE SPECIFIED
 
     Methods:
     ----------
