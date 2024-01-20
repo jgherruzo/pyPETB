@@ -1,20 +1,12 @@
 [tool.poetry]
 name = "pypetb"
-version = "0.2.1"
-description = "A Set of process engineering tools"
+version = "0.2.2"
+description = "A Set of process engineering tools. Gage RnR and Capability analysis are currently available"
+license = "MIT"
 authors = ["Jose Garcia <jgherruzo@gmail.com>"]
 readme = "README.md"
 packages = [{include = "pypetb", from = "src"}]
 
-[project]
-name = "pypetb"
-version = "0.2.1"
-authors = [
-  { name="Jose Garcia Herruzo", email="jgherruzo@gmail.com" },
-]
-description = "A Set of process engineering tools"
-readme = "README.md"
-requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -25,9 +17,9 @@ classifiers = [
     "Intended Audience :: Manufacturing",
     "Topic :: Scientific/Engineering :: Chemistry",
 ]
-
-[project.urls]
-Homepage = "https://github.com/jgherruzo/pyPETB"
+repository  = "https://github.com/jgherruzo/pyPETB"
+documentation = "https://pypetb.readthedocs.io/en/latest/"
+keywords = ["engineering", "chemical engineering","six sigma","process improvement"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
