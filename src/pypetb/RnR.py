@@ -820,7 +820,7 @@ class RnRNumeric:
         )
         return Fig1
 
-    def RnR_Report(self):  # noqa: C901
+    def RnR_Report(self, report_name=None):  # noqa: C901
         """RnR_Report chart is a figure that contain six important chart in
         order to conclude the status of the measurement system First chart will
         show the impact of each parameter that affect to the variation of the
@@ -849,8 +849,11 @@ class RnRNumeric:
 
         int_Chart_column = (self.t + 1) * 2
         gs = mpl.gridspec.GridSpec(4, int_Chart_column, wspace=0, hspace=0.6)
+        default_title = "R&R Measurement System Report"
+        title = report_name if report_name is not None else default_title
+
         Fig2.suptitle(
-            "R&R Measurement System Report",
+            title,
             fontsize=20,
         )
 

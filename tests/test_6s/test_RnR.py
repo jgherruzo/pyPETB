@@ -414,6 +414,20 @@ def test_RnR_Report():
     assert isinstance(RnRModel.RnR_Report(), mpl.figure.Figure) is True
 
 
+def test_RnR_Report2():
+    """Check if supplied title to RnR_Report is applied."""
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key, mydbl_tol=8)
+    RnRModel.RnRSolve()
+    report_title = "Test title"
+
+    assert (
+        RnRModel.RnR_Report(report_title).texts[0].get_text() == report_title
+    )
+
+
 # unhappy flow
 def test_wrong_Column():
     """Check if RnR_Report returns a plt figure."""
