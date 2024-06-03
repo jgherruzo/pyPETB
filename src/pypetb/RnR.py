@@ -857,6 +857,53 @@ class RnRNumeric:
             fontsize=20,
         )
 
+        number_of_technicians = len(df_0["Op"].unique())
+
+        technician_colors = [
+            mpl.colors.CSS4_COLORS["blue"],
+            mpl.colors.CSS4_COLORS["green"],
+            mpl.colors.CSS4_COLORS["orange"],
+            mpl.colors.CSS4_COLORS["purple"],
+            mpl.colors.CSS4_COLORS["maroon"],
+            mpl.colors.CSS4_COLORS["dodgerblue"],
+            mpl.colors.CSS4_COLORS["yellow"],
+        ]
+
+        technician_markers = [
+            "o",  # Circle
+            "8",  # Octagon
+            "s",  # Square
+            "p",  # Pentagon
+            "*",  # Star
+            "D",  # Diamond
+            "X",  # X Filled
+        ]
+
+        while len(technician_colors) < number_of_technicians:
+            generated_color = random.choice(
+                list(mpl.colors.CSS4_COLORS.values())
+            )
+
+            # Do not allow red as one of the technician colors as this is
+            # used for other purposes in the graphs. Also do not allow white
+            # as this will not be very visible
+            if (
+                generated_color is mpl.colors.CSS4_COLORS["red"]
+                or generated_color is mpl.colors.CSS4_COLORS["white"]
+            ):
+                continue
+
+            if generated_color is not generated_color not in technician_colors:
+                technician_colors.append(generated_color)
+
+        while len(technician_markers) < number_of_technicians:
+            generated_marker = random.choice(
+                list(mpl.lines.Line2D.markers.keys())
+            )
+
+            if generated_marker not in technician_markers:
+                technician_markers.append(generated_marker)
+
         # ============================================================================================
         #                                VARIACION
         # ============================================================================================
@@ -967,13 +1014,11 @@ class RnRNumeric:
             df_temp = df_1.xs(
                 df_0["Op"].unique()[i], level=0, drop_level=False
             )
-            c = random.choice(list(mpl.colors.CSS4_COLORS.values()))
-            m = random.choice(list(mpl.lines.Line2D.markers.keys()))
             lst_ax3[i].plot(
                 df_temp.index.get_level_values(1),
                 df_temp["Range"],
-                color=c,
-                marker=m,
+                color=technician_colors[i],
+                marker=technician_markers[i],
             )
             lst_ax3[i].set_xticks(df_temp.index.get_level_values(1))
 
@@ -989,7 +1034,7 @@ class RnRNumeric:
             fontweight="bold",
         )
         for n in range(0, len((df_0["Op"].unique()))):
-            c = random.choice(list(mpl.colors.CSS4_COLORS.values()))
+            c = technician_colors[n]
             ax4.boxplot(
                 df_0[df_0["Op"] == df_0["Op"].unique()[n]]["Valor"],
                 positions=[n + 1],
@@ -1034,13 +1079,12 @@ class RnRNumeric:
             df_temp = df_1.xs(
                 df_0["Op"].unique()[i], level=0, drop_level=False
             )
-            c = random.choice(list(mpl.colors.CSS4_COLORS.values()))
-            m = random.choice(list(mpl.lines.Line2D.markers.keys()))
+
             lst_ax5[i].plot(
                 df_temp.index.get_level_values(1),
                 df_temp["Mean"],
-                color=c,
-                marker=m,
+                color=technician_colors[i],
+                marker=technician_markers[i],
             )
             lst_ax5[i].set_xticks(df_temp.index.get_level_values(1))
 
