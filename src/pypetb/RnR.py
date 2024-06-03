@@ -1048,8 +1048,8 @@ class RnRNumeric:
         #                                Xbarra per Operator
         # ============================================================================================
         lst_ax5 = list()
-        ax5_max = self.Total_max * 1.1
-        ax5_min = self.Total_min - self.Total_max * 0.1
+        ax5_max = self.Total_max * 1.001
+        ax5_min = self.Total_min - self.Total_max * 0.001
 
         for i in range(0, len(df_0["Op"].unique())):
             lst_ax5.append(Fig2.add_subplot(gs[2, i]))
