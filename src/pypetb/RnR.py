@@ -1039,6 +1039,7 @@ class RnRNumeric:
                 df_0[df_0["Op"] == df_0["Op"].unique()[n]]["Valor"],
                 positions=[n + 1],
                 patch_artist=True,
+                medianprops=dict(color=mpl.colors.CSS4_COLORS["black"]),
                 boxprops=dict(facecolor=c, color=c),
             )
         ax4.set_ylabel("{}".format(self.__dict_key["3"]))
