@@ -964,7 +964,7 @@ class RnRNumeric:
         ax1.set_title("Variation Component", fontweight="bold")
         ax1.set_xticks(X)
         ax1.set_xticklabels(x)
-        ax1.legend(loc="upper right", bbox_to_anchor=(1.4, 1))
+        ax1.legend(loc="upper left", bbox_to_anchor=(1, 1))
         ax1.set_ylim(0, 100)
 
         # ============================================================================================
@@ -1024,7 +1024,7 @@ class RnRNumeric:
 
         # lst_ax3[0].title.set_text('Range by {}'.format(dict_key['Op'])) #
         lst_ax3[1].set_xlabel("{}".format(self.__dict_key["2"]))  #
-        lst_ax3[-1].legend(loc="upper right", bbox_to_anchor=(2.1, 1))
+        lst_ax3[-1].legend(loc="upper left", bbox_to_anchor=(1, 1))
         # ============================================================================================
         #                                Violin Plot
         # ============================================================================================
@@ -1089,7 +1089,7 @@ class RnRNumeric:
             lst_ax5[i].set_xticks(df_temp.index.get_level_values(1))
 
         lst_ax5[1].set_xlabel("{}".format(self.__dict_key["2"]))  #
-        lst_ax5[-1].legend(loc="upper right", bbox_to_anchor=(2.1, 1))
+        lst_ax5[-1].legend(loc="upper left", bbox_to_anchor=(1, 1))
         # ============================================================================================
         #                                Iteration
         # ============================================================================================
@@ -1110,7 +1110,7 @@ class RnRNumeric:
             ax6.plot(
                 df_temp.index.get_level_values(1), df_temp["Mean"], label=item
             )
-        ax6.legend(loc="upper right", bbox_to_anchor=(1.5, 1))
+        ax6.legend(loc="upper left", bbox_to_anchor=(1, 1))
         ax6.set_xlabel("{}".format(self.__dict_key["2"]))
         ax6.set_ylabel("Mean")
         # ============================================================================================
