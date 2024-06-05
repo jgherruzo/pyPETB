@@ -847,8 +847,25 @@ class RnRNumeric:
         Fig2 = plt.figure(figsize=(16, 12))
         Fig2.set_facecolor("white")
 
-        int_Chart_column = (self.t + 1) * 2
-        gs = mpl.gridspec.GridSpec(4, int_Chart_column, wspace=0, hspace=0.6)
+        ncols = (self.t + 1) * 2
+        # Each graph gets (nrows - 1) / 3 rows each.
+        # Last row is used for the 'Final Thoughts' section.
+        # Set total number of rows high enough to optimize the height
+        # of the final section to minimize the waste of vertical space
+        nrows = 22
+
+        # Variables used to indicate where in the GridSpec created below
+        # each of the graphs should be placed.
+        first_row = slice(0, int(nrows / 3) - 1)
+        second_row = slice(int(nrows / 3) + 1, (int(nrows / 3) * 2))
+        third_row = slice((int(nrows / 3) * 2) + 2, nrows)
+
+        first_col = slice(0, int(ncols / 2) - 1)
+        second_col = slice(int(ncols / 2) + 1, ncols)
+
+        gs = mpl.gridspec.GridSpec(
+            nrows, ncols, wspace=0, hspace=0.9, figure=Fig2
+        )
         default_title = "R&R Measurement System Report"
         title = report_name if report_name is not None else default_title
 
@@ -947,7 +964,7 @@ class RnRNumeric:
 
         # print(y)
 
-        ax1 = Fig2.add_subplot(gs[0, : int((int_Chart_column / 2) - 1)])
+        ax1 = Fig2.add_subplot(gs[first_row, first_col])
         X = np.arange(len(x))  # the label locations
         width = 0.25  # the width of the bars
         multiplier = 0
@@ -970,7 +987,7 @@ class RnRNumeric:
         # ============================================================================================
         #                                Value per Piece
         # ============================================================================================
-        ax2 = Fig2.add_subplot(gs[0, int((int_Chart_column / 2) + 1) :])
+        ax2 = Fig2.add_subplot(gs[first_row, second_col])
         ax2.set_title(
             "{} by {}".format(self.__dict_key["3"], self.__dict_key["2"]),
             fontweight="bold",
@@ -987,7 +1004,7 @@ class RnRNumeric:
         ax_max = max(df_1["Range"].max(), self.dbl_Range_UCL) * 1.1
         ax_min = min(df_1["Range"].min(), self.dbl_Range_UCL) - ax_max * 0.1
         for i in range(0, len(df_0["Op"].unique())):
-            lst_ax3.append(Fig2.add_subplot(gs[1, i]))
+            lst_ax3.append(Fig2.add_subplot(gs[second_row, i]))
             if i > 0:
                 lst_ax3[i].set_yticks([])
             else:
@@ -1028,7 +1045,7 @@ class RnRNumeric:
         # ============================================================================================
         #                                Violin Plot
         # ============================================================================================
-        ax4 = Fig2.add_subplot(gs[1, int((int_Chart_column / 2) + 1) :])
+        ax4 = Fig2.add_subplot(gs[second_row, second_col])
         ax4.set_title(
             "{} by {}".format(self.__dict_key["3"], self.__dict_key["1"]),
             fontweight="bold",
@@ -1052,7 +1069,7 @@ class RnRNumeric:
         ax5_min = self.Total_min - self.Total_max * 0.001
 
         for i in range(0, len(df_0["Op"].unique())):
-            lst_ax5.append(Fig2.add_subplot(gs[2, i]))
+            lst_ax5.append(Fig2.add_subplot(gs[third_row, i]))
             if i > 0:
                 lst_ax5[i].set_yticks([])
             else:
@@ -1094,12 +1111,7 @@ class RnRNumeric:
         # ============================================================================================
         #                                Iteration
         # ============================================================================================
-        ax6 = Fig2.add_subplot(
-            gs[
-                2,
-                int((int_Chart_column / 2) + 1) : int((int_Chart_column - 1)),
-            ]
-        )
+        ax6 = Fig2.add_subplot(gs[third_row, second_col])
         ax6.set_title(
             "Iteration {}x{}".format(
                 self.__dict_key["2"], self.__dict_key["1"]
@@ -1117,12 +1129,6 @@ class RnRNumeric:
         # ============================================================================================
         #                                Final Thoughts
         # ============================================================================================
-        ax7 = Fig2.add_subplot(gs[3, :])
-        ax7.set_xticks([])
-        ax7.set_yticks([])
-        ax7.set_facecolor("white")
-        ax7.set_ylim(0, 1)
-        ax7.set_xlim(0, 1)
         df = self.RnR_SDTable()
         dbl_RnR = df["% Study Var"].loc["Total Gage R&R"]
         dbl_Repe = df["% Study Var"].loc["Eq.Var. (Repeatability)"]
@@ -1153,15 +1159,17 @@ class RnRNumeric:
             else:
                 str_msg = str_msg + "Check how technician make the measurement"
 
-        txt = ax7.text(
-            0.3,
-            0.98,
+        self.final_thoughts = Fig2.text(
+            0.5,
+            0.01,
             str_msg,
-            ha="left",
-            va="top",
-            wrap=True,
-            bbox=dict(boxstyle="round", fc=str_color, ec="black"),
+            ha="center",
+            va="bottom",
+            bbox=dict(
+                boxstyle="round", facecolor=str_color, edgecolor="black"
+            ),
         )
-        txt._get_wrap_line_width = lambda: 360.0
+
+        self.final_thoughts._get_wrap_line_width = lambda: 360.0
 
         return Fig2
