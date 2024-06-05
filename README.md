@@ -36,14 +36,15 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 - V0.2 Capability class to make process capability analysis --> Available
 - V0.3 RnRcat class to analyze categorical measurement system (Atributes) --> On going
 - V0.4 DOE class to analyze DOE results
-- V1.1 Periodic Table class (Very useful for V1.2 release)
-- V1.2 MEB class for develop material and energy balances
+- V1.1 Periodic Table class (Very useful for V1.2 release) --> Cancelled
+- V1.2 MEB class for develop material and energy balances --> Cancelled
 
 ## 6- ACKNOLEDGMENTS
 
 - Thanks to Noël Santiago for his coaching during our six sigma green belt training
 - Thanks to Ted Hessing for his detailed article calculating RnR:
 https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
+- Thanks to Linus Isberg Martinsson for his effort developing improvements for this package
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-blue?logo=visual%20studio%20code)
 ![Poetry](https://img.shields.io/badge/Poetry-blue?logo=poetry)
