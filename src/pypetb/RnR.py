@@ -268,7 +268,12 @@ class RnRNumeric:
 
         if bol_bias is False:
             if (
-                len(mydf_0.groupby("Part").count()["Valor"].unique().tolist())
+                len(
+                    mydf_0.groupby("Part", observed=False)
+                    .count()["Valor"]
+                    .unique()
+                    .tolist()
+                )
                 > 1
             ):
                 raise ValueError(
