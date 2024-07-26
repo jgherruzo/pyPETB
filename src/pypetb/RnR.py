@@ -126,6 +126,9 @@ class RnRNumeric:
     SSequipment: float
           Equipment squared deviation
 
+    ndc: int
+          number of distinct categories
+
     Raises:
     ---------
     TypeError
@@ -710,6 +713,12 @@ class RnRNumeric:
                 (6 * TV ** (0.5)) / self.__dbl_tol * 100,
             ]
 
+        self.ndc = int(
+            np.sqrt(2)
+            * df_SDTbl["StdDev (SD)"].loc["Part to Part"]
+            / df_SDTbl["StdDev (SD)"].loc["Total Gage R&R"]
+        )
+
         return df_SDTbl
 
     def RnR_RunChart(self):
@@ -1133,19 +1142,34 @@ class RnRNumeric:
         dbl_RnR = df["% Study Var"].loc["Total Gage R&R"]
         dbl_Repe = df["% Study Var"].loc["Eq.Var. (Repeatability)"]
         dbl_Repr = df["% Study Var"].loc["Op.Var. (Reproducibility)"]
-        if dbl_RnR < 10:
-            str_msg = "The Measurement system seems to be OK"
+        int_ndc = self.ndc
+
+        str_msg = f"Gage RnR result: {dbl_RnR:.2f}% |"
+        str_msg = str_msg + f"Number of distinc Categories {int_ndc}\n\n"
+
+        if dbl_RnR < 10 and int_ndc > 5:
+            str_msg = str_msg + "The Measurement system seems to be OK"
             str_color = "mediumseagreen"
-        elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe > dbl_Repr:
+        elif (
+            dbl_RnR >= 10
+            and dbl_RnR <= 30
+            and int_ndc > 5
+            and dbl_Repe > dbl_Repr
+        ):
             str_color = "yellow"
-            str_msg = (
+            str_msg = str_msg + (
                 "The Measurement system may be acceptable depending on "
                 + "application and cost\n\n"
                 + "If want to improve, check your gage"
             )
-        elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_Repe <= dbl_Repr:
+        elif (
+            dbl_RnR >= 10
+            and dbl_RnR <= 30
+            and int_ndc > 5
+            and dbl_Repe <= dbl_Repr
+        ):
             str_color = "yellow"
-            str_msg = (
+            str_msg = str_msg + (
                 "The Measurement system may be acceptable depending on "
                 + "application and cost\n\n"
                 + "If want to improve, check how technician make"
@@ -1153,11 +1177,13 @@ class RnRNumeric:
             )
         else:
             str_color = "red"
-            str_msg = "Unacceptable measurement system\n\n"
-            if dbl_Repe > dbl_Repr:
+            str_msg = str_msg + "Unacceptable measurement system\n\n"
+            if dbl_RnR > 30 and dbl_Repe > dbl_Repr:
                 str_msg = str_msg + "Check your gage"
-            else:
+            elif dbl_RnR > 30 and dbl_Repe < dbl_Repr:
                 str_msg = str_msg + "Check how technician make the measurement"
+            if int_ndc <= 5:
+                str_msg = str_msg + "Your system has low accuracy (NDC<5)"
 
         self.final_thoughts = Fig2.text(
             0.5,
