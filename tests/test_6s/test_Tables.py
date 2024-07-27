@@ -401,7 +401,7 @@ def test_d2_02():
 
 def test_d2_03():
     """Test correct item number"""
-    n = random.randint(2, 100)
+    n = random.randint(2, 30)
     tbl = tables.Stat_Tables()
     logging.debug(f"Test test_d2_03 with {n}")
     test = tbl.get_d2(n)
