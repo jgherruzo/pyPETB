@@ -915,7 +915,7 @@ class RNumeric:
         int_ndc = self.ndc
 
         str_msg = f"Gage result: {dbl_RnR:.2f}% |"
-        str_msg = str_msg + f" Number of distinc Categories {int_ndc}\n\n"
+        str_msg = str_msg + f" Number of distinc Categories: {int_ndc}\n\n"
 
         if dbl_RnR < 10 and int_ndc > 5:
             str_msg = str_msg + "The Measurement system seems to be OK"
