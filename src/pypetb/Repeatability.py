@@ -946,6 +946,6 @@ class RNumeric:
             ),
         )
 
-        self.final_thoughts._get_wrap_line_width = lambda: 360.0
+        plt.subplots_adjust(bottom=0.16)
 
         return Fig2
