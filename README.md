@@ -26,6 +26,10 @@ Please refer to the [Documentation](https://pypetb.readthedocs.io/en/latest/)
 
 Gage R&R [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-chapter-1-introducing-pypetbs-gage-7a7a9a952052)
 
+Capability Analysis [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-ii-introducing-pypetbs-capability-0865840896a6)
+
+Automate Gage Repeatability [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-iii-automatic-measurement-gage-f0e2929a3ffc)
+
 ## 4- LICENSE
 
 Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/main/LICENSE.txt).
