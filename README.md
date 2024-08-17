@@ -46,8 +46,7 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 ## 6- ACKNOLEDGMENTS
 
 - Thanks to Noël Santiago for his coaching during our six sigma green belt training
-- Thanks to Ted Hessing for his detailed article calculating RnR:
-https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
+- Thanks to Ted Hessing for his detailed article calculating RnR
 - Thanks to Linus Isberg Martinsson for his effort developing improvements for this package
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-blue?logo=visual%20studio%20code)
