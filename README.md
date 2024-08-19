@@ -26,6 +26,10 @@ Please refer to the [Documentation](https://pypetb.readthedocs.io/en/latest/)
 
 Gage R&R [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-chapter-1-introducing-pypetbs-gage-7a7a9a952052)
 
+Capability Analysis [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-ii-introducing-pypetbs-capability-0865840896a6)
+
+Automate Gage Repeatability [use case](https://medium.com/@jgherruzo/enhancing-industrial-processes-improvement-cycle-with-python-iii-automatic-measurement-gage-f0e2929a3ffc)
+
 ## 4- LICENSE
 
 Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/main/LICENSE.txt).
@@ -36,13 +40,13 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 - V0.2 Capability class to make process capability analysis --> Available
 - V0.3 Repeatability class to analyze automated measurement system --> Available
 - V0.4 RnRcat class to analyze categorical measurement system (Atributes) --> On going
-- V0.5 DOE class to analyze DOE results
+- V0.5 Nested Gage RnR class to analyze processes where samples are destroyed
+- V0.6 DOE class to analyze DOE results
 
 ## 6- ACKNOLEDGMENTS
 
 - Thanks to Noël Santiago for his coaching during our six sigma green belt training
-- Thanks to Ted Hessing for his detailed article calculating RnR:
-https://sixsigmastudyguide.com/repeatability-and-reproducibility-rr/
+- Thanks to Ted Hessing for his detailed article calculating RnR
 - Thanks to Linus Isberg Martinsson for his effort developing improvements for this package
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-blue?logo=visual%20studio%20code)
