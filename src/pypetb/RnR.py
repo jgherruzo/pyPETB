@@ -718,7 +718,7 @@ class RnRNumeric:
                 (6 * TV ** (0.5)) / self.__dbl_tol * 100,
             ]
 
-        self.ndc = int(
+        self.ndc = (
             np.sqrt(2)
             * df_SDTbl["StdDev (SD)"].loc["Part to Part"]
             / df_SDTbl["StdDev (SD)"].loc["Total Gage R&R"]
@@ -1147,18 +1147,18 @@ class RnRNumeric:
         dbl_RnR = df["% Study Var"].loc["Total Gage R&R"]
         dbl_Repe = df["% Study Var"].loc["Eq.Var. (Repeatability)"]
         dbl_Repr = df["% Study Var"].loc["Op.Var. (Reproducibility)"]
-        int_ndc = self.ndc
+        dbl_ndc = self.ndc
 
         str_msg = f"Gage RnR result: {dbl_RnR:.2f}% |"
-        str_msg = str_msg + f" Number of distinc Categories: {int_ndc}\n\n"
+        str_msg = str_msg + f" Number of distinc Categories: {dbl_ndc:.1f}\n\n"
 
-        if dbl_RnR < 10 and int_ndc > 5:
+        if dbl_RnR < 10 and dbl_ndc > 5:
             str_msg = str_msg + "The Measurement system seems to be OK"
             str_color = "mediumseagreen"
         elif (
             dbl_RnR >= 10
             and dbl_RnR <= 30
-            and int_ndc > 5
+            and dbl_ndc > 5
             and dbl_Repe > dbl_Repr
         ):
             str_color = "yellow"
@@ -1170,7 +1170,7 @@ class RnRNumeric:
         elif (
             dbl_RnR >= 10
             and dbl_RnR <= 30
-            and int_ndc > 5
+            and dbl_ndc > 5
             and dbl_Repe <= dbl_Repr
         ):
             str_color = "yellow"
@@ -1187,7 +1187,7 @@ class RnRNumeric:
                 str_msg = str_msg + "Check your gage"
             elif dbl_RnR > 30 and dbl_Repe < dbl_Repr:
                 str_msg = str_msg + "Check how technician make the measurement"
-            if int_ndc <= 5:
+            if dbl_ndc <= 5:
                 str_msg = str_msg + "Your system has low accuracy (NDC<5)"
 
         self.final_thoughts = Fig2.text(
