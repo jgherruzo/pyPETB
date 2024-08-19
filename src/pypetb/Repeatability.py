@@ -551,7 +551,7 @@ class RNumeric:
                 (6 * TV ** (0.5)) / self.__dbl_tol * 100,
             ]
 
-        self.ndc = int(
+        self.ndc = (
             np.sqrt(2)
             * df_SDTbl["StdDev (SD)"].loc["Part to Part"]
             / df_SDTbl["StdDev (SD)"].loc["Gage Repeatability"]
@@ -912,15 +912,15 @@ class RNumeric:
         # ============================================================================================
         df = self.R_SDTable()
         dbl_RnR = df["% Study Var"].loc["Gage Repeatability"]
-        int_ndc = self.ndc
+        dbl_ndc = self.ndc
 
         str_msg = f"Gage result: {dbl_RnR:.2f}% |"
-        str_msg = str_msg + f" Number of distinc Categories: {int_ndc}\n\n"
+        str_msg = str_msg + f" Number of distinc Categories: {dbl_ndc:.1f}\n\n"
 
-        if dbl_RnR < 10 and int_ndc > 5:
+        if dbl_RnR < 10 and dbl_ndc > 5:
             str_msg = str_msg + "The Measurement system seems to be OK"
             str_color = "mediumseagreen"
-        elif dbl_RnR >= 10 and dbl_RnR <= 30 and int_ndc > 5:
+        elif dbl_RnR >= 10 and dbl_RnR <= 30 and dbl_ndc > 5:
             str_color = "yellow"
             str_msg = str_msg + (
                 "The Measurement system may be acceptable depending on "
@@ -932,7 +932,7 @@ class RNumeric:
             str_msg = str_msg + "Unacceptable measurement system\n\n"
             if dbl_RnR > 30:
                 str_msg = str_msg + "Check your gage\n\n"
-            if int_ndc <= 5:
+            if dbl_ndc <= 5:
                 str_msg = str_msg + "Your system has low accuracy (NDC<5)"
 
         self.final_thoughts = Fig2.text(
