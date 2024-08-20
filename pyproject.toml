@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pypetb"
-version = "0.3.2"
+version = "0.4.0"
 description = "A Set of process engineering tools. Gage RnR, Automated Gage repeatability and Capability analysis are currently available"
 license = "MIT"
 authors = ["Jose Garcia <jgherruzo@gmail.com>"]
