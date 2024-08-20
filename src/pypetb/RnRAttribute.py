@@ -20,7 +20,7 @@ import pandas as pd
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
-class RnRAtribute:
+class RnRAttribute:
     """Repeatability and Reproducibility analysis for atributes measurement.
     RnRAtribute works as a model. It is defined using a measurement dataframe.
     Once model is solved, RnR report could be extracted. If atributes
