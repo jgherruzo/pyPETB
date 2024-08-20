@@ -14,7 +14,7 @@ from pathlib import Path
 project = "pyPETB"
 copyright = "2023, Jose Garcia"
 author = "Jose Garcia"
-release = "0.3.0"
+release = "0.4.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

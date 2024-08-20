@@ -12,6 +12,7 @@ notebooks/0_installation
 notebooks/1_usage
 notebooks/2_Capability
 notebooks/4_Repeatability
+notebooks/5_Attributes
 ```
 
 # Indices and tables
