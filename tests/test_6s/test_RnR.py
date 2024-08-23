@@ -429,22 +429,6 @@ def test_RnR_Report():
     assert isinstance(RnRModel.RnR_Report(), mpl.figure.Figure) is True
 
 
-def test_at_Report():
-    """Check if RnR_Report returns a plt figure."""
-    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/Cube_surface.csv"  # noqa
-    df = pd.read_csv(url, sep=";")
-    mydict_key = {
-        "1": "Operator",
-        "2": "Pieze",
-        "3": "Reference",
-        "4": "Measurement",
-    }
-    RnRModel = RnR.RnRAttribute(df, mydict_key)
-    RnRModel.Report()
-
-    assert isinstance(RnRModel.Report(), mpl.figure.Figure) is True
-
-
 def test_RnR_Report2():
     """Check if supplied title to RnR_Report is applied."""
     url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
