@@ -442,7 +442,7 @@ def test_at_Report():
     RnRModel = RnR.RnRAttribute(df, mydict_key)
     RnRModel.Report()
 
-    assert isinstance(RnRModel.RnR_Report(), mpl.figure.Figure) is True
+    assert isinstance(RnRModel.Report(), mpl.figure.Figure) is True
 
 
 def test_RnR_Report2():
@@ -486,7 +486,7 @@ def test_atwrong_Column():
     try:
         RnR.RnRAttribute(df, mydict_key)
     except ValueError as error:
-        if "init_01" in str(error):
+        if "init_02" in str(error):
             bol_temp = True
         else:
             bol_temp = False
@@ -503,7 +503,7 @@ def test_atless_Column():
     try:
         RnR.RnRAttribute(df, mydict_key)
     except ValueError as error:
-        if "init_02" in str(error):
+        if "init_01" in str(error):
             bol_temp = True
         else:
             bol_temp = False
