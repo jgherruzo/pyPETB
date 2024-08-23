@@ -28,6 +28,21 @@ def test_log():
     assert isinstance(RnRModel.getLog(), str) is True
 
 
+def test_atlog():
+    """Check log return a string."""
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/Cube_surface.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    dict_key = {
+        "1": "Operator",
+        "2": "Pieze",
+        "3": "Reference",
+        "4": "Measurement",
+    }
+    RnRModel = RnR.RnRAttribute(mydf_Raw=df, mydict_key=dict_key)
+
+    assert isinstance(RnRModel.getLog(), str) is True
+
+
 def test_RnRSolve_1():
     """Check randomly RnRSolve Caltulation are made correctly."""
     url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
@@ -430,7 +445,7 @@ def test_RnR_Report2():
 
 # unhappy flow
 def test_wrong_Column():
-    """Check if RnR_Report returns a plt figure."""
+    """Check if wrong column is detected."""
     url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
     df = pd.read_csv(url, sep=";")
     dict_key = {"1": "Operator", "2": "Part", "3": "1"}
@@ -446,8 +461,42 @@ def test_wrong_Column():
     assert bol_temp is True
 
 
+def test_atwrong_Column():
+    """Check if wrong column is detected."""
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/Cube_surface.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    mydict_key = {"1": "Operator", "2": "Pieze", "3": "Reference", "4": "1"}
+
+    try:
+        RnR.RnRAttribute(df, mydict_key)
+    except ValueError as error:
+        if "init_02" in str(error):
+            bol_temp = True
+        else:
+            bol_temp = False
+
+    assert bol_temp is True
+
+
+def test_atless_Column():
+    """Check if some column is not specified."""
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/Cube_surface.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    mydict_key = {"1": "Operator", "2": "Pieze", "3": "Reference"}
+
+    try:
+        RnR.RnRAttribute(df, mydict_key)
+    except ValueError as error:
+        if "init_01" in str(error):
+            bol_temp = True
+        else:
+            bol_temp = False
+
+    assert bol_temp is True
+
+
 def test_nan_type():
-    """Check if RnR_Report returns a plt figure."""
+    """Check if dataset contain any nan value"""
     lst_op = ["A", "A", "A", "A", "A", "A", "B", "B", "B", "B", "B", "B"]
     lst_pieze = ["1", "1", "1", "2", "2", "2", "1", "1", "1", "2", "2", "2"]
     lst_value = [1, 1.1, 1.1, 1.05, 1, 1.1, np.NaN, 1.1, 1.1, 1.05, 1, 1.1]
