@@ -39,8 +39,8 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 - V0.1 RnRnumeric class to analyze numerical measurement system --> Available
 - V0.2 Capability class to make process capability analysis --> Available
 - V0.3 Repeatability class to analyze automated measurement system --> Available
-- V0.4 RnRcat class to analyze categorical measurement system (Atributes)
-- V0.5 Nested Gage RnR class to analyze processes where samples are destroyed
+- V0.4 RnRcat class to analyze categorical measurement system (Atributes) --> Available
+- V0.5 Nested Gage RnR class to analyze processes where samples are destroyed --> Available
 - V0.6 DOE class to analyze DOE results
 
 ## 6- ACKNOLEDGMENTS
