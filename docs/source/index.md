@@ -13,6 +13,7 @@ notebooks/1_usage
 notebooks/2_Capability
 notebooks/4_Repeatability
 notebooks/5_Attributes
+notebooks/6_Nested
 ```
 
 # Indices and tables
