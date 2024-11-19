@@ -604,9 +604,9 @@ class RnRNumeric:
         if Stechnician < 0:
             Stechnician = 0
 
-        GRnR = Srpeatability + Stechnician
         # EV = Srpeatability
         OV = Stechnician + StechniciaxPart
+        GRnR = Srpeatability + OV
         PtP = Spart
         TV = OV + Srpeatability + PtP
         df_varTbl = pd.DataFrame()
