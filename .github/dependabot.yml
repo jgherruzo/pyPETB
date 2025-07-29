@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/"  # Ruta al pyproject.toml
     schedule:
       interval: "daily"
     allow:
@@ -9,5 +9,3 @@ updates:
     commit-message:
       prefix: "fix(security)"
     open-pull-requests-limit: 5
-    automerge: true
-    security-updates: true
