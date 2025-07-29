@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"  # Donde está tu pyproject.toml
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+    commit-message:
+      prefix: "fix(security)"
+    open-pull-requests-limit: 5
+    automerge: true
+    security-updates: true
