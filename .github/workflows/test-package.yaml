@@ -1,5 +1,7 @@
 # inspired by https://jacobian.org/til/github-actions-poetry/
-
+permissions:
+  contents: read
+  
 on:
   push:
     branches: [main]
