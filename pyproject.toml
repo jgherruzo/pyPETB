@@ -23,6 +23,11 @@ keywords = ["engineering", "chemical engineering","six sigma","process improveme
 
 [tool.poetry.dependencies]
 python = "^3.11"
+Pillow = ">=10.3.0"
+Tornado = "^6.5.0"
+urllib3 = "^2.5.0"
+requests = "^2.32.4"
+Jinja2 = "^3.1.6"
 pandas = [
     {version = "^2.1.4", python = "~3.11"},
 ]
