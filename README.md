@@ -4,7 +4,7 @@
 
 # THE PROCESS ENGINEER TOOLBOX
 
-[![python](https://img.shields.io/badge/python-3.8_|_3.9_|_3.10_|_3.11-blue.svg?logo=python)](https://www.python.org)
+[![python](https://img.shields.io/badge/python-_3.11-blue.svg?logo=python)](https://www.python.org)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -36,12 +36,7 @@ Distributed under the [MIT License](https://github.com/jgherruzo/pyPETB/blob/mai
 
 ## 5- ROADMAP
 
-- V0.1 RnRnumeric class to analyze numerical measurement system --> Available
-- V0.2 Capability class to make process capability analysis --> Available
-- V0.3 Repeatability class to analyze automated measurement system --> Available
-- V0.4 RnRcat class to analyze categorical measurement system (Atributes) --> Available
-- V0.5 Nested Gage RnR class to analyze processes where samples are destroyed --> Available
-- V0.6 DOE class to analyze DOE results
+- Package development is considered as finished. There are DOE functions already developed to lead with these features and no gap is detected rigth now. I'm available for any recommendation about improvements or feature additions.
 
 ## 6- ACKNOLEDGMENTS
 
