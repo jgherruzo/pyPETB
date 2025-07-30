@@ -633,8 +633,8 @@ pandas==2.1.4 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:f237e6ca6421265643608813ce9793610ad09b40154a3344a088159590469e46 \
     --hash=sha256:f69b0c9bb174a2342818d3e2778584e18c740d56857fc5cdb944ec8bbe4082cf \
     --hash=sha256:fcb68203c833cc735321512e13861358079a96c174a61f5116a1de89c58c0ef7
-pandoc==2.3 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:e772c2c6d871146894579828dbaf1efd538eb64fc7e71d4a6b3a11a18baef90d
+pandoc==2.4 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:ecd1f8cbb7f4180c6b5db4a17a7c1a74df519995f5f186ef81ce72a9cbd0dd9a
 pandocfilters==1.5.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:0b679503337d233b4339a817bfc8c50064e2eff681314376a47cb582305a7a38 \
     --hash=sha256:33aae3f25fd1a026079f5d27bdd52496f0e0803b3469282162bafdcbdf6ef14f
