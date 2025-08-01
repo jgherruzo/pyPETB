@@ -321,9 +321,9 @@ jedi==0.19.1 ; python_version >= "3.11" and python_version < "4.0" \
 jinja2==3.1.6 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
     --hash=sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67
-jsonschema-specifications==2023.11.2 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:9472fc4fea474cd74bea4a2b190daeccb5a9e4db2ea80efcf7a1b582fc9a81b8 \
-    --hash=sha256:e74ba7c0a65e8cb49dc26837d6cfe576557084a8b423ed16a420984228104f93
+jsonschema-specifications==2025.4.1 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:4653bffbd6584f7de83a67e0d620ef16900b390ddc7939d56684d6c81e33f1af \
+    --hash=sha256:630159c9f4dbea161a6a2205c3011cc4f18ff381b189fff48bb39b9bf26ae608
 jsonschema==4.20.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:4f614fd46d8d61258610998997743ec5492a648b33cf478c1ddc23ed4598a5fa \
     --hash=sha256:ed6231f0429ecf966f5bc8dfef245998220549cbbcf140f913b7464c52c3b6b3
