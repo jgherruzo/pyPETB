@@ -1081,9 +1081,9 @@ sphinxcontrib-applehelp==2.0.0 ; python_version >= "3.11" and python_version < "
 sphinxcontrib-devhelp==1.0.5 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:63b41e0d38207ca40ebbeabcf4d8e51f76c03e78cd61abe118cf4435c73d4212 \
     --hash=sha256:fe8009aed765188f08fcaadbb3ea0d90ce8ae2d76710b7e29ea7d047177dae2f
-sphinxcontrib-htmlhelp==2.0.4 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:6c26a118a05b76000738429b724a0568dbde5b72391a688577da08f11891092a \
-    --hash=sha256:8001661c077a73c29beaf4a79968d0726103c5605e27db92b9ebed8bab1359e9
+sphinxcontrib-htmlhelp==2.1.0 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:166759820b47002d22914d64a075ce08f4c46818e17cfc9470a9786b759b19f8 \
+    --hash=sha256:c9e2916ace8aad64cc13a0d233ee22317f2b9025b9cf3295249fa985cc7082e9
 sphinxcontrib-jquery==4.1 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:1620739f04e36a2c779f1a131a2dfd49b2fd07351bf1968ced074365933abc7a \
     --hash=sha256:f936030d7d0147dd026a4f2b5a57343d233f1fc7b363f68b3d4f1cb0993878ae
