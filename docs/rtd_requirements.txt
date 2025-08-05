@@ -636,9 +636,9 @@ pandas==2.1.4 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:fcb68203c833cc735321512e13861358079a96c174a61f5116a1de89c58c0ef7
 pandoc==2.4 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:ecd1f8cbb7f4180c6b5db4a17a7c1a74df519995f5f186ef81ce72a9cbd0dd9a
-pandocfilters==1.5.0 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:0b679503337d233b4339a817bfc8c50064e2eff681314376a47cb582305a7a38 \
-    --hash=sha256:33aae3f25fd1a026079f5d27bdd52496f0e0803b3469282162bafdcbdf6ef14f
+pandocfilters==1.5.1 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:002b4a555ee4ebc03f8b66307e287fa492e4a77b4ea14d3f934328297bb4939e \
+    --hash=sha256:93be382804a9cdb0a7267585f157e5d1731bbe5545a85b268d6f5fe6232de2bc
 parso==0.8.3 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:8c07be290bb59f03588915921e29e8a50002acaf2cdc5fa0e0114f91709fafa0 \
     --hash=sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75
