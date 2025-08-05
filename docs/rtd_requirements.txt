@@ -565,9 +565,9 @@ nbformat==5.9.2 ; python_version >= "3.11" and python_version < "4.0" \
 nbsphinx==0.9.7 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:7292c3767fea29e405c60743eee5393682a83982ab202ff98f5eb2db02629da8 \
     --hash=sha256:abd298a686d55fa894ef697c51d44f24e53aa312dadae38e82920f250a5456fe
-nest-asyncio==1.5.8 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:25aa2ca0d2a5b5531956b9e273b45cf664cae2b145101d73b86b199978d48fdb \
-    --hash=sha256:accda7a339a70599cb08f9dd09a67e0c2ef8d8d6f4c07f96ab203f2ae254e48d
+nest-asyncio==1.6.0 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:6f172d5449aca15afd6c646851f4e31e02c598d553a667e38cafa997cfec55fe \
+    --hash=sha256:87af6efd6b5e897c81050477ef65c62e2b2f35d51703cae01aff2905b1852e1c
 numpy==1.26.2 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:06fa1ed84aa60ea6ef9f91ba57b5ed963c3729534e6e54055fc151fad0423f0a \
     --hash=sha256:174a8880739c16c925799c018f3f55b8130c1f7c8e75ab0a6fa9d41cab092fd6 \
