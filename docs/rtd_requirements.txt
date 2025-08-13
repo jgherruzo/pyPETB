@@ -309,9 +309,9 @@ idna==3.10 ; python_version >= "3.11" and python_version < "4.0" \
 imagesize==1.4.1 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:0d8d18d08f840c19d0ee7ca1fd82490fdc3729b7ac93f49870406ddde8ef8d8b \
     --hash=sha256:69150444affb9cb0d5cc5a92b3676f0b2fb7cd9ae39e947a5e11a36b4497cd4a
-ipykernel==6.27.1 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:7d5d594b6690654b4d299edba5e872dc17bb7396a8d0609c97cb7b8a1c605de6 \
-    --hash=sha256:dab88b47f112f9f7df62236511023c9bdeef67abc73af7c652e4ce4441601686
+ipykernel==6.30.1 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:6abb270161896402e76b91394fcdce5d1be5d45f456671e5080572f8505be39b \
+    --hash=sha256:aa6b9fb93dca949069d8b85b6c79b2518e32ac583ae9c7d37c51d119e18b3fb4
 ipython==8.19.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:2f55d59370f59d0d2b2212109fe0e6035cfea436b1c0e6150ad2244746272ec5 \
     --hash=sha256:ac4da4ecf0042fb4e0ce57c60430c2db3c719fa8bdf92f8631d6bd8a5785d1f0
