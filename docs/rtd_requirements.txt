@@ -553,9 +553,9 @@ mistune==3.0.2 ; python_version >= "3.11" and python_version < "4.0" \
 myst-parser==2.0.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:7c36344ae39c8e740dad7fdabf5aa6fc4897a813083c6cc9990044eb93656b14 \
     --hash=sha256:ea929a67a6a0b1683cdbe19b8d2e724cd7643f8aa3e7bb18dd65beac3483bead
-nbclient==0.9.0 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:4b28c207877cf33ef3a9838cdc7a54c5ceff981194a82eac59d558f05487295e \
-    --hash=sha256:a3a1ddfb34d4a9d17fc744d655962714a866639acd30130e9be84191cd97cd15
+nbclient==0.10.2 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:4ffee11e788b4a27fabeb7955547e4318a5298f34342a4bfd01f2e1faaeadc3d \
+    --hash=sha256:90b7fc6b810630db87a6d0c2250b1f0ab4cf4d3c27a299b0cde78a4ed3fd9193
 nbconvert==7.13.1 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:2dc8267dbdfeedce2dcd34c9e3f1b51af18f43cb105549d1c5a18189ec23ba85 \
     --hash=sha256:3c50eb2d326478cc90b8759cf2ab9dde3d892c6537cd6a5bc0991db8ef734bcc
