@@ -1669,13 +1669,13 @@ xml = ["lxml (>=4.8.0)"]
 
 [[package]]
 name = "pandoc"
-version = "2.3"
+version = "2.4"
 description = "Pandoc Documents for Python"
 optional = false
 python-versions = "*"
 groups = ["doc"]
 files = [
-    {file = "pandoc-2.3.tar.gz", hash = "sha256:e772c2c6d871146894579828dbaf1efd538eb64fc7e71d4a6b3a11a18baef90d"},
+    {file = "pandoc-2.4.tar.gz", hash = "sha256:ecd1f8cbb7f4180c6b5db4a17a7c1a74df519995f5f186ef81ce72a9cbd0dd9a"},
 ]
 
 [package.dependencies]
