@@ -947,9 +947,9 @@ pyzmq==27.1.0 ; python_version >= "3.11" and python_version < "4.0" \
 referencing==0.36.2 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:df2e89862cd09deabbdba16944cc3f10feb6b3e6f18e902f7cc25609a34775aa \
     --hash=sha256:e8699adbbf8b5c7de96d8ffa0eb5c158b3beafce084968e2ea8bb08c6794dcd0
-requests==2.32.4 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:27babd3cda2a6d50b30443204ee89830707d396671944c998b5975b031ac2b2c \
-    --hash=sha256:27d0316682c8a29834d3264820024b62a36942083d52caf2f14c0591336d3422
+requests==2.32.5 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6 \
+    --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
 rpds-py==0.27.1 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:008b839781d6c9bf3b6a8984d1d8e56f0ec46dc56df61fd669c49b58ae800400 \
     --hash=sha256:037a2361db72ee98d829bc2c5b7cc55598ae0a5e0ec1823a56ea99374cfd73c1 \
