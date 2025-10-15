@@ -84,7 +84,7 @@ sphinx-autobuild = "^2021.3.14"
 myst-parser = ">=2,<5"
 nbsphinx = "^0.9.3"
 sphinx-autoapi = "^3.0.0"
-sphinx-rtd-theme = "^2.0.0"
+sphinx-rtd-theme = ">=2,<4"
 pandoc = "^2.3"
 ipykernel = "^6.27.1"
 
