@@ -79,7 +79,7 @@ pydocstringformatter = "^0.7.3"
 
 
 [tool.poetry.group.doc.dependencies]
-sphinx = "^7.2.6"
+sphinx = ">=7.2.6,<9.0.0"
 sphinx-autobuild = "^2021.3.14"
 myst-parser = ">=2,<5"
 nbsphinx = "^0.9.3"
