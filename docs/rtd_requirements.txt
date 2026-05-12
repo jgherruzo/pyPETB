@@ -25,9 +25,9 @@ beautifulsoup4==4.14.3 ; python_version >= "3.11" and python_version < "4.0" \
 bleach==6.3.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:6f3b91b1c0a02bb9a78b5a454c92506aa0fdf197e1d5e114d2e00c6f64306d22 \
     --hash=sha256:fe10ec77c93ddf3d13a73b035abaac7a9f5e436513864ccdad516693213c65d6
-certifi==2025.8.3 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:e564105f78ded564e3ae7c923924435e1daa7463faeab5bb932bc53ffae63407 \
-    --hash=sha256:f6c12493cfb1b06ba2ff328595af9350c65d6644968e5d3a2ffd78699af217a5
+certifi==2026.4.22 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:3cb2210c8f88ba2318d29b0388d1023c8492ff72ecdde4ebdaddbb13a31b1c4a \
+    --hash=sha256:8d455352a37b71bf76a79caa83a3d6c25afee4a385d632127b6afb3963f1c580
 cffi==1.16.0 ; python_version >= "3.11" and python_version < "4.0" and implementation_name == "pypy" \
     --hash=sha256:0c9ef6ff37e974b73c25eecc13952c55bceed9112be2d9d938ded8e856138bcc \
     --hash=sha256:131fd094d1065b19540c3d72594260f118b231090295d8c34e19a7bbcf2e860a \
