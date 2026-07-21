@@ -14,7 +14,7 @@
 import matplotlib as mpl
 import numpy as np
 import pandas as pd
-from pypetb import RnR
+from pypetb import RnR, tables
 
 
 # happy flow
@@ -494,6 +494,39 @@ def test_anova_cache_returns_copies():
     df_s2 = RnRModel.RnR_SDTable()
     assert df_s1 is not df_s2
     assert df_s1.equals(df_s2)
+
+
+def test_RnRSolve_range_control_limits_use_trial_count():
+    """B5: Xbar-R chart subgroup size is the trial count (r), not the
+    operator count (t).
+
+    Each row of the range chart is the range of the r trial values
+    measured by one operator on one part, so D4/D3/A2 must be looked up
+    by r -- confirmed against the AIAG/SPC-for-Excel Xbar-R convention.
+    Uses t=2 operators, r=3 trials so the two subgroup sizes disagree.
+    """
+    bases = [10.0, 12.0, 9.0]
+    offsets = [0.00, 0.03, -0.02]
+    rows = [
+        {"Operator": op, "Part": str(part), "Measurement": base + offset}
+        for op in ["A", "B"]
+        for part, base in enumerate(bases)
+        for offset in offsets
+    ]
+    df = pd.DataFrame(rows)
+    dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
+    RnRModel.RnRSolve()
+
+    assert RnRModel.t == 2
+    assert RnRModel.r == 3
+
+    tbl = tables.Stat_Tables()
+    expected_ucl = RnRModel.dbl_Range_avg * tbl.get_D4(3)
+    assert abs(RnRModel.dbl_Range_UCL - expected_ucl) < 1e-9
+    # guard against regressing to the pre-B5 operator-count indexing
+    wrong_ucl = RnRModel.dbl_Range_avg * tbl.get_D4(2)
+    assert abs(RnRModel.dbl_Range_UCL - wrong_ucl) > 1e-6
 
 
 def test_RnRSolve_pivot_is_fast():

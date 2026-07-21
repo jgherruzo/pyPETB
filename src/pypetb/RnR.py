@@ -360,24 +360,23 @@ class RnRNumeric:
         self.__log.append("Min. measured value: %.4f" % self.Total_min)
 
         tbl = tables.Stat_Tables()
-        # Determine averange range, Range UCL and LCL
-        # TODO(B5): D4/D3/A2 are indexed here by self.t (number of
-        # operators). In a Gage R&R Xbar-R chart the range-chart subgroup
-        # size is usually the number of trials per part/operator (self.r),
-        # not the operator count. Left unchanged pending validation against
-        # a reference dataset (e.g. the AIAG example) with known UCL/LCL.
+        # Determine averange range, Range UCL and LCL.
+        # D4/D3/A2 are indexed by the range-chart subgroup size, which is
+        # the number of trials per part/operator (self.r): each row of
+        # df_1["Range"] is the range of self.r trial values, so the control
+        # chart constants must match that same n -- see B5.
         self.dbl_Range_avg = df_1["Range"].mean()
-        self.dbl_Range_UCL = self.dbl_Range_avg * tbl.get_D4(self.t)
-        self.dbl_Range_LCL = self.dbl_Range_avg * tbl.get_D3(self.t)
+        self.dbl_Range_UCL = self.dbl_Range_avg * tbl.get_D4(self.r)
+        self.dbl_Range_LCL = self.dbl_Range_avg * tbl.get_D3(self.r)
 
         # Determine whole average, UCL and LCL
         self.Total_avg = np.mean(df.mean())
         self.__log.append("Avg. measured value: %.4f" % self.Total_avg)
         self.dbl_Avg_UCL = (
-            self.Total_avg + tbl.get_A2(self.t) * self.dbl_Range_avg
+            self.Total_avg + tbl.get_A2(self.r) * self.dbl_Range_avg
         )
         self.dbl_Avg_LCL = (
-            self.Total_avg - tbl.get_A2(self.t) * self.dbl_Range_avg
+            self.Total_avg - tbl.get_A2(self.r) * self.dbl_Range_avg
         )
 
         if self.dbl_Range_LCL < 0:

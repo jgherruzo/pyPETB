@@ -14,7 +14,7 @@
 import matplotlib as mpl
 import numpy as np
 import pandas as pd
-from pypetb import Repeatability
+from pypetb import Repeatability, tables
 
 
 # happy flow
@@ -191,3 +191,34 @@ def test_wrong_measurement():
             bol_temp = False
 
     assert bol_temp is True
+
+
+def test_RSolve_range_control_limits_use_trial_count():
+    """B5: repeatability range-chart subgroup size is the trial count
+    (r), not the previous fixed n=2.
+
+    Each row of the range chart is the range of the r trial values
+    measured on one part, so D4/D3/A2 must be looked up by r -- same
+    convention validated for RnR's Xbar-R chart. Uses r=4 trials, which
+    disagrees with the old fixed n=2.
+    """
+    bases = [10.0, 12.0, 9.0, 8.0]
+    offsets = [0.00, 0.02, -0.01, 0.01]
+    rows = [
+        {"Part": str(part), "Measurement": base + offset}
+        for part, base in enumerate(bases)
+        for offset in offsets
+    ]
+    df = pd.DataFrame(rows)
+    dict_key = {"1": "Part", "2": "Measurement"}
+    RModel = Repeatability.RNumeric(mydf_Raw=df, mydict_key=dict_key)
+    RModel.RSolve()
+
+    assert RModel.r == 4
+
+    tbl = tables.Stat_Tables()
+    expected_ucl = RModel.dbl_Range_avg * tbl.get_D4(4)
+    assert abs(RModel.dbl_Range_UCL - expected_ucl) < 1e-9
+    # guard against regressing to the pre-B5 fixed n=2 indexing
+    wrong_ucl = RModel.dbl_Range_avg * tbl.get_D4(2)
+    assert abs(RModel.dbl_Range_UCL - wrong_ucl) > 1e-6
