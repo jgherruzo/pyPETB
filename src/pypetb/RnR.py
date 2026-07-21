@@ -11,14 +11,35 @@
 #
 #   -=====================|===o  o===|======================-+
 
-import random
-
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pypetb import tables
 from scipy.stats import f
+
+# Fixed report palette and markers. Red is reserved for control limits
+# and white would be invisible. Entries are assigned by operator index,
+# cycling with modulo when there are more operators than entries.
+_TECHNICIAN_COLORS = [
+    mpl.colors.CSS4_COLORS["blue"],
+    mpl.colors.CSS4_COLORS["green"],
+    mpl.colors.CSS4_COLORS["orange"],
+    mpl.colors.CSS4_COLORS["purple"],
+    mpl.colors.CSS4_COLORS["maroon"],
+    mpl.colors.CSS4_COLORS["dodgerblue"],
+    mpl.colors.CSS4_COLORS["yellow"],
+]
+
+_TECHNICIAN_MARKERS = [
+    "o",  # Circle
+    "8",  # Octagon
+    "s",  # Square
+    "p",  # Pentagon
+    "*",  # Star
+    "D",  # Diamond
+    "X",  # X Filled
+]
 
 
 class RnRNumeric:
@@ -795,8 +816,8 @@ class RnRNumeric:
         dict_OperatorLine = dict()
         for i in range(0, len(idx_ops)):
             dict_OperatorLine[idx_ops[i]] = {
-                "Color": random.choice(list(mpl.colors.CSS4_COLORS.values())),
-                "Marker": random.choice(list(mpl.lines.Line2D.markers.keys())),
+                "Color": _TECHNICIAN_COLORS[i % len(_TECHNICIAN_COLORS)],
+                "Marker": _TECHNICIAN_MARKERS[i % len(_TECHNICIAN_MARKERS)],
             }
         # print(dict_OperatorLine)
 
@@ -899,50 +920,17 @@ class RnRNumeric:
         lst_ops = df_0["Op"].unique()
         number_of_technicians = len(lst_ops)
 
+        # Deterministic color/marker per technician, cycling with modulo
+        # when there are more technicians than palette entries.
         technician_colors = [
-            mpl.colors.CSS4_COLORS["blue"],
-            mpl.colors.CSS4_COLORS["green"],
-            mpl.colors.CSS4_COLORS["orange"],
-            mpl.colors.CSS4_COLORS["purple"],
-            mpl.colors.CSS4_COLORS["maroon"],
-            mpl.colors.CSS4_COLORS["dodgerblue"],
-            mpl.colors.CSS4_COLORS["yellow"],
+            _TECHNICIAN_COLORS[i % len(_TECHNICIAN_COLORS)]
+            for i in range(number_of_technicians)
         ]
 
         technician_markers = [
-            "o",  # Circle
-            "8",  # Octagon
-            "s",  # Square
-            "p",  # Pentagon
-            "*",  # Star
-            "D",  # Diamond
-            "X",  # X Filled
+            _TECHNICIAN_MARKERS[i % len(_TECHNICIAN_MARKERS)]
+            for i in range(number_of_technicians)
         ]
-
-        while len(technician_colors) < number_of_technicians:
-            generated_color = random.choice(
-                list(mpl.colors.CSS4_COLORS.values())
-            )
-
-            # Do not allow red as one of the technician colors as this is
-            # used for other purposes in the graphs. Also do not allow white
-            # as this will not be very visible
-            if (
-                generated_color is mpl.colors.CSS4_COLORS["red"]
-                or generated_color is mpl.colors.CSS4_COLORS["white"]
-            ):
-                continue
-
-            if generated_color is not generated_color not in technician_colors:
-                technician_colors.append(generated_color)
-
-        while len(technician_markers) < number_of_technicians:
-            generated_marker = random.choice(
-                list(mpl.lines.Line2D.markers.keys())
-            )
-
-            if generated_marker not in technician_markers:
-                technician_markers.append(generated_marker)
 
         # ============================================================================================
         #                                VARIACION

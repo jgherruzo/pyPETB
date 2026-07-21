@@ -523,6 +523,56 @@ def test_RnRSolve_pivot_is_fast():
     assert elapsed < 0.5
 
 
+def test_RnR_Report_many_operators():
+    """B1: report builds with more operators than palette entries.
+
+    Previously the random color-generation loop never terminated with
+    8+ operators. Uses the Agg backend (headless test environment).
+    """
+    rng = np.random.default_rng(11)
+    n_op, n_part, n_run = 9, 5, 2
+    n = n_op * n_part * n_run
+    df = pd.DataFrame(
+        {
+            "Op": np.repeat([f"O{i}" for i in range(n_op)], n_part * n_run),
+            "Part": np.tile(
+                np.repeat([f"P{i}" for i in range(n_part)], n_run), n_op
+            ),
+            "Val": rng.normal(10, 1, n),
+        }
+    )
+    dict_key = {"1": "Op", "2": "Part", "3": "Val"}
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
+    RnRModel.RnRSolve()
+
+    assert isinstance(RnRModel.RnR_Report(), mpl.figure.Figure) is True
+
+
+def _figure_styles(figure):
+    """Collect (color, marker) of every plotted line in a figure."""
+    styles = []
+    for ax in figure.axes:
+        for line in ax.lines:
+            styles.append((line.get_color(), line.get_marker()))
+    return styles
+
+
+def test_reports_are_reproducible():
+    """A7: two consecutive reports use identical colors and markers."""
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key, mydbl_tol=8)
+    RnRModel.RnRSolve()
+
+    assert _figure_styles(RnRModel.RnR_Report()) == _figure_styles(
+        RnRModel.RnR_Report()
+    )
+    assert _figure_styles(RnRModel.RnR_RunChart()) == _figure_styles(
+        RnRModel.RnR_RunChart()
+    )
+
+
 # unhappy flow
 def test_wrong_Column():
     """Check if wrong column is detected."""

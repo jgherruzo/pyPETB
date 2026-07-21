@@ -11,8 +11,6 @@
 #
 #   -=====================|===o  o===|======================-+
 
-import random
-
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -623,8 +621,8 @@ class RNumeric:
         dict_OperatorLine = dict()
         str_op_key = "1"
         dict_OperatorLine[str_op_key] = {
-            "Color": random.choice(list(mpl.colors.CSS4_COLORS.values())),
-            "Marker": random.choice(list(mpl.lines.Line2D.markers.keys())),
+            "Color": mpl.colors.CSS4_COLORS["blue"],
+            "Marker": "o",
         }
         # print(dict_OperatorLine)
 
