@@ -234,3 +234,28 @@ def test_Pp_Report():
     Model_Cp = Capability.Capability(df, dict_info)
     figure = Model_Cp.Report()
     assert isinstance(figure, mpl.figure.Figure) is True
+
+
+def test_Pp_Report_verdict_uses_Ppk():
+    """B7: the long-term verdict must judge on Ppk, not Cpk.
+
+    Batches are tight (small pooled/within sigma -> Cpk > 1) but their
+    means are spread out (large overall sigma -> Ppk < 1), so a
+    Cpk-based verdict would wrongly read "capable".
+    """
+    batch_means = [9.1, 9.7, 10.3, 10.9]
+    values, batches = [], []
+    for i, mean in enumerate(batch_means):
+        values.extend(np.linspace(mean - 0.02, mean + 0.02, 25))
+        batches.extend([f"B{i}"] * 25)
+    df = pd.DataFrame({"Meas": values, "Lot": batches})
+    dict_info = {"value": "Meas", "batch": "Lot", "LSL": 9.0, "HSL": 11.0,
+                 "goal": 10.0}
+
+    Model_Cp = Capability.Capability(df, dict_info)
+    figure = Model_Cp.Report()
+
+    verdict_text = figure.axes[-1].texts[0].get_text()
+    assert "Ppk" in verdict_text
+    assert "Cpk" not in verdict_text
+    assert "not capable" in verdict_text
