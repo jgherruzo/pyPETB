@@ -496,6 +496,33 @@ def test_anova_cache_returns_copies():
     assert df_s1.equals(df_s2)
 
 
+def test_RnRSolve_pivot_is_fast():
+    """A4: vectorized run-pivot should solve 7200 rows well under 0.5s.
+
+    Approximate, non-strict timing check: the previous row-by-row
+    pd.concat implementation needed ~1s for this dataset (O(n^2)).
+    """
+    import time
+
+    rng = np.random.default_rng(7)
+    t, p, r = 4, 600, 3
+    n = t * p * r
+    df = pd.DataFrame(
+        {
+            "Op": np.repeat([f"O{i}" for i in range(t)], p * r),
+            "Part": np.tile(np.repeat([f"P{i}" for i in range(p)], r), t),
+            "Val": rng.normal(10, 1, n),
+        }
+    )
+    dict_key = {"1": "Op", "2": "Part", "3": "Val"}
+    start = time.perf_counter()
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key)
+    RnRModel.RnRSolve()
+    elapsed = time.perf_counter() - start
+
+    assert elapsed < 0.5
+
+
 # unhappy flow
 def test_wrong_Column():
     """Check if wrong column is detected."""

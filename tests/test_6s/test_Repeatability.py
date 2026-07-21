@@ -108,6 +108,32 @@ def test_anova_cache_returns_copies():
     assert df_s1.equals(df_s2)
 
 
+def test_RSolve_pivot_is_fast():
+    """A4: vectorized run-pivot should solve 7200 rows well under 0.5s.
+
+    Approximate, non-strict timing check: the previous row-by-row
+    pd.concat implementation needed ~1s for this dataset (O(n^2)).
+    """
+    import time
+
+    rng = np.random.default_rng(7)
+    r = 3
+    n = 2400 * r
+    df = pd.DataFrame(
+        {
+            "Part": np.repeat([f"P{i}" for i in range(2400)], r),
+            "Val": rng.normal(10, 1, n),
+        }
+    )
+    dict_key = {"1": "Part", "2": "Val"}
+    start = time.perf_counter()
+    RModel = Repeatability.RNumeric(mydf_Raw=df, mydict_key=dict_key)
+    RModel.RSolve()
+    elapsed = time.perf_counter() - start
+
+    assert elapsed < 0.5
+
+
 # unhappy flow
 def test_nan_type():
     """Check if RnR_Report returns a plt figure."""

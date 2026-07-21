@@ -301,24 +301,15 @@ class RnRNumeric:
         )
 
         # a dataframe containing a run per column is generated
-        df = pd.DataFrame(columns=["OP", "Part"] + lst_columns)
-        for op in mydf_0["Op"].unique():
-            df_temp1 = mydf_0[mydf_0["Op"] == op]
-            for part in df_temp1["Part"].unique():
-                df_temp2 = df_temp1[df_temp1["Part"] == part]
-                dict_value = dict()
-                dict_value["OP"] = op
-                dict_value["Part"] = part
-                i = 0
-                for value in range(0, len(df_temp2["Valor"])):
-                    test = "Run " + str(i)
-                    dict_value[test] = df_temp2["Valor"].iloc[value]
-                    i += 1
-
-                df_dictionary = pd.DataFrame([dict_value])
-                df = pd.concat([df, df_dictionary], ignore_index=True)
-
-        df.set_index(["OP", "Part"], inplace=True)
+        df_work = mydf_0.copy()
+        df_work["rep_run"] = df_work.groupby(
+            ["Op", "Part"], observed=True
+        ).cumcount()
+        df = df_work.pivot(
+            index=["Op", "Part"], columns="rep_run", values="Valor"
+        )
+        df.columns = lst_columns
+        df.index.names = ["OP", "Part"]
 
         df_1 = df.copy()
         df_1["Range"] = df.max(axis=1) - df.min(axis=1)
