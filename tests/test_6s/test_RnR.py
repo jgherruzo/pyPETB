@@ -573,6 +573,34 @@ def test_reports_are_reproducible():
     )
 
 
+def test_attribute_system_concordance():
+    """B2: System concordance accuracy uses the current part's data.
+
+    Hand-calculated dataset (1 trial per operator and part):
+      P1: both OK,  ref OK  -> concordant, matches
+      P2: both OK,  ref BAD -> concordant, does not match
+      P3: OK/BAD,   ref OK  -> not concordant
+      P4: both BAD, ref BAD -> concordant, matches
+    System repeatability = 3/4 = 75%, accuracy = 2/4 = 50%.
+    The stale-variable bug evaluated the last operator's last part for
+    every concordant part, yielding 75% accuracy here.
+    """
+    df = pd.DataFrame(
+        {
+            "Op": ["A", "B", "A", "B", "A", "B", "A", "B"],
+            "Part": ["P1", "P1", "P2", "P2", "P3", "P3", "P4", "P4"],
+            "Ref": ["OK", "OK", "BAD", "BAD", "OK", "OK", "BAD", "BAD"],
+            "Val": ["OK", "OK", "OK", "OK", "OK", "BAD", "BAD", "BAD"],
+        }
+    )
+    dict_key = {"1": "Op", "2": "Part", "3": "Ref", "4": "Val"}
+    RnRModel = RnR.RnRAttribute(mydf_Raw=df, mydict_key=dict_key)
+
+    dict_Op = RnRModel._RnRAttribute__dict_Op
+    assert dict_Op["System"]["Rep"] == 75.0
+    assert dict_Op["System"]["Acc"] == 50.0
+
+
 # unhappy flow
 def test_wrong_Column():
     """Check if wrong column is detected."""

@@ -1298,7 +1298,7 @@ class RnRAttribute:
 
             if len(df_temp["Valor"].unique()) == 1:
                 lon_Rep = lon_Rep + 1
-                if df_temp_v2.iloc[0]["Valor"] == df_temp_v2.iloc[0]["Ref"]:
+                if df_temp.iloc[0]["Valor"] == df_temp.iloc[0]["Ref"]:
                     lon_Acc = lon_Acc + 1
 
         dict_Op["System"] = {
