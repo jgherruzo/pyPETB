@@ -12,15 +12,12 @@
 #   -=====================|===o  o===|======================-+
 
 import random
-import warnings
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pypetb import tables
-
-warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 class RNumeric:

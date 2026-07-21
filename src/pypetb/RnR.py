@@ -12,7 +12,6 @@
 #   -=====================|===o  o===|======================-+
 
 import random
-import warnings
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -20,8 +19,6 @@ import numpy as np
 import pandas as pd
 from pypetb import tables
 from scipy.stats import f
-
-warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 class RnRNumeric:
@@ -1582,14 +1579,12 @@ class RnRAttribute:
         ax5.set_title("Accuracy based on % matches", fontweight="bold")
         ax5.barh(df_1.index, df_1["Acc"])
         ax5.set_xlim(0, 100)
+        dbl_sysacc = df_0["Acc"].value_counts()[True] / len(df_0.index) * 100
         ax5.axvline(
-            df_0["Acc"].value_counts()[True] / len(df_0.index) * 100,
+            dbl_sysacc,
             color="red",
             linestyle="--",
-            label=(
-                f"{df_0['Acc'].value_counts()[True]/len(df_0.index)*100:.1f}"
-                f"% | SYSTEM"
-            ),
+            label=(f"{dbl_sysacc:.1f}" f"% | SYSTEM"),
         )
         ax5.legend()
 
