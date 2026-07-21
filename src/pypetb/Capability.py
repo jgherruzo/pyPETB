@@ -16,7 +16,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import pylab
 from scipy import stats
 
 
@@ -206,8 +205,8 @@ class Capability:
         ax2 = Fig_NT.add_subplot(gs[0, 1])
 
         measurement = df_work["Value"].dropna().to_numpy()
-        stat, p = stats.shapiro(measurement)
-        ax2 = stats.probplot(measurement, dist="norm", plot=pylab)  # noqa
+        _, p = stats.shapiro(measurement)
+        stats.probplot(measurement, dist="norm", plot=ax2)
 
         # ============================================================================================
         #                                Time series

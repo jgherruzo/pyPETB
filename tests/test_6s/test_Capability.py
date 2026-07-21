@@ -164,6 +164,27 @@ def test_Normality():
     assert isinstance(figure, mpl.figure.Figure) is True
 
 
+def test_Normality_probplot_axis():
+    """B6: the Q-Q plot is drawn on the report's own second subplot."""
+    import matplotlib.pyplot as plt
+
+    rng = np.random.default_rng(5)
+    df = pd.DataFrame({"Meas": rng.normal(10, 1, 60)})
+    dict_info = {"value": "Meas", "batch": "", "LSL": 7, "HSL": 13,
+                 "goal": 10}
+    Model_Cp = Capability.Capability(df, dict_info)
+
+    fignums_before = len(plt.get_fignums())
+    figure = Model_Cp.Normality_test()
+
+    # only the report figure itself is registered with pyplot
+    assert len(plt.get_fignums()) == fignums_before + 1
+    # the Q-Q subplot (histogram, probplot, series, descriptive order)
+    # contains the probability-plot fit line and sample markers
+    assert len(figure.axes) == 4
+    assert len(figure.axes[1].lines) >= 2
+
+
 def Cp_Report():
     """Check if Report returns a plt figure for short term"""
     arr_temp = np.array([45, 7, 67, 1])
