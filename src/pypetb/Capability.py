@@ -166,11 +166,7 @@ class Capability:
             all step logged
         """
         # Build up log string to be printed
-        str_log = ""
-        for i in range(0, len(self.__log)):
-            str_log = str_log + self.__log[i] + "\n"
-
-        return str_log
+        return "\n".join(self.__log) + "\n"
 
     def Normality_test(self):
         """Normality_test report is a figure that contain different chart and

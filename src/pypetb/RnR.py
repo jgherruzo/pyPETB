@@ -232,11 +232,7 @@ class RnRNumeric:
         if self.__Status is None:
             raise ValueError("You need at least one instance")
 
-        str_log = ""
-        for i in range(0, len(self.__log)):
-            str_log = str_log + self.__log[i] + "\n"
-
-        return str_log
+        return "\n".join(self.__log) + "\n"
 
     def RnRSolve(self, bol_bias=False):
         """Calculate each individual value needed to make the RnR analysis and
@@ -1386,11 +1382,7 @@ class RnRAttribute:
             all step logged
         """
         # Build up log string to be printed
-        str_log = ""
-        for i in range(0, len(self.__log)):
-            str_log = str_log + self.__log[i] + "\n"
-
-        return str_log
+        return "\n".join(self.__log) + "\n"
 
     def Report(self):
         """Return a figure to deal with attributes RnR analysis.

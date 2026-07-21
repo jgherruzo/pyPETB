@@ -167,6 +167,9 @@ def _capability_lt():
 
 def _tables():
     """Snapshot every Stat_Tables getter for n=2..25 and n>25 behavior."""
+    # get_d2(n>25) uses a Monte-Carlo approximation based on np.random;
+    # seed it so the snapshot is deterministic.
+    np.random.seed(20240303)
     tbl = tables.Stat_Tables()
     getters = [
         "get_A", "get_A2", "get_A3", "get_c4", "get_B3", "get_B4", "get_B5",
