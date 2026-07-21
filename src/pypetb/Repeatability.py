@@ -20,6 +20,40 @@ import pandas as pd
 from pypetb import tables
 
 
+def _render_calibration_table(ax, dbl_max, dbl_avg, dbl_min):
+    """Render the run chart's Max/Avg/Min calibration box as a table.
+
+    Args:
+    ------
+    ax : matplotlib axis
+        Axis hosting the table. Ticks are hidden.
+
+    dbl_max, dbl_avg, dbl_min : float
+        Calibration values.
+
+    Returns:
+    ---------
+    matplotlib table
+    """
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_facecolor("white")
+    table = ax.table(
+        cellText=[
+            ["Max.", f"{dbl_max:.3f}"],
+            ["Avg.", f"{dbl_avg:.3f}"],
+            ["Min.", f"{dbl_min:.3f}"],
+        ],
+        bbox=[0, 0, 1, 1],
+        cellLoc="center",
+        loc="center",
+    )
+    table.auto_set_font_size(False)
+    table.set_fontsize(12)
+    ax.set_title("CHART CALIBRATION", fontsize=12, fontweight="bold")
+    return table
+
+
 class RNumeric:
     """Repeatability numeric gage analysis.
     RNumeric works as a model. It is defined using a measurement dataframe.
@@ -597,20 +631,15 @@ class RNumeric:
         lst_TT.append(Fig1.add_subplot(gs[0, :2]))  # first row for text
         lst_TT.append(Fig1.add_subplot(gs[0, 2]))  # first row for text
         lst_TT.append(Fig1.add_subplot(gs[0, 3:]))  # first row for text
-        for i in range(0, len(lst_TT)):
+        for i in range(1, len(lst_TT)):
             lst_TT[i].set_xticks([])
             lst_TT[i].set_yticks([])
             lst_TT[i].set_facecolor("white")
             lst_TT[i].set_ylim(0, 1)
             lst_TT[i].set_xlim(0, 1)
 
-        lst_TT[0].annotate(
-            "CHART CALIBRATION\nMax. {:.3f}\nAvg. {:.3f}\nMin. {:.3f}".format(
-                self.Total_max, self.Total_avg, self.Total_min
-            ),
-            xy=(0.1, 0.2),
-            bbox=dict(boxstyle="round", fc="w", color="lightgrey"),
-            fontsize=12,
+        _render_calibration_table(
+            lst_TT[0], self.Total_max, self.Total_avg, self.Total_min
         )
 
         lst_TT[1].annotate(
