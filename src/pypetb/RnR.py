@@ -11,6 +11,8 @@
 #
 #   -=====================|===o  o===|======================-+
 
+import warnings
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -339,8 +341,12 @@ class RnRNumeric:
 
         # Create a dataframe goup by operator and another by part for
         # future calculations
-        df_2 = df_1.groupby("OP").mean()
-        df_3 = df_1.groupby("Part").mean()
+        # "OP"/"Part" are categorical dtypes; pandas emits a FutureWarning
+        # about the observed= default here, unrelated to this refactor.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=FutureWarning)
+            df_2 = df_1.groupby("OP").mean()
+            df_3 = df_1.groupby("Part").mean()
 
         # Start making calculations
         self.__log.append("== CALCULATION ==")

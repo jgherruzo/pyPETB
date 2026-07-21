@@ -11,6 +11,8 @@
 #
 #   -=====================|===o  o===|======================-+
 
+import warnings
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -299,7 +301,11 @@ class RNumeric:
 
         # Create a dataframe gouped by part for
         # future calculations
-        df_3 = df_1.groupby("Part").mean()
+        # "Part" is a categorical dtype; pandas emits a FutureWarning about
+        # the observed= default here, unrelated to this refactor.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=FutureWarning)
+            df_3 = df_1.groupby("Part").mean()
 
         # Start making calculations
         self.__log.append("== CALCULATION ==")
