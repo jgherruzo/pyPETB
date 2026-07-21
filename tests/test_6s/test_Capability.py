@@ -208,24 +208,28 @@ def test_Normality_probplot_axis():
     assert len(figure.axes[1].lines) >= 2
 
 
-def Cp_Report():
-    """Check if Report returns a plt figure for short term"""
-    arr_temp = np.array([45, 7, 67, 1])
-    df = pd.DataFrame(arr_temp)
-    dict_info = {"value": 0, "batch": "", "LSL": "1", "HSL": 1, "goal": 1}
+def test_Cp_Report():
+    """Smoke test: short term Report returns a figure without raising."""
+    rng = np.random.default_rng(3)
+    df = pd.DataFrame({"Meas": rng.normal(10, 0.5, 100)})
+    dict_info = {"value": "Meas", "batch": "", "LSL": 8.5, "HSL": 11.5,
+                 "goal": 10}
     Model_Cp = Capability.Capability(df, dict_info)
     figure = Model_Cp.Report()
     assert isinstance(figure, mpl.figure.Figure) is True
 
 
-def Pp_Report():
-    """Check if Report returns a plt figure for long term"""
-    arr_temp = np.array([45, 7, 67, 1])
-    arr_temp_id = np.array([21, 21, 1, 1])
-    df = pd.DataFrame()
-    df["0"] = arr_temp
-    df["1"] = arr_temp_id
-    dict_info = {"value": "0", "batch": "1", "LSL": "1", "HSL": 1, "goal": 1}
+def test_Pp_Report():
+    """Smoke test: long term Report returns a figure without raising."""
+    rng = np.random.default_rng(4)
+    df = pd.DataFrame(
+        {
+            "Meas": rng.normal(10, 0.5, 100),
+            "Lot": np.repeat(["A", "B", "C", "D"], 25),
+        }
+    )
+    dict_info = {"value": "Meas", "batch": "Lot", "LSL": 8.5, "HSL": 11.5,
+                 "goal": 10}
 
     Model_Cp = Capability.Capability(df, dict_info)
     figure = Model_Cp.Report()

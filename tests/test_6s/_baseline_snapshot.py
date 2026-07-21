@@ -106,27 +106,27 @@ def _repeatability():
 def _extract_cap_values(fig):
     """Extract the 4-value capability blocks rendered in a report figure.
 
-    Returns a list of token lists in rendering order, e.g.
-    ``[["1.5", "1.2", "1.8", "1.2"]]`` for a short term report and
-    ``[[Pp, PpL, PpU, Ppk], [Cp, CpL, CpU, Cpk]]`` for a long term one.
+    Blocks are read from the ax.table cells (label, value) whose labels
+    are Cp/CpL/CpU/Cpk or Pp/PpL/PpU/Ppk. Returns a list of token lists
+    in rendering order, e.g. ``[["1.5", "1.2", "1.8", "1.2"]]`` for a
+    short term report and ``[[Pp, PpL, PpU, Ppk], [Cp, CpL, CpU, Cpk]]``
+    for a long term one.
     """
     blocks = []
     for ax in fig.axes:
-        for txt in ax.texts:
-            tokens = txt.get_text().split()
-            if len(tokens) != 4:
-                continue
-            ok = True
-            for token in tokens:
-                if token == "*":
-                    continue
-                try:
-                    float(token)
-                except ValueError:
-                    ok = False
-                    break
-            if ok:
-                blocks.append(tokens)
+        for table in ax.tables:
+            cells = table.get_celld()
+            rows = max(r for r, _ in cells) + 1
+            labels = [
+                cells[(r, 0)].get_text().get_text() for r in range(rows)
+            ]
+            if labels in (
+                ["Cp", "CpL", "CpU", "Cpk"],
+                ["Pp", "PpL", "PpU", "Ppk"],
+            ):
+                blocks.append(
+                    [cells[(r, 1)].get_text().get_text() for r in range(rows)]
+                )
     return blocks
 
 

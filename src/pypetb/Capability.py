@@ -24,6 +24,99 @@ def _is_number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool)
 
 
+def _fmt(value):
+    """Format a report value with 3 significant figures.
+
+    Non-numeric placeholders such as "*" or "" pass through unchanged.
+    """
+    if isinstance(value, str):
+        return value
+    return f"{value:.3g}"
+
+
+def _render_table(ax, cell_text, col_labels=None, title=None, bbox=None):
+    """Render a data table with constant row height on the given axis.
+
+    Args:
+    ------
+    ax : matplotlib axis
+        Axis hosting the table. Ticks are hidden.
+
+    cell_text : list of lists
+        Table rows.
+
+    col_labels : Optional list of str
+        Column headers.
+
+    title : Optional str
+        Axis title displayed above the table.
+
+    bbox : Optional list [x0, y0, width, height]
+        Table bounding box in axes coordinates. The default fills the
+        whole axis, forcing constant row height and aligned cells.
+
+    Returns:
+    ---------
+    matplotlib table
+    """
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_facecolor("white")
+    if bbox is None:
+        bbox = [0, 0, 1, 1]
+    table = ax.table(
+        cellText=cell_text,
+        colLabels=col_labels,
+        bbox=bbox,
+        cellLoc="center",
+        loc="center",
+    )
+    table.auto_set_font_size(False)
+    table.set_fontsize(12)
+    if title is not None:
+        ax.set_title(title, fontsize=12, fontweight="bold")
+    return table
+
+
+def _verdict(index_name, index_value, tol, index_u, index_l):
+    """Build the capability verdict message and its box color.
+
+    Args:
+    ------
+    index_name : str
+        Name of the judged index (e.g. "Cpk" or "Ppk")
+
+    index_value : float
+        Value of the judged index
+
+    tol : int
+        Tolerance configuration (3 means both LSL and HSL are set)
+
+    index_u, index_l : float
+        Upper/lower one-sided indices used to detect off-center processes
+
+    Returns:
+    ---------
+    (str, str)
+        Verdict message and box face color
+    """
+    if index_value > 1:
+        str_adv = "\n   Process is capable"
+        if tol == 3 and index_u > index_l:
+            str_adv = str_adv + "\nand moved to the left"
+        elif tol == 3 and index_u < index_l:
+            str_adv = str_adv + "\nand moved to the rigth"
+        str_adv = str_adv + f"\n\n     {index_name}: {index_value}>1\n"
+        str_color = "mediumseagreen"
+    else:
+        str_adv = (
+            f"\nProcess is not capable\n\n     {index_name}:"
+            f" {index_value}<1\n"
+        )
+        str_color = "red"
+    return str_adv, str_color
+
+
 class Capability:
     """Capability analysis works as a model.
     Once input parameter are specified, model is solved and available
@@ -247,6 +340,48 @@ class Capability:
 
         return Fig_NT
 
+    def __plot_histogram(self, ax, np_values, curves):
+        """Draw the value histogram with specification lines and the
+        fitted normal density curves.
+
+        Args:
+        ------
+        ax : matplotlib axis
+            Axis hosting the histogram
+
+        np_values : numpy array
+            X values used to evaluate the density curves
+
+        curves : list of tuples
+            (y values, label, color, linestyle) per density curve
+        """
+        ax.hist(self.__df_cp["Value"], bins="auto", density=True,
+                label="Data")
+        ax.set_yticks([])
+
+        if self.__Tol == 3 or self.__Tol == 1:
+            ax.axvline(
+                self.__mydict["LSL"], label="LSL", color="red", linestyle="--"
+            )
+
+        if self.__Tol == 3 or self.__Tol == 2:
+            ax.axvline(
+                self.__mydict["HSL"], label="HSL", color="red", linestyle="--"
+            )
+
+        if self.__goal is True:
+            ax.axvline(
+                self.__mydict["goal"],
+                label="Goal",
+                color="green",
+                linestyle="--",
+            )
+
+        for y, label, color, linestyle in curves:
+            ax.plot(np_values, y, label=label, color=color,
+                    linestyle=linestyle)
+        ax.legend(loc="upper right")
+
     def __Cp_Report(self):
         """Cp draws short term report
 
@@ -299,145 +434,56 @@ class Capability:
         #                                DATA
         # ============================================================================================
         ax1 = Fig_Cp.add_subplot(gs[0, 0])
-        ax1.set_xticks([])
-        ax1.set_yticks([])
-        ax1.set_facecolor("white")
-        ax1.set_ylim(0, 1)
-        ax1.set_xlim(0, 1)
-
-        str_msg = (
-            f"{'':^40s}\n\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
+        _render_table(
+            ax1,
+            [
+                ["LSL", _fmt(self.__mydict["LSL"])],
+                ["Goal", _fmt(self.__mydict["goal"])],
+                ["HSL", _fmt(self.__mydict["HSL"])],
+                ["Mean", _fmt(dbl_Total_avg)],
+                ["Sample Size", _fmt(len(df_cp.index))],
+                ["Std. Dev (ST)", _fmt(SD)],
+            ],
+            title="Data Processing",
         )
-
-        ax1.text(
-            0.25,
-            0.21,
-            str_msg,
-            bbox=dict(boxstyle="round", fc="w", color="black"),
-            fontsize=12,
-        )
-        str_msg = f"{'Data Processing':^25s}"
-        ax1.text(0.23, 0.58, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{' LSL':15s}\n"
-            f"{' Goal':15s}\n"
-            f"{' HSL':15s}\n"
-            f"{' Mean':15s}\n"
-            f"{' Sample Size':15s}\n"
-            f"{'':15s}\n"
-            f"{' Std. Dev (ST)':15s}\n"
-        )
-        ax1.text(0.25, 0.2, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{self.__mydict['LSL']:<10} \n"
-            f"{self.__mydict['goal']:<10} \n"
-            f"{self.__mydict['HSL']:<10} \n"
-            f"{dbl_Total_avg:<10.3g} \n"
-            f"{len(df_cp.index):<10.3g} \n"
-            f"{'':<10} \n"
-            f"{SD:<10.3g} \n"
-        )
-        ax1.text(0.66, 0.2, str_msg, fontsize=12)
 
         # ============================================================================================
         #                                HISTOGRAM
         # ============================================================================================
         ax2 = Fig_Cp.add_subplot(gs[0, 1:3])
-        ax2.hist(df_cp["Value"], bins=100, label="Data")
-        ax2.set_yticks([])
-
-        if self.__Tol == 3 or self.__Tol == 1:
-            ax2.axvline(
-                self.__mydict["LSL"], label="LSL", color="red", linestyle="--"
-            )
-
-        if self.__Tol == 3 or self.__Tol == 2:
-            ax2.axvline(
-                self.__mydict["HSL"], label="HSL", color="red", linestyle="--"
-            )
-
-        if self.__goal is True:
-            ax2.axvline(
-                self.__mydict["goal"],
-                label="Goal",
-                color="green",
-                linestyle="--",
-            )
-
-        ax2.plot(
+        self.__plot_histogram(
+            ax2,
             np_values,
-            stats.norm.pdf(np_values, dbl_Total_avg, SD),
-            label="Short Term",
-            color="grey",
-            linestyle="--",
+            [
+                (
+                    stats.norm.pdf(np_values, dbl_Total_avg, SD),
+                    "Short Term",
+                    "grey",
+                    "--",
+                )
+            ],
         )
-        ax2.legend(loc="upper right")
 
         # ============================================================================================
         #                                Parameter
         # ============================================================================================
         ax3 = Fig_Cp.add_subplot(gs[0, 3])
-        ax3.set_xticks([])
-        ax3.set_yticks([])
-        ax3.set_facecolor("white")
-        ax3.set_ylim(0, 1)
-        ax3.set_xlim(0, 1)
-
-        # Short Term box
-        str_msg = (
-            f"{'':^25s}\n\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
+        _render_table(
+            ax3,
+            [
+                ["Cp", _fmt(Cp)],
+                ["CpL", _fmt(CpL)],
+                ["CpU", _fmt(CpU)],
+                ["Cpk", _fmt(Cpk)],
+            ],
+            title="ST Capability",
+            bbox=[0, 0.35, 1, 0.65],
         )
 
-        ax3.text(
-            0.28,
-            0.4,
-            str_msg,
-            bbox=dict(boxstyle="round", fc="w", color="black"),
-            fontsize=12,
-        )
-        str_msg = f"{' ST Capability ':^13s}"
-        ax3.text(0.3, 0.63, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{'  Cp':8s}\n"
-            f"{'  CpL':8s}\n"
-            f"{'  CpU':8s}\n"
-            f"{'  Cpk':8s}\n"
-        )
-        ax3.text(0.28, 0.4, str_msg, fontsize=12)
-
-        str_msg = f"{Cp:<5} \n" f"{CpL:<5} \n" f"{CpU:<5} \n" f"{Cpk:<5} \n"
-        ax3.text(0.5, 0.4, str_msg, fontsize=12)
-
-        if Cpk > 1:
-            str_adv = "\n   Process is capable"
-            if self.__Tol == 3 and CpU > CpL:
-                str_adv = str_adv + "\nand moved to the left"
-            elif self.__Tol == 3 and CpU < CpL:
-                str_adv = str_adv + "\nand moved to the rigth"
-
-            str_adv = str_adv + f"\n\n     Cpk: {Cpk}>1\n"
-            str_color = "mediumseagreen"
-        else:
-            str_adv = f"\nProcess is not capable\n\n     Cpk: {Cpk}<1\n"
-            str_color = "red"
-
+        str_adv, str_color = _verdict("Cpk", Cpk, self.__Tol, CpU, CpL)
         ax3.annotate(
             str_adv,
-            xy=(0.2, 0),
+            xy=(0.2, 0.02),
             bbox=dict(boxstyle="round", fc=str_color, color="black"),
             fontsize=12,
         )
@@ -524,183 +570,77 @@ class Capability:
         #                                DATA
         # ============================================================================================
         ax1 = Fig_Lp.add_subplot(gs[0, 0])
-        ax1.set_xticks([])
-        ax1.set_yticks([])
-        ax1.set_facecolor("white")
-        ax1.set_ylim(0, 1)
-        ax1.set_xlim(0, 1)
-
-        str_msg = (
-            f"{'':^40s}\n\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
-            f"{'':^35s}\n"
+        _render_table(
+            ax1,
+            [
+                ["LSL", _fmt(self.__mydict["LSL"])],
+                ["Goal", _fmt(self.__mydict["goal"])],
+                ["HSL", _fmt(self.__mydict["HSL"])],
+                ["Mean", _fmt(dbl_Total_avg)],
+                ["Sample Size", _fmt(len(df_cp.index))],
+                ["Std. Dev (LT)", _fmt(SD)],
+                ["Std. Dev (ST)", _fmt(SDp)],
+            ],
+            title="Data Processing",
         )
-
-        ax1.text(
-            0.25,
-            0.21,
-            str_msg,
-            bbox=dict(boxstyle="round", fc="w", color="black"),
-            fontsize=12,
-        )
-        str_msg = f"{'Data Processing':^25s}"
-        ax1.text(0.23, 0.58, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{' LSL':15s}\n"
-            f"{' Goal':15s}\n"
-            f"{' HSL':15s}\n"
-            f"{' Mean':15s}\n"
-            f"{' Sample Size':15s}\n"
-            f"{' Std. Dev (LT)':15s}\n"
-            f"{' Std. Dev (ST)':15s}\n"
-        )
-        ax1.text(0.25, 0.2, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{self.__mydict['LSL']:<10} \n"
-            f"{self.__mydict['goal']:<10} \n"
-            f"{self.__mydict['HSL']:<10} \n"
-            f"{dbl_Total_avg:<10.3g} \n"
-            f"{len(df_cp.index):<10.3g} \n"
-            f"{SD:<10.3g} \n"
-            f"{SDp:<10.3g} \n"
-        )
-        ax1.text(0.66, 0.2, str_msg, fontsize=12)
 
         # ============================================================================================
         #                                HISTOGRAM
         # ============================================================================================
         ax2 = Fig_Lp.add_subplot(gs[0, 1:3])
-        ax2.hist(df_cp["Value"], bins=100, label="Data")
-        ax2.set_yticks([])
-
-        if self.__Tol == 3 or self.__Tol == 1:
-            ax2.axvline(
-                self.__mydict["LSL"], label="LSL", color="red", linestyle="--"
-            )
-
-        if self.__Tol == 3 or self.__Tol == 2:
-            ax2.axvline(
-                self.__mydict["HSL"], label="HSL", color="red", linestyle="--"
-            )
-
-        if self.__goal is True:
-            ax2.axvline(
-                self.__mydict["goal"],
-                label="Goal",
-                color="green",
-                linestyle="--",
-            )
-
-        ax2.plot(
+        self.__plot_histogram(
+            ax2,
             np_values,
-            stats.norm.pdf(np_values, dbl_Total_avg, SD),
-            label="LT",
-            color="black",
+            [
+                (stats.norm.pdf(np_values, dbl_Total_avg, SD), "LT",
+                 "black", "-"),
+                (stats.norm.pdf(np_values, dbl_Total_avg, SDp), "ST",
+                 "grey", "--"),
+            ],
         )
-        ax2.plot(
-            np_values,
-            stats.norm.pdf(np_values, dbl_Total_avg, SDp),
-            label="ST",
-            color="grey",
-            linestyle="--",
-        )
-        ax2.legend(loc="upper right")
 
         # ============================================================================================
         #                                Parameter
         # ============================================================================================
-        ax3 = Fig_Lp.add_subplot(gs[0, 3])
-        ax3.set_xticks([])
-        ax3.set_yticks([])
-        ax3.set_facecolor("white")
-        ax3.set_ylim(0, 1)
-        ax3.set_xlim(0, 1)
-
-        # Long Term box
-        str_msg = (
-            f"{'':^25s}\n\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
+        gs_param = gs[0, 3].subgridspec(
+            2, 2, height_ratios=[2, 1], hspace=0.4, wspace=0.3
+        )
+        ax3 = Fig_Lp.add_subplot(gs_param[0, 0])
+        _render_table(
+            ax3,
+            [
+                ["Pp", _fmt(Pp)],
+                ["PpL", _fmt(PpL)],
+                ["PpU", _fmt(PpU)],
+                ["Ppk", _fmt(Ppk)],
+            ],
+            title="LT Capability",
         )
 
-        ax3.text(
-            0.02,
-            0.4,
-            str_msg,
-            bbox=dict(boxstyle="round", fc="w", color="black"),
-            fontsize=12,
-        )
-        str_msg = f"{' LT Capability ':^13s}"
-        ax3.text(0.04, 0.63, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{'  Pp':8s}\n"
-            f"{'  PpL':8s}\n"
-            f"{'  PpU':8s}\n"
-            f"{'  Ppk':8s}\n"
-        )
-        ax3.text(0.02, 0.4, str_msg, fontsize=12)
-
-        str_msg = f"{Pp:<5} \n" f"{PpL:<5} \n" f"{PpU:<5} \n" f"{Ppk:<5} \n"
-        ax3.text(0.25, 0.4, str_msg, fontsize=12)
-
-        # Short Term box
-        str_msg = (
-            f"{'':^25s}\n\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
-            f"{'':^2s}\n"
+        ax4 = Fig_Lp.add_subplot(gs_param[0, 1])
+        _render_table(
+            ax4,
+            [
+                ["Cp", _fmt(Cp)],
+                ["CpL", _fmt(CpL)],
+                ["CpU", _fmt(CpU)],
+                ["Cpk", _fmt(Cpk)],
+            ],
+            title="ST Capability",
         )
 
-        ax3.text(
-            0.48,
-            0.4,
-            str_msg,
-            bbox=dict(boxstyle="round", fc="w", color="black"),
-            fontsize=12,
-        )
-        str_msg = f"{' ST Capability ':^13s}"
-        ax3.text(0.5, 0.63, str_msg, fontsize=12)
-
-        str_msg = (
-            f"{'  Cp':8s}\n"
-            f"{'  CpL':8s}\n"
-            f"{'  CpU':8s}\n"
-            f"{'  Cpk':8s}\n"
-        )
-        ax3.text(0.48, 0.4, str_msg, fontsize=12)
-
-        str_msg = f"{Cp:<5} \n" f"{CpL:<5} \n" f"{CpU:<5} \n" f"{Cpk:<5} \n"
-        ax3.text(0.7, 0.4, str_msg, fontsize=12)
-
-        if Cpk > 1:
-            str_adv = "\n   Process is capable"
-            if self.__Tol == 3 and CpU > CpL:
-                str_adv = str_adv + "\nand moved to the left"
-            elif self.__Tol == 3 and CpU < CpL:
-                str_adv = str_adv + "\nand moved to the rigth"
-
-            str_adv = str_adv + f"\n\n     Cpk: {Cpk}>1\n"
-            str_color = "mediumseagreen"
-        else:
-            str_adv = f"\nProcess is not capable\n\n     Cpk: {Cpk}<1\n"
-            str_color = "red"
-
-        ax3.annotate(
+        str_adv, str_color = _verdict("Cpk", Cpk, self.__Tol, CpU, CpL)
+        ax5 = Fig_Lp.add_subplot(gs_param[1, :])
+        ax5.set_xticks([])
+        ax5.set_yticks([])
+        ax5.set_facecolor("white")
+        ax5.set_ylim(0, 1)
+        ax5.set_xlim(0, 1)
+        ax5.annotate(
             str_adv,
-            xy=(0.2, 0),
+            xy=(0.05, 0.05),
             bbox=dict(boxstyle="round", fc=str_color, color="black"),
-            fontsize=12,
+            fontsize=11,
         )
 
         return Fig_Lp
