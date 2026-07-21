@@ -164,9 +164,8 @@ class RNumeric:
             bol_key = False
 
         if self.__dbl_tol is not None:
-            if (
-                type(self.__dbl_tol) is not int
-                and type(self.__dbl_tol) is not float
+            if not isinstance(self.__dbl_tol, (int, float)) or isinstance(
+                self.__dbl_tol, bool
             ):
                 raise ValueError(
                     f"Error init_04: Specified tolerance: {self.__dbl_tol} is"
