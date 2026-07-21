@@ -429,7 +429,7 @@ class RNumeric:
         df_Anova["SS"] = [
             (self.SSpart),
             (self.SSequipment),
-            (self.SSequipment + 0),
+            (self.SSequipment),
             (self.SStotal),
         ]
 
@@ -439,7 +439,7 @@ class RNumeric:
         df_Anova["MS"] = [
             (MSpart),
             (MSequipment),
-            (self.SSequipment + 0)
+            (self.SSequipment)
             / ((self.t * self.p) * (self.r - 1) + (self.t - 1) * (self.p - 1)),
             (np.nan),
         ]
