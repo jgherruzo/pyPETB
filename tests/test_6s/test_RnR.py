@@ -499,7 +499,7 @@ def test_nan_type():
     """Check if dataset contain any nan value"""
     lst_op = ["A", "A", "A", "A", "A", "A", "B", "B", "B", "B", "B", "B"]
     lst_pieze = ["1", "1", "1", "2", "2", "2", "1", "1", "1", "2", "2", "2"]
-    lst_value = [1, 1.1, 1.1, 1.05, 1, 1.1, np.NaN, 1.1, 1.1, 1.05, 1, 1.1]
+    lst_value = [1, 1.1, 1.1, 1.05, 1, 1.1, np.nan, 1.1, 1.1, 1.05, 1, 1.1]
     df = pd.DataFrame()
     df["Operator"] = lst_op
     df["Part"] = lst_pieze

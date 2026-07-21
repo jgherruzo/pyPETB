@@ -86,7 +86,7 @@ def test_R_Report():
 def test_nan_type():
     """Check if RnR_Report returns a plt figure."""
     lst_pieze = ["1", "1", "1", "2", "2", "2", "1", "1", "1", "2", "2", "2"]
-    lst_value = [1, 1.1, 1.1, 1.05, 1, 1.1, np.NaN, 1.1, 1.1, 1.05, 1, 1.1]
+    lst_value = [1, 1.1, 1.1, 1.05, 1, 1.1, np.nan, 1.1, 1.1, 1.05, 1, 1.1]
     df = pd.DataFrame()
     df["Part"] = lst_pieze
     df["Measurement"] = lst_value
