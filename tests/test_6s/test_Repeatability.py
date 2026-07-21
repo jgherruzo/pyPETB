@@ -134,6 +134,24 @@ def test_RSolve_pivot_is_fast():
     assert elapsed < 0.5
 
 
+def test_solve_first_message():
+    """B3: unsolved model errors must reference RSolve()."""
+    lst_pieze = ["1", "1", "1", "2", "2", "2"]
+    lst_value = [1, 1.1, 1.1, 1.05, 1, 1.1]
+    df = pd.DataFrame()
+    df["Part"] = lst_pieze
+    df["Measurement"] = lst_value
+    dict_key = {"1": "Part", "2": "Measurement"}
+    RModel = Repeatability.RNumeric(mydf_Raw=df, mydict_key=dict_key)
+
+    for method in (RModel.RAnova, RModel.R_varTable, RModel.R_SDTable):
+        try:
+            method()
+            raise AssertionError("ValueError was not raised")
+        except ValueError as error:
+            assert "R.RSolve()" in str(error)
+
+
 # unhappy flow
 def test_nan_type():
     """Check if RnR_Report returns a plt figure."""

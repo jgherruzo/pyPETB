@@ -406,7 +406,7 @@ class RNumeric:
             raise ValueError("You need at least one instance")
         elif self.__Status == 1:
             raise ValueError(
-                "You must call RnR.RnRSolve() before to call this method"
+                "You must call R.RSolve() before to call this method"
             )
 
         if self.__df_anova is not None:
@@ -462,7 +462,7 @@ class RNumeric:
             raise ValueError("You need at least one instance")
         elif self.__Status == 1:
             raise ValueError(
-                "You must call RnR.RnRSolve() before to call this method"
+                "You must call R.RSolve() before to call this method"
             )
 
         if self.__df_vartable is not None:
@@ -513,7 +513,7 @@ class RNumeric:
             raise ValueError("You need at least one instance")
         elif self.__Status == 1:
             raise ValueError(
-                "You must call RnR.RnRSolve() before to call this method"
+                "You must call R.RSolve() before to call this method"
             )
         if self.__df_sdtable is not None:
             return self.__df_sdtable.copy()
