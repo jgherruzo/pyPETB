@@ -283,11 +283,12 @@ class RnRNumeric:
                 )
 
         # One column per run
-        df_temp1 = mydf_0[mydf_0["Op"] == mydf_0["Op"].unique()[0]]
+        lst_ops = mydf_0["Op"].unique()
+        df_temp1 = mydf_0[mydf_0["Op"] == lst_ops[0]]
         df_temp2 = df_temp1[df_temp1["Part"] == df_temp1["Part"].unique()[0]]
 
         # number of operator
-        self.t = len(mydf_0["Op"].unique())
+        self.t = len(lst_ops)
         # number of Piezes
         self.p = len(mydf_0["Part"].unique())
         # number of runs
@@ -790,9 +791,10 @@ class RnRNumeric:
         lst_ax = list()
 
         # Chose operator parameters
+        idx_ops = self.__df.index.unique(level="OP")
         dict_OperatorLine = dict()
-        for i in range(0, len(self.__df.index.unique(level="OP"))):
-            dict_OperatorLine[self.__df.index.unique(level="OP")[i]] = {
+        for i in range(0, len(idx_ops)):
+            dict_OperatorLine[idx_ops[i]] = {
                 "Color": random.choice(list(mpl.colors.CSS4_COLORS.values())),
                 "Marker": random.choice(list(mpl.lines.Line2D.markers.keys())),
             }
@@ -894,7 +896,8 @@ class RnRNumeric:
             fontsize=20,
         )
 
-        number_of_technicians = len(df_0["Op"].unique())
+        lst_ops = df_0["Op"].unique()
+        number_of_technicians = len(lst_ops)
 
         technician_colors = [
             mpl.colors.CSS4_COLORS["blue"],
@@ -1023,13 +1026,13 @@ class RnRNumeric:
         lst_ax3 = list()
         ax_max = max(df_1["Range"].max(), self.dbl_Range_UCL) * 1.1
         ax_min = min(df_1["Range"].min(), self.dbl_Range_UCL) - ax_max * 0.1
-        for i in range(0, len(df_0["Op"].unique())):
+        for i in range(0, len(lst_ops)):
             lst_ax3.append(Fig2.add_subplot(gs[second_row, i]))
             if i > 0:
                 lst_ax3[i].set_yticks([])
             else:
                 lst_ax3[i].set_ylabel("Sample Range")
-            lst_ax3[i].set_title("{}".format(df_0["Op"].unique()[i]))
+            lst_ax3[i].set_title("{}".format(lst_ops[i]))
             lst_ax3[i].set_ylim(ax_min, ax_max)
             lst_ax3[i].axhline(
                 self.dbl_Range_UCL,
@@ -1048,9 +1051,7 @@ class RnRNumeric:
                 label="LCL={:.4f}".format(self.dbl_Range_LCL),
             )
 
-            df_temp = df_1.xs(
-                df_0["Op"].unique()[i], level=0, drop_level=False
-            )
+            df_temp = df_1.xs(lst_ops[i], level=0, drop_level=False)
             lst_ax3[i].plot(
                 df_temp.index.get_level_values(1),
                 df_temp["Range"],
@@ -1070,17 +1071,17 @@ class RnRNumeric:
             "{} by {}".format(self.__dict_key["3"], self.__dict_key["1"]),
             fontweight="bold",
         )
-        for n in range(0, len((df_0["Op"].unique()))):
+        for n in range(0, len(lst_ops)):
             c = technician_colors[n]
             ax4.boxplot(
-                df_0[df_0["Op"] == df_0["Op"].unique()[n]]["Valor"],
+                df_0[df_0["Op"] == lst_ops[n]]["Valor"],
                 positions=[n + 1],
                 patch_artist=True,
                 medianprops=dict(color=mpl.colors.CSS4_COLORS["black"]),
                 boxprops=dict(facecolor=c, color=c),
             )
         ax4.set_ylabel("{}".format(self.__dict_key["3"]))
-        ax4.set_xticklabels(df_0["Op"].unique())
+        ax4.set_xticklabels(lst_ops)
         # ============================================================================================
         #                                Xbarra per Operator
         # ============================================================================================
@@ -1088,13 +1089,13 @@ class RnRNumeric:
         ax5_max = self.Total_max * 1.001
         ax5_min = self.Total_min - self.Total_max * 0.001
 
-        for i in range(0, len(df_0["Op"].unique())):
+        for i in range(0, len(lst_ops)):
             lst_ax5.append(Fig2.add_subplot(gs[third_row, i]))
             if i > 0:
                 lst_ax5[i].set_yticks([])
             else:
                 lst_ax5[i].set_ylabel("Sample Avg")
-            lst_ax5[i].set_title("{}".format(df_0["Op"].unique()[i]))
+            lst_ax5[i].set_title("{}".format(lst_ops[i]))
             lst_ax5[i].set_ylim(ax5_min, ax5_max)
 
             lst_ax5[i].axhline(
@@ -1114,9 +1115,7 @@ class RnRNumeric:
                 label="LCL={:.4f}".format(self.dbl_Avg_LCL),
             )
 
-            df_temp = df_1.xs(
-                df_0["Op"].unique()[i], level=0, drop_level=False
-            )
+            df_temp = df_1.xs(lst_ops[i], level=0, drop_level=False)
 
             lst_ax5[i].plot(
                 df_temp.index.get_level_values(1),
@@ -1138,7 +1137,7 @@ class RnRNumeric:
             ),
             fontweight="bold",
         )
-        for item in df_0["Op"].unique():
+        for item in lst_ops:
             df_temp = df_1.xs(item, level=0, drop_level=False)
             ax6.plot(
                 df_temp.index.get_level_values(1), df_temp["Mean"], label=item
@@ -1271,12 +1270,14 @@ class RnRAttribute:
 
         self.__log.append(f"Number of trials per operator: {self.__r}")
 
-        self.__p = len(df_0["Part"].unique())
+        lst_parts = df_0["Part"].unique().tolist()
+        self.__p = len(lst_parts)
         self.__log.append(f"Number of parts: {self.__p}")
 
         # Determine RnR per Operator
         dict_Op = dict()
-        for operator in df_0["Op"].unique().tolist():
+        lst_ops = df_0["Op"].unique().tolist()
+        for operator in lst_ops:
             df_temp = df_0[df_0["Op"] == operator]
             lon_Rep = 0
             lon_Acc = 0
@@ -1304,7 +1305,7 @@ class RnRAttribute:
         # Determine Total values based on atributes concordance
         lon_Rep = 0
         lon_Acc = 0
-        for part in df_0["Part"].unique().tolist():
+        for part in lst_parts:
             df_temp = df_0[df_0["Part"] == part]
 
             if len(df_temp["Valor"].unique()) == 1:
@@ -1488,13 +1489,15 @@ class RnRAttribute:
         # ==============================================
         df_0 = self.__df_0
         dict_Matrix = dict()
-        for operator in df_0["Op"].unique().tolist():
+        lst_ops = df_0["Op"].unique().tolist()
+        lst_ref = df_0["Ref"].unique().tolist()
+        for operator in lst_ops:
             dict_Matrix[operator] = {
                 "0_0": len(
                     df_0[
                         (df_0["Op"] == operator)
                         & (df_0["Acc"] == True)  # noqa: E712
-                        & (df_0["Ref"] == df_0["Ref"].unique().tolist()[0])
+                        & (df_0["Ref"] == lst_ref[0])
                     ]
                 )
                 / self.__p
@@ -1504,7 +1507,7 @@ class RnRAttribute:
                     df_0[
                         (df_0["Op"] == operator)
                         & (df_0["Acc"] == True)  # noqa: E712
-                        & (df_0["Ref"] == df_0["Ref"].unique().tolist()[1])
+                        & (df_0["Ref"] == lst_ref[1])
                     ]
                 )
                 / self.__p
@@ -1514,7 +1517,7 @@ class RnRAttribute:
                     df_0[
                         (df_0["Op"] == operator)
                         & (df_0["Acc"] == False)  # noqa: E712
-                        & (df_0["Ref"] == df_0["Ref"].unique().tolist()[0])
+                        & (df_0["Ref"] == lst_ref[0])
                     ]
                 )
                 / self.__p
@@ -1524,7 +1527,7 @@ class RnRAttribute:
                     df_0[
                         (df_0["Op"] == operator)
                         & (df_0["Acc"] == False)  # noqa: E712
-                        & (df_0["Ref"] == df_0["Ref"].unique().tolist()[1])
+                        & (df_0["Ref"] == lst_ref[1])
                     ]
                 )
                 / self.__p
@@ -1603,13 +1606,13 @@ class RnRAttribute:
         ax6.set_ylim(0, 1)
         ax6.set_xlim(0, 1)
 
-        dbl_value = df_0["Acc"].value_counts()[True] / len(df_0.index) * 100
+        dbl_value = dbl_sysacc
         str_msg = (
             f"\n  Accuracy analysis:\n"
             f"      Reproducibility  | {dbl_value:.1f}%  "
         )
 
-        if df_0["Acc"].value_counts()[True] / len(df_0.index) * 100 > 80:
+        if dbl_value > 80:
             str_msg = str_msg + "\n\n   SYSTEM ACCEPTABLE\n"
             str_color = "mediumseagreen"
         else:

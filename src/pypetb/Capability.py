@@ -464,7 +464,8 @@ class Capability:
         dbl_SampleSize = 0
         dbl_iSampleSize = 0
         df_cp = self.__df_cp
-        for item in df_cp["Batch"].unique():
+        lst_batches = df_cp["Batch"].unique()
+        for item in lst_batches:
             df_temp = df_cp[df_cp["Batch"] == item]
             dbl_iSampleSize = len(df_temp["Value"])
             dbl_SampleSize = dbl_SampleSize + dbl_iSampleSize
@@ -473,9 +474,7 @@ class Capability:
             ) * (dbl_iSampleSize - 1)
 
         dbl_Total_avg = df_cp["Value"].mean()
-        SDp = (
-            dbl_Param / (dbl_SampleSize - len(df_cp["Batch"].unique()))
-        ) ** (1 / 2)
+        SDp = (dbl_Param / (dbl_SampleSize - len(lst_batches))) ** (1 / 2)
         SD = statistics.stdev(df_cp["Value"])
 
         # Solve Capability parameters

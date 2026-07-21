@@ -269,12 +269,13 @@ class RNumeric:
                 )
 
         # One column per run
-        df_temp2 = mydf_0[mydf_0["Part"] == mydf_0["Part"].unique()[0]]
+        lst_parts = mydf_0["Part"].unique()
+        df_temp2 = mydf_0[mydf_0["Part"] == lst_parts[0]]
 
         # number of Piezes
         self.t = 1
-        self.p = len(mydf_0["Part"].unique())
-        self.n_parts = len(mydf_0["Part"].unique())
+        self.p = len(lst_parts)
+        self.n_parts = len(lst_parts)
 
         # number of runs
         self.r = len(df_temp2)
