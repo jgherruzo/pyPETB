@@ -361,6 +361,11 @@ class RnRNumeric:
 
         tbl = tables.Stat_Tables()
         # Determine averange range, Range UCL and LCL
+        # TODO(B5): D4/D3/A2 are indexed here by self.t (number of
+        # operators). In a Gage R&R Xbar-R chart the range-chart subgroup
+        # size is usually the number of trials per part/operator (self.r),
+        # not the operator count. Left unchanged pending validation against
+        # a reference dataset (e.g. the AIAG example) with known UCL/LCL.
         self.dbl_Range_avg = df_1["Range"].mean()
         self.dbl_Range_UCL = self.dbl_Range_avg * tbl.get_D4(self.t)
         self.dbl_Range_LCL = self.dbl_Range_avg * tbl.get_D3(self.t)

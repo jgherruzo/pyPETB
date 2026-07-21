@@ -629,6 +629,12 @@ class Capability:
             title="ST Capability",
         )
 
+        # TODO(B7): the long-term verdict judges capability using Cpk
+        # (pooled within-batch sigma, potential) instead of Ppk (overall
+        # sigma, actual long-term performance). Left unchanged pending
+        # validation against a reference dataset (e.g. one with Cpk > 1 >
+        # Ppk) and maintainer sign-off, since switching to Ppk changes the
+        # displayed "capable / not capable" message.
         str_adv, str_color = _verdict("Cpk", Cpk, self.__Tol, CpU, CpL)
         ax5 = Fig_Lp.add_subplot(gs_param[1, :])
         ax5.set_xticks([])

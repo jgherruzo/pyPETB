@@ -320,6 +320,9 @@ class RNumeric:
 
         tbl = tables.Stat_Tables()
         # Determine averange range, Range UCL and LCL
+        # TODO(B5): D4/D3/A2 are indexed here by a fixed n_t=2 rather than
+        # the number of trials per part (self.r). Left unchanged pending
+        # validation against a reference dataset with known UCL/LCL.
         n_t = 2  # minimum required
         self.dbl_Range_avg = df_1["Range"].mean()
         self.dbl_Range_UCL = self.dbl_Range_avg * tbl.get_D4(n_t)
