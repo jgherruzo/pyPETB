@@ -701,3 +701,13 @@ def test_D4_04():
             bol_temp = False
 
     assert bol_temp is True
+
+
+def test_D4_numpy_int():
+    """Numpy integers are accepted as item number (A3)"""
+    import numpy as np
+
+    tbl = tables.Stat_Tables()
+    n = np.int64(5)
+    logging.debug(f"Test test_D4_numpy_int with {n}")
+    assert tbl.get_D4(n) == tbl.get_D4(5)

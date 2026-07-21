@@ -11,6 +11,8 @@
 #
 #   -=====================|===o  o===|======================-+
 
+import numbers
+
 import numpy as np
 import pandas as pd
 
@@ -436,6 +438,97 @@ class Stat_Tables:
             },
         }
 
+    # Keys whose getter computes an approximation for n > 25 instead of
+    # raising the A_03 error. Message wording differs between both
+    # families and is preserved for backward compatibility.
+    __APPROX_KEYS = ("A", "A3", "c4", "B3", "B4", "B5", "B6", "d2")
+
+    def _get(self, key, n, bol_Pass=False):
+        """Return the constant stored under key for the given n.
+
+        Shared validation and dictionary access used by every public
+        getter, preserving their historical error codes and messages.
+
+        Args:
+        ------
+        key : str
+            Constant name (a self.__dict_info key)
+
+        n : int
+            Number of items (numpy integers are also accepted)
+
+        bol_Pass: Boolean
+            False to raise error for n>25, True to return the value for
+            n=25 (only for constants without an n>25 approximation)
+
+        Returns:
+        ---------
+        Float : constant for the given number of items
+        """
+        if not isinstance(n, numbers.Integral) or isinstance(n, bool):
+            if key in self.__APPROX_KEYS:
+                raise ValueError(
+                    f"Error A_01: Items must be an integer. Specified: {n}"
+                )
+            raise ValueError(
+                f"Error A_01: Items number must be an integer."
+                f" Specified: {n}"
+            )
+        if n < 2:
+            if key in self.__APPROX_KEYS:
+                raise ValueError(
+                    f"Error A_02: Items must be >=2. Specified: {n}"
+                )
+            raise ValueError(
+                f"Error A_02: Samples must be >=2. Specified: {n}"
+            )
+        if n <= 25:
+            return self.__dict_info[key][n]
+        if key in self.__APPROX_KEYS:
+            return self.__approx(key, n)
+        if bol_Pass is False:
+            if key == "A2":
+                raise ValueError(
+                    f"Error A_03: items number is higher than 25."
+                    f" Specified: {n}."
+                    + " Set bol_Pass=True to avoid this error and alue for"
+                    + " n=25 will be returned"
+                )
+            raise ValueError(
+                f"Error A_03: Items number is higher than 25."
+                f" Specified: {n}."
+                + " Set bol_Pass=True to avoid this error and alue for"
+                + " n=25 will be returned"
+            )
+        elif bol_Pass is True:
+            return self.__dict_info[key][25]
+        else:
+            return self.__dict_info[key][n]
+
+    def __approx(self, key, n):
+        """Approximate the constant for n > 25."""
+        if key == "A":
+            return round(3 / np.sqrt(n), 4)
+        if key == "c4":
+            return round(4 * (n - 1) / (4 * n - 3), 4)
+        if key == "A3":
+            return round(3 / (self.get_c4(n) * np.sqrt(n)), 4)
+        if key == "B3":
+            return round(1 - 3 / (self.get_c4(n) * np.sqrt(2 * (n - 1))), 4)
+        if key == "B4":
+            return round(1 + 3 / (self.get_c4(n) * np.sqrt(2 * (n - 1))), 4)
+        if key == "B5":
+            return round(self.get_c4(n) - 3 / np.sqrt(2 * (n - 1)), 4)
+        if key == "B6":
+            return round(self.get_c4(n) + 3 / np.sqrt(2 * (n - 1)), 4)
+        # key == "d2": Monte-Carlo approximation
+        mu, sigma = 0, 1
+        x = pd.DataFrame()
+        for i in range(1, n + 1):
+            x["x" + str(i)] = np.random.normal(mu, sigma, 10000000)
+        x["range"] = abs(x.min(axis=1) - x.max(axis=1))
+        return round(x["range"].mean(axis=0).round(3), 4)
+
     def get_A(self, n):
         """Return the A constant
 
@@ -458,16 +551,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["A"][n]
-        else:
-            return round(3 / np.sqrt(n), 4)
+        return self._get("A", n)
 
     def get_A2(self, n, bol_Pass=False):
         """Return the A2 constant
@@ -498,24 +582,7 @@ class Stat_Tables:
             Number of items is higher than 25. Set bol_Pass=True to avoid
             this error and alue for n=25 wil be returned
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items number must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(
-                f"Error A_02: Samples must be >=2. Specified: {n}"
-            )
-        elif n > 25 and bol_Pass is False:
-            raise ValueError(
-                f"Error A_03: items number is higher than 25. Specified: {n}."
-                + " Set bol_Pass=True to avoid this error and alue for n=25"
-                + " will be returned"
-            )
-        elif n > 25 and bol_Pass is True:
-            return self.__dict_info["A2"][25]
-        else:
-            return self.__dict_info["A2"][n]
+        return self._get("A2", n, bol_Pass)
 
     def get_c4(self, n):
         """Return the c4 constant
@@ -539,16 +606,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["c4"][n]
-        else:
-            return round(4 * (n - 1) / (4 * n - 3), 4)
+        return self._get("c4", n)
 
     def get_A3(self, n):
         """Return the A3 constant
@@ -572,16 +630,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["A3"][n]
-        else:
-            return round(3 / (self.get_c4(n) * np.sqrt(n)), 4)
+        return self._get("A3", n)
 
     def get_B3(self, n):
         """Return the B3 constant
@@ -605,16 +654,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["B3"][n]
-        else:
-            return round(1 - 3 / (self.get_c4(n) * np.sqrt(2 * (n - 1))), 4)
+        return self._get("B3", n)
 
     def get_B4(self, n):
         """Return the B4 constant
@@ -638,16 +678,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["B4"][n]
-        else:
-            return round(1 + 3 / (self.get_c4(n) * np.sqrt(2 * (n - 1))), 4)
+        return self._get("B4", n)
 
     def get_B5(self, n):
         """Return the B5 constant
@@ -671,16 +702,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["B5"][n]
-        else:
-            return round(self.get_c4(n) - 3 / np.sqrt(2 * (n - 1)), 4)
+        return self._get("B5", n)
 
     def get_B6(self, n):
         """Return the B6 constant
@@ -704,16 +726,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["B6"][n]
-        else:
-            return round(self.get_c4(n) + 3 / np.sqrt(2 * (n - 1)), 4)
+        return self._get("B6", n)
 
     def get_d2(self, n):
         """Return the d2 constant
@@ -737,21 +750,7 @@ class Stat_Tables:
         A_02
             Number of items must be >=2
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(f"Error A_02: Items must be >=2. Specified: {n}")
-        elif n >= 2 and n <= 25:
-            return self.__dict_info["d2"][n]
-        else:
-            mu, sigma = 0, 1
-            x = pd.DataFrame()
-            for i in range(1, n + 1):
-                x["x" + str(i)] = np.random.normal(mu, sigma, 10000000)
-            x["range"] = abs(x.min(axis=1) - x.max(axis=1))
-            return round(x["range"].mean(axis=0).round(3), 4)
+        return self._get("d2", n)
 
     def get_d3(self, n, bol_Pass=False):
         """Return the d3 constant
@@ -782,24 +781,7 @@ class Stat_Tables:
             Number of items is higher than 25. Set bol_Pass=True to avoid
             this error and alue for n=25 wil be returned
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items number must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(
-                f"Error A_02: Samples must be >=2. Specified: {n}"
-            )
-        elif n > 25 and bol_Pass is False:
-            raise ValueError(
-                f"Error A_03: Items number is higher than 25. Specified: {n}."
-                + " Set bol_Pass=True to avoid this error and alue for n=25"
-                + " will be returned"
-            )
-        elif n > 25 and bol_Pass is True:
-            return self.__dict_info["d3"][25]
-        else:
-            return self.__dict_info["d3"][n]
+        return self._get("d3", n, bol_Pass)
 
     def get_D1(self, n, bol_Pass=False):
         """Return the D1 constant
@@ -830,24 +812,7 @@ class Stat_Tables:
             Number of items is higher than 25. Set bol_Pass=True to avoid
             this error and alue for n=25 wil be returned
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items number must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(
-                f"Error A_02: Samples must be >=2. Specified: {n}"
-            )
-        elif n > 25 and bol_Pass is False:
-            raise ValueError(
-                f"Error A_03: Items number is higher than 25. Specified: {n}."
-                + " Set bol_Pass=True to avoid this error and alue for n=25"
-                + " will be returned"
-            )
-        elif n > 25 and bol_Pass is True:
-            return self.__dict_info["D1"][25]
-        else:
-            return self.__dict_info["D1"][n]
+        return self._get("D1", n, bol_Pass)
 
     def get_D2(self, n, bol_Pass=False):
         """Return the D2 constant
@@ -878,24 +843,7 @@ class Stat_Tables:
             Number of items is higher than 25. Set bol_Pass=True to avoid
             this error and alue for n=25 wil be returned
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items number must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(
-                f"Error A_02: Samples must be >=2. Specified: {n}"
-            )
-        elif n > 25 and bol_Pass is False:
-            raise ValueError(
-                f"Error A_03: Items number is higher than 25. Specified: {n}."
-                + " Set bol_Pass=True to avoid this error and alue for n=25"
-                + " will be returned"
-            )
-        elif n > 25 and bol_Pass is True:
-            return self.__dict_info["D2"][25]
-        else:
-            return self.__dict_info["D2"][n]
+        return self._get("D2", n, bol_Pass)
 
     def get_D3(self, n, bol_Pass=False):
         """Return the D3 constant
@@ -926,24 +874,7 @@ class Stat_Tables:
             Number of items is higher than 25. Set bol_Pass=True to avoid
             this error and alue for n=25 wil be returned
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items number must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(
-                f"Error A_02: Samples must be >=2. Specified: {n}"
-            )
-        elif n > 25 and bol_Pass is False:
-            raise ValueError(
-                f"Error A_03: Items number is higher than 25. Specified: {n}."
-                + " Set bol_Pass=True to avoid this error and alue for n=25"
-                + " will be returned"
-            )
-        elif n > 25 and bol_Pass is True:
-            return self.__dict_info["D3"][25]
-        else:
-            return self.__dict_info["D3"][n]
+        return self._get("D3", n, bol_Pass)
 
     def get_D4(self, n, bol_Pass=False):
         """Return the D4 constant
@@ -974,21 +905,4 @@ class Stat_Tables:
             Number of items is higher than 25. Set bol_Pass=True to avoid
             this error and alue for n=25 wil be returned
         """
-        if type(n) is not int:
-            raise ValueError(
-                f"Error A_01: Items number must be an integer. Specified: {n}"
-            )
-        if n < 2:
-            raise ValueError(
-                f"Error A_02: Samples must be >=2. Specified: {n}"
-            )
-        elif n > 25 and bol_Pass is False:
-            raise ValueError(
-                f"Error A_03: Items number is higher than 25. Specified: {n}."
-                + " Set bol_Pass=True to avoid this error and alue for n=25"
-                + " will be returned"
-            )
-        elif n > 25 and bol_Pass is True:
-            return self.__dict_info["D4"][25]
-        else:
-            return self.__dict_info["D4"][n]
+        return self._get("D4", n, bol_Pass)
