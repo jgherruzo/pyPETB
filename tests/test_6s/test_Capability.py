@@ -144,6 +144,29 @@ def Cpgoal():
     assert bol_temp is True
 
 
+def test_bool_limits():
+    """B8: booleans are not valid numeric limits (LSL/HSL/goal)."""
+    arr_temp = np.array([45, 7, 67, 1])
+    df = pd.DataFrame(arr_temp)
+    dict_info = {"value": 0, "batch": "", "LSL": True, "HSL": "",
+                 "goal": "*"}
+    try:
+        Capability.Capability(df, dict_info)
+        raise AssertionError("ValueError was not raised")
+    except ValueError as error:
+        assert "init_05" in str(error)
+
+    # a boolean HSL must be ignored too: with HSL=True and LSL=""
+    # there is no numeric limit left
+    dict_info = {"value": 0, "batch": "", "LSL": "", "HSL": True,
+                 "goal": "*"}
+    try:
+        Capability.Capability(df, dict_info)
+        raise AssertionError("ValueError was not raised")
+    except ValueError as error:
+        assert "init_05" in str(error)
+
+
 def test_log():
     """Check log return a string."""
     arr_temp = np.array([45, 7, 67, 1])

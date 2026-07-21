@@ -19,6 +19,11 @@ import pandas as pd
 from scipy import stats
 
 
+def _is_number(value):
+    """Return True for int/float values, excluding booleans."""
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
 class Capability:
     """Capability analysis works as a model.
     Once input parameter are specified, model is solved and available
@@ -72,14 +77,10 @@ class Capability:
                 f"Error init_01: wrong arg dictionary keys: {mydict.keys()} |"
                 f" Be sure to use: {lst_key}"
             )
-        lst_bol = [
-            isinstance(mydict["LSL"], int),
-            isinstance(mydict["LSL"], float),
-            isinstance(mydict["HSL"], int),
-            isinstance(mydict["HSL"], float),
-        ]
+        bol_lsl = _is_number(mydict["LSL"])
+        bol_hsl = _is_number(mydict["HSL"])
 
-        if True not in lst_bol:
+        if not bol_lsl and not bol_hsl:
             raise ValueError(
                 f"Error init_05: neither LSL or HSL are numeric."
                 f"LSL: {mydict['LSL']}"
@@ -87,14 +88,7 @@ class Capability:
                 f" One must be numeric"
             )
 
-        lst_goal = [
-            isinstance(mydict["goal"], int),
-            isinstance(mydict["goal"], float),
-        ]
-        if True in lst_goal:
-            self.__goal = True
-        else:
-            self.__goal = False
+        self.__goal = _is_number(mydict["goal"])
 
         # Initializate different variables
         self.__log = list()
@@ -102,14 +96,14 @@ class Capability:
 
         # Save which tolerance is specified
         self.__Tol = 0  # None
-        if lst_bol[0] is True or lst_bol[1] is True:
+        if bol_lsl:
             self.__log.append("LSL is specified")
             self.__Tol = 1  # LSL is specified
 
-        if True in [lst_bol[2], lst_bol[3]] and self.__Tol == 1:
+        if bol_hsl and self.__Tol == 1:
             self.__log.append("HSL is specified")
             self.__Tol = 3  # HSL and LSL are specified
-        elif True in [lst_bol[2], lst_bol[3]]:
+        elif bol_hsl:
             self.__log.append("HSL is specified")
             self.__Tol = 2  # HSL is specified
 
