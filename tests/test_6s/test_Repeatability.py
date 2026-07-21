@@ -82,6 +82,32 @@ def test_R_Report():
     assert isinstance(RModel.R_Report(), mpl.figure.Figure) is True
 
 
+def test_anova_cache_returns_copies():
+    """A5: ANOVA is cached by RSolve and tables return copies."""
+    url = "https://raw.githubusercontent.com/markwkiehl/public_datasets/main/GR%26R%206_28_24%20perp1.csv"  # noqa\n
+    df = pd.read_csv(url, sep=";")
+    dict_key = {"1": "Part", "2": "Measurement"}
+    RModel = Repeatability.RNumeric(mydf_Raw=df, mydict_key=dict_key)
+    RModel.RSolve()
+
+    assert RModel._RNumeric__df_anova is not None
+
+    df_a = RModel.RAnova()
+    df_b = RModel.RAnova()
+    assert df_a is not df_b
+    assert df_a.equals(df_b)
+
+    df_v1 = RModel.R_varTable()
+    df_v2 = RModel.R_varTable()
+    assert df_v1 is not df_v2
+    assert df_v1.equals(df_v2)
+
+    df_s1 = RModel.R_SDTable()
+    df_s2 = RModel.R_SDTable()
+    assert df_s1 is not df_s2
+    assert df_s1.equals(df_s2)
+
+
 # unhappy flow
 def test_nan_type():
     """Check if RnR_Report returns a plt figure."""

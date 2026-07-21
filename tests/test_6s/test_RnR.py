@@ -443,6 +443,59 @@ def test_RnR_Report2():
     )
 
 
+def test_anova_computed_once_per_report(monkeypatch):
+    """A5: the ANOVA pipeline is computed only once per report.
+
+    A single RnRAnova computation performs exactly 3 f.cdf calls, so
+    solving the model and requesting every table plus the full report
+    must not increase that counter.
+    """
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key, mydbl_tol=8)
+
+    calls = {"n": 0}
+    real_cdf = RnR.f.cdf
+
+    def counting_cdf(*args, **kwargs):
+        calls["n"] += 1
+        return real_cdf(*args, **kwargs)
+
+    monkeypatch.setattr(RnR.f, "cdf", counting_cdf)
+    RnRModel.RnRSolve()
+    assert calls["n"] == 3
+    RnRModel.RnRAnova()
+    RnRModel.RnR_varTable()
+    RnRModel.RnR_SDTable()
+    RnRModel.RnR_Report()
+    assert calls["n"] == 3
+
+
+def test_anova_cache_returns_copies():
+    """A5: cached tables are equal but independent objects."""
+    url = "https://raw.githubusercontent.com/jgherruzo/myFreeDatasets/main/RnR_Example.csv"  # noqa
+    df = pd.read_csv(url, sep=";")
+    dict_key = {"1": "Operator", "2": "Part", "3": "Measurement"}
+    RnRModel = RnR.RnRNumeric(mydf_Raw=df, mydict_key=dict_key, mydbl_tol=8)
+    RnRModel.RnRSolve()
+
+    df_a = RnRModel.RnRAnova()
+    df_b = RnRModel.RnRAnova()
+    assert df_a is not df_b
+    assert df_a.equals(df_b)
+
+    df_v1 = RnRModel.RnR_varTable()
+    df_v2 = RnRModel.RnR_varTable()
+    assert df_v1 is not df_v2
+    assert df_v1.equals(df_v2)
+
+    df_s1 = RnRModel.RnR_SDTable()
+    df_s2 = RnRModel.RnR_SDTable()
+    assert df_s1 is not df_s2
+    assert df_s1.equals(df_s2)
+
+
 # unhappy flow
 def test_wrong_Column():
     """Check if wrong column is detected."""

@@ -219,6 +219,9 @@ class RnRNumeric:
         self.__df_0 = df_0
         self.__log.append("Model is created")
         self.__Status = 1
+        self.__df_anova = None
+        self.__df_vartable = None
+        self.__df_sdtable = None
 
     def getLog(self):
         """Return a string which contain all important calculations.
@@ -255,6 +258,11 @@ class RnRNumeric:
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance")
+
+        # Invalidate cached results in case the model is re-solved
+        self.__df_anova = None
+        self.__df_vartable = None
+        self.__df_sdtable = None
 
         mydf_0 = self.__df_0
 
@@ -428,6 +436,9 @@ class RnRNumeric:
 
         self.__Status = 2
 
+        # Cache the ANOVA table; variance and SD tables derive from it
+        self.__df_anova = self.RnRAnova()
+
     def RnRAnova(self):
         """After calling .RnRSolve() anova analysis could be done.
         It will be returned as pandas DataFrame and all of the values will be
@@ -444,6 +455,9 @@ class RnRNumeric:
             raise ValueError(
                 "You must call RnR.RnRSolve() before to call this method"
             )
+
+        if self.__df_anova is not None:
+            return self.__df_anova.copy()
 
         df_Anova = pd.DataFrame()
         df_Anova["Source of variability"] = [
@@ -555,7 +569,8 @@ class RnRNumeric:
             ]
 
         df_Anova.set_index("Source of variability", inplace=True)
-        return df_Anova
+        self.__df_anova = df_Anova
+        return df_Anova.copy()
 
     def RnR_varTable(self):
         """After calling .RnRSolve() variance table could be done.
@@ -573,6 +588,9 @@ class RnRNumeric:
             raise ValueError(
                 "You must call RnR.RnRSolve() before to call this method"
             )
+
+        if self.__df_vartable is not None:
+            return self.__df_vartable.copy()
 
         df_Anova = self.RnRAnova()
         dbl_fdist = df_Anova.loc["TechxPart (iteration)"]["P"]
@@ -630,7 +648,8 @@ class RnRNumeric:
             (TV / TV * 100),
         ]
         df_varTbl.set_index("Source", inplace=True)
-        return df_varTbl
+        self.__df_vartable = df_varTbl
+        return df_varTbl.copy()
 
     def RnR_SDTable(self):
         """After calling .RnRSolve() standard deviation table could be done.
@@ -650,6 +669,9 @@ class RnRNumeric:
             raise ValueError(
                 "You must call RnR.RnRSolve() before to call this method"
             )
+        if self.__df_sdtable is not None:
+            return self.__df_sdtable.copy()
+
         df_varTbl = self.RnR_varTable()
         GRnR = df_varTbl.loc["Total Gage R&R"]["Variance"]
         EV = df_varTbl.loc["Eq.Var. (Repeatability)"]["Variance"]
@@ -716,7 +738,8 @@ class RnRNumeric:
             / df_SDTbl["StdDev (SD)"].loc["Total Gage R&R"]
         )
 
-        return df_SDTbl
+        self.__df_sdtable = df_SDTbl
+        return df_SDTbl.copy()
 
     def RnR_RunChart(self):
         """Run chart is a figure that contain a chart per pieze where all the

@@ -205,6 +205,9 @@ class RNumeric:
         self.__df_0 = df_0
         self.__log.append("Model is created")
         self.__Status = 1
+        self.__df_anova = None
+        self.__df_vartable = None
+        self.__df_sdtable = None
 
     def getLog(self):
         """Return a string which contain all important calculations.
@@ -241,6 +244,11 @@ class RNumeric:
         """
         if self.__Status is None:
             raise ValueError("You need at least one instance of RNumeric")
+
+        # Invalidate cached results in case the model is re-solved
+        self.__df_anova = None
+        self.__df_vartable = None
+        self.__df_sdtable = None
 
         mydf_0 = self.__df_0
 
@@ -393,6 +401,9 @@ class RNumeric:
         # print(df_1)
         self.__Status = 2
 
+        # Cache the ANOVA table; variance and SD tables derive from it
+        self.__df_anova = self.RAnova()
+
     def RAnova(self):
         """After calling .RSolve() anova available calculations could be done.
         It will be returned as pandas DataFrame and all of the values will be
@@ -409,6 +420,9 @@ class RNumeric:
             raise ValueError(
                 "You must call RnR.RnRSolve() before to call this method"
             )
+
+        if self.__df_anova is not None:
+            return self.__df_anova.copy()
 
         df_Anova = pd.DataFrame()
         df_Anova["Source of variability"] = [
@@ -443,7 +457,8 @@ class RNumeric:
         ]
 
         df_Anova.set_index("Source of variability", inplace=True)
-        return df_Anova
+        self.__df_anova = df_Anova
+        return df_Anova.copy()
 
     def R_varTable(self):
         """After calling .RSolve() variance table could be done.
@@ -461,6 +476,9 @@ class RNumeric:
             raise ValueError(
                 "You must call RnR.RnRSolve() before to call this method"
             )
+
+        if self.__df_vartable is not None:
+            return self.__df_vartable.copy()
 
         df_Anova = self.RAnova()
         Srpeatability = self.SSequipment / (self.t * self.p * (self.r - 1))
@@ -488,7 +506,8 @@ class RNumeric:
             (TV / TV * 100),
         ]
         df_varTbl.set_index("Source", inplace=True)
-        return df_varTbl
+        self.__df_vartable = df_varTbl
+        return df_varTbl.copy()
 
     def R_SDTable(self):
         """After calling .RSolve() standard deviation table could be done.
@@ -508,6 +527,9 @@ class RNumeric:
             raise ValueError(
                 "You must call RnR.RnRSolve() before to call this method"
             )
+        if self.__df_sdtable is not None:
+            return self.__df_sdtable.copy()
+
         df_varTbl = self.R_varTable()
         GRnR = df_varTbl.loc["Gage Repeatability"]["Variance"]
         PtP = df_varTbl.loc["Part to Part"]["Variance"]
@@ -549,7 +571,8 @@ class RNumeric:
             / df_SDTbl["StdDev (SD)"].loc["Gage Repeatability"]
         )
 
-        return df_SDTbl
+        self.__df_sdtable = df_SDTbl
+        return df_SDTbl.copy()
 
     def R_RunChart(self):
         """Run chart is a figure that contain a chart per pieze where all the
