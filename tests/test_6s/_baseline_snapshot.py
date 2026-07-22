@@ -290,6 +290,59 @@ def _collect():
     return frames, scalars, logs
 
 
+def _save(frames, scalars, logs):
+    BASELINE.mkdir(exist_ok=True)
+    for name, df in frames.items():
+        (BASELINE / name).write_text(_df_to_text(df))
+    (BASELINE / "scalars.json").write_text(
+        json.dumps(scalars, indent=2, default=str)
+    )
+    for name, log in logs.items():
+        (BASELINE / name).write_text(log)
+    print(f"Baseline saved to {BASELINE}")
+    return 0
+
+
+def _compare_frame_files(frames, errors):
+    for name, df in frames.items():
+        ref_path = BASELINE / name
+        if not ref_path.exists():
+            errors.append(f"{name}: missing reference file")
+            continue
+        _compare_frames(name, ref_path.read_text(), _df_to_text(df), errors)
+
+
+def _compare_log_files(logs, errors):
+    for name, log in logs.items():
+        ref_path = BASELINE / name
+        if not ref_path.exists():
+            errors.append(f"{name}: missing reference file")
+            continue
+        if ref_path.read_text() != log:
+            errors.append(f"{name}: log text differs")
+
+
+def _compare(frames, scalars, logs):
+    errors = []
+    _compare_frame_files(frames, errors)
+
+    ref_scalars = json.loads((BASELINE / "scalars.json").read_text())
+    _compare_scalars(
+        "scalars", ref_scalars,
+        json.loads(json.dumps(scalars, default=str)), errors,
+    )
+
+    _compare_log_files(logs, errors)
+
+    if errors:
+        print("BASELINE MISMATCH:")
+        for error in errors:
+            print(f"  - {error}")
+        return 1
+    print("Baseline OK: all outputs match within 1e-9")
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -300,46 +353,8 @@ def main():
     frames, scalars, logs = _collect()
 
     if args.mode == "save":
-        BASELINE.mkdir(exist_ok=True)
-        for name, df in frames.items():
-            (BASELINE / name).write_text(_df_to_text(df))
-        (BASELINE / "scalars.json").write_text(
-            json.dumps(scalars, indent=2, default=str)
-        )
-        for name, log in logs.items():
-            (BASELINE / name).write_text(log)
-        print(f"Baseline saved to {BASELINE}")
-        return 0
-
-    errors = []
-    for name, df in frames.items():
-        ref_path = BASELINE / name
-        if not ref_path.exists():
-            errors.append(f"{name}: missing reference file")
-            continue
-        _compare_frames(name, ref_path.read_text(), _df_to_text(df), errors)
-
-    ref_scalars = json.loads((BASELINE / "scalars.json").read_text())
-    _compare_scalars(
-        "scalars", ref_scalars,
-        json.loads(json.dumps(scalars, default=str)), errors,
-    )
-
-    for name, log in logs.items():
-        ref_path = BASELINE / name
-        if not ref_path.exists():
-            errors.append(f"{name}: missing reference file")
-            continue
-        if ref_path.read_text() != log:
-            errors.append(f"{name}: log text differs")
-
-    if errors:
-        print("BASELINE MISMATCH:")
-        for error in errors:
-            print(f"  - {error}")
-        return 1
-    print("Baseline OK: all outputs match within 1e-9")
-    return 0
+        return _save(frames, scalars, logs)
+    return _compare(frames, scalars, logs)
 
 
 if __name__ == "__main__":
