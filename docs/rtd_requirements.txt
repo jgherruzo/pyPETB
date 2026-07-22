@@ -494,9 +494,9 @@ kiwisolver==1.5.0 ; python_version >= "3.11" and python_version < "4.0" \
 livereload==2.7.1 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:3d9bf7c05673df06e32bea23b494b8d36ca6d10f7d5c3c8a6989608c09c986a9 \
     --hash=sha256:5201740078c1b9433f4b2ba22cd2729a39b9d0ec0a2cc6b4d3df257df5ad0564
-markdown-it-py==4.0.0 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:87327c59b172c5011896038353a81343b6754500a08cd7a4973bb48c6d578147 \
-    --hash=sha256:cb0a2b4aa34f932c007117b194e945bd74e0ec24133ceb5bac59009cda1cb9f3
+markdown-it-py==4.2.0 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49 \
+    --hash=sha256:9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a
 markupsafe==3.0.3 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:0303439a41979d9e74d18ff5e2dd8c43ed6c6001fd40e5bf2e43f7bd9bbc523f \
     --hash=sha256:068f375c472b3e7acbe2d5318dea141359e6900156b5b2ba06a30b169086b91a \
